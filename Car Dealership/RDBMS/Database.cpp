@@ -1,6 +1,7 @@
 #include "Database.h"
 
 /*
+Additional comments
 Imlementations needed:
 
 CREATE TABLE (PRIMARY KEY)
