@@ -3,41 +3,32 @@
 
 #include "Cell.h"
 
+/* Declaration of the Tuple Class */
+
+using namespace std;
+
 class Tuple{
 private:
 	vector<Cell>cells;
+
 public:
-	Tuple(){}
-	Tuple(vector<Cell> c){
-		cells = c;
-	}
-	Tuple(vector<Attribute> attribute, vector<string> values){
-		for(int i = 0; i < attribute.size(); i++){
-			Cell c(attribute[i], values[i]);
-			cells.push_back(c);
-		}
-	}
-	void insert(Cell c){
-		cells.push_back(c);
-	}
-	void update(string value, int position){
-		cells[position].update(value);
-	}
-	vector<string>get_values(){
-		vector<string>temp;
-		for(int i = 0; i < cells.size(); i++){
-			temp.push_back(cells[i].get_value());
-		}
-		return temp;
-	}
-	string get_cell_index(int index){
-		return cells[index].get_value();
-	}
-	vector<Cell>get_cell(){
-		return cells;
-	}
+	/*constructors*/
+	Tuple();
+	Tuple(vector<Cell> c);
+	Tuple(vector<Attribute> attribute, vector<string> values);
+	
+	/*accessors*/
+	vector<string> get_values();
+	string get_cell_index(int index);
+	vector<Cell>get_cell();
+
+	/*modifiers*/
+	void insert(Cell c);
+	void update(string value, int position);
+	
+	/*operators*/
 	friend ostream &operator<<(ostream &os, Tuple t){
-		for(int i = 0; i < t.cells.size(); i++){
+		for (size_t i = 0; i < t.cells.size(); i++){
 			if(t.cells[i].get_type()==0){
 				os << t.cells[i].cell_data.num << '\t';
 			}
@@ -53,7 +44,7 @@ public:
 		int count = 0;
 		if( t1.cells.size() == t2.cells.size() )
 		{
-			for(int i = 0; i<t1.cells.size(); i++)
+			for (size_t i = 0; i<t1.cells.size(); i++)
 			{
 				if(t1.cells[i] == t2.cells[i])
 					count++;
@@ -62,11 +53,11 @@ public:
 			}
 		}
 		else return false;
-
 		return (count == t1.cells.size());
 	}
+
 };
 
-
+/* End of the Tuple Class */
 
 #endif
