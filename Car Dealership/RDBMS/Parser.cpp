@@ -8,7 +8,3 @@ Parser::Parser(){
 
 Parser::~Parser(){
 }
-
-void Parser::parse(const string& input) {
-
-}

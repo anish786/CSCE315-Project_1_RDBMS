@@ -7,7 +7,6 @@ class Parser
 {
 public:
 	Parser();
-	void parse(const std::string& input);
 	~Parser();
 };
 
