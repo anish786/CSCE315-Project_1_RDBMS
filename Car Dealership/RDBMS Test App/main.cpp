@@ -73,7 +73,7 @@ int main(){
     
 	cout << "New Table " << endl;
 	cout << r3 << endl;
-	cout << r3.Projection("cust") << endl;
+	cout << r3.projection("cust") << endl;
 
 	cout << endl << "------------Before-Renaming------------" << endl;
     Relation relation("Inventory", t1att, t1keys);
@@ -92,7 +92,7 @@ int main(){
     string attToChange = "Year";
     string newVal = "1992";
     
-    relation.renameAttributes(primKey, attToChange, newVal);
+    relation.rename_attributes(primKey, attToChange, newVal);
     
     cout << "------------After--Renaming------------" << endl;
     cout << relation << endl;

@@ -32,7 +32,7 @@ public:
 	int find_tuple(vector<string>values);
 	vector<int> find_columns(vector<string> attribute_names);
 	bool check_key(vector<string>values);
-	Tuple Projection(string attribute_name);
+	Tuple projection(string attribute_name);
 	void cross_product(Relation &r1, Relation &r2);
 	
 	/*modifiers*/
@@ -40,8 +40,8 @@ public:
 	void delete_tuple(vector<string>values);
 	void insert_attribute(string name, string type, int length);
 	void update(vector<string> keywords, string value, int column_index);
-	void renameAttributes(vector<string> primaryKey, string attToRename, string value);
-	void renameAttributes(string attToRename, string value);
+	void rename_attributes(vector<string> primaryKey, string attToRename, string value);
+	void rename_attributes(string attToRename, string value);
 	
 	/*operators*/
 	friend ostream& operator<<(ostream& os, Relation r){
@@ -61,6 +61,44 @@ public:
 			os << r.tuple_list[i];
 		}
 		return os;
+	}
+	friend Relation operator+(const Relation &r1, const Relation &r2){
+		//Set Union
+		Relation set_union("Set Union");
+
+		// TODO Check to make sure attributes are the same
+
+		//add all attributes in first set
+		for(size_t i=0; i<r1.attribute_list.size(); ++i){
+			Attribute a(r1.attribute_list[i]);
+			set_union.attribute_list.push_back(a);
+		}
+		//add all tuples in the first set
+		for(size_t i=0; i<r1.tuple_list.size(); ++i){
+			Tuple t(r1.tuple_list[i]);
+			set_union.tuple_list.push_back(t);
+		}
+		//add non-duplicate tuples in the second relation
+		for(size_t i=0; i<r2.tuple_list.size(); ++i){
+			bool found = false;
+			for(size_t j=0; j<r1.tuple_list.size(); ++j){
+				if(r1.tuple_list[j] == r2.tuple_list[i]){	//if tuples match
+					found = true;
+					break;
+				}
+			}
+			if(found == false){								//tuple was not found
+				Tuple t2(r2.tuple_list[i]);
+				set_union.tuple_list.push_back(t2);
+			}
+		}
+		return set_union;
+	}
+	friend Relation operator-(const Relation &r1, const Relation &r2){
+		//Set Difference
+		Relation set_diff("Set Difference");
+
+		return set_diff;
 	}
 };
 

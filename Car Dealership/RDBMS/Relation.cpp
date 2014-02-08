@@ -138,7 +138,7 @@ bool Relation::check_key(vector<string>values){
 	return flag;
 }
 
-Tuple Relation::Projection(string attribute_name){
+Tuple Relation::projection(string attribute_name){
 	if (check(attribute_name)){
 		int position = find_position(attribute_name);
 		vector<Cell> column_value;
@@ -207,7 +207,7 @@ void Relation::update(vector<string> keywords, string value, int column_index){
 	}
 }
 
-void Relation::renameAttributes(vector<string> primaryKey, string attToRename, string value){
+void Relation::rename_attributes(vector<string> primaryKey, string attToRename, string value){
 	for (size_t i = 0; i<attribute_list.size(); i++){
 		if ((attribute_list[i].get_attribute_name().compare(attToRename)) == 0){
 			update(primaryKey, value, i);
@@ -216,7 +216,7 @@ void Relation::renameAttributes(vector<string> primaryKey, string attToRename, s
 	}
 }
 
-void Relation::renameAttributes(string attToRename, string value){
+void Relation::rename_attributes(string attToRename, string value){
 	vector<string> nullKey(1, "0");
 	for (size_t i = 0; i<attribute_list.size(); i++) {
 		for (size_t j = 0; j<attToRename.size(); j++) {
