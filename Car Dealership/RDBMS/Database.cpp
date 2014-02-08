@@ -5,7 +5,7 @@
 Additional comments
 Imlementations needed:
 
-/*constructors -------------------------------------------------------------------------------*/
+
 CREATE TABLE (PRIMARY KEY)
 DROP TABLE
 
@@ -24,7 +24,7 @@ No file I/0
 No parser (everything is through funtion call)
 */
 
-
+/*constructors -------------------------------------------------------------------------------*/
 Database::Database(){
 }
 
