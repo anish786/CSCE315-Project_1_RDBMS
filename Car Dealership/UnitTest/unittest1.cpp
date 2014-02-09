@@ -25,6 +25,12 @@ namespace UnitTest
 			Assert::IsTrue(test);
 			test = parser.is_token(' ');
 			Assert::IsFalse(test);
+
+			//Test double token checks
+			test = parser.is_double_token('+');
+			Assert::IsFalse(test);
+			test = parser.is_double_token('=');
+			Assert::IsTrue(test);
 		}
 
 		TEST_METHOD(TestTokenizer)

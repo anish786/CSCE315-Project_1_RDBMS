@@ -7,7 +7,8 @@
 using namespace std;
 
 static const string db_parser_delimiters = " =|<>!*+-,()\"";
-static const string db_parser_special_tokens = "=|<>!*+-,()\"";
+static const string db_parser_tokens = "=|<>!*+-,()\"";
+static const string db_parser_double_tokens = "=-";
 
 class Parser
 {
@@ -25,5 +26,7 @@ public:
 	bool is_delimiter(char c);
 	// // Checks to see if a character is token
 	bool is_token(char c);
+	// // Checks to see if a character is part of a double token
+	bool Parser::is_double_token(char c);
 };
 

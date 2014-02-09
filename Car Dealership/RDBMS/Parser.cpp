@@ -37,7 +37,7 @@ void Parser::tokenize(string command, vector<string> * tokens){
 			if (is_token(command[position])){
 				token = "";
 				token = token + command[position];
-				if (position < command.size() - 1 && is_token(command[position+1])){
+				if (position < command.size() - 1 && is_double_token(command[position+1])){
 					position++;
 					token = token + command[position];
 				}
@@ -81,5 +81,11 @@ bool Parser::is_delimiter(char c)
 // // Checks to see if a character is token
 bool Parser::is_token(char c)
 {
-	return db_parser_special_tokens.find(c) >= 0 && db_parser_special_tokens.find(c) < db_parser_special_tokens.size();
+	return db_parser_tokens.find(c) >= 0 && db_parser_tokens.find(c) < db_parser_tokens.size();
+}
+
+// // Checks to see if a character is part of a double token
+bool Parser::is_double_token(char c)
+{
+	return db_parser_double_tokens.find(c) >= 0 && db_parser_double_tokens.find(c) < db_parser_double_tokens.size();
 }
