@@ -51,7 +51,7 @@ void Parser::tokenize(string command, vector<string> * tokens){
 	}
 
 	//combine tokens that are strings ex. "Hello World" into a single token
-	/*for (size_t i = 0; i < tokens->size(); i++){
+	for (size_t i = 0; i < tokens->size(); i++){
 		if (tokens->at(i).compare("\"") == 0){
 			size_t j = i + 1;
 			while (j < tokens->size() && tokens->at(j).compare("\"") != 0){
@@ -59,16 +59,16 @@ void Parser::tokenize(string command, vector<string> * tokens){
 			}
 
 			// Create string for combined token
-			string combined = "";
-			for (size_t middle = i + 1; middle < j; middle++){
+			string combined = tokens->at(i+1);
+			for (size_t middle = i + 2; middle < j; middle++){
 				combined = combined + " " + tokens->at(middle);
 			}
 			// Remove old tokens
-			tokens->erase(tokens->begin()+i, tokens->begin()+j);
+			tokens->erase(tokens->begin()+i, tokens->begin()+j+1);
 			// Inster combined token
 			tokens->insert(tokens->begin()+i, combined);
 		}
-	}*/
+	}
 }
 
 // Checks to see if a character is a delimiter.
