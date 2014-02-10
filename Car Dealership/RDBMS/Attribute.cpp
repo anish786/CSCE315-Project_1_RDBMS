@@ -1,5 +1,3 @@
-
-
 #include "Attribute.h"
 
 /* Definitions of the Attribute Class */

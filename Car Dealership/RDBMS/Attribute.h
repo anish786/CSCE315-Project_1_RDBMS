@@ -1,5 +1,4 @@
-#ifndef ATTRIBUTE_H_
-#define ATTRIBUTE_H_
+#pragma once
 
 #include <stdio.h>
 #include <iostream>
@@ -40,5 +39,3 @@ public:
 };
 
 /* End of Attribute Class */
-
-#endif

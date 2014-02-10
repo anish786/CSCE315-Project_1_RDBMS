@@ -1,14 +1,18 @@
+#pragma once
+
 #include <vector>
 #include <string>
 #include "Database.h"
 
-#pragma once
-
 using namespace std;
+
+/* Delimiter and tokens */
 
 static const string db_parser_delimiters = " =|<>!*+-,()\"";
 static const string db_parser_tokens = "=|<>!*+-,()\"";
 static const string db_parser_double_tokens = "=-";
+
+/* Declaration of the Parser Class */
 
 class Parser
 {
@@ -29,4 +33,7 @@ public:
 	// // Checks to see if a character is part of a double token
 	bool Parser::is_double_token(char c);
 };
+
+/* End of the Parser Class */
+
 

@@ -1,5 +1,4 @@
-#ifndef RELATION_H
-#define RELATION_H
+#pragma once
 
 #include "Tuple.h"
 
@@ -104,4 +103,3 @@ public:
 
 /* End of the Relation Class */
 
-#endif

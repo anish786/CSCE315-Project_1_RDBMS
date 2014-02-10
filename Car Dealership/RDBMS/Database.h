@@ -1,5 +1,4 @@
-#ifndef DATABASE_H
-#define DATABASE_H
+#pragma once
 
 /*
 Additional comments
@@ -44,5 +43,3 @@ public:
 };
 
 /* End of the Database Class */
-
-#endif

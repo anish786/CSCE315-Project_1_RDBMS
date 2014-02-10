@@ -1,5 +1,4 @@
-#ifndef CELL_H_
-#define CELL_H_
+#pragma once
 
 #include "Attribute.h"
 
@@ -42,5 +41,3 @@ public:
 };
 
 /* End of the Cell Class */
-
-#endif

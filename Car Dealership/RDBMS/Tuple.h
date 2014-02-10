@@ -1,5 +1,4 @@
-#ifndef TUPLE_H_
-#define TUPLE_H_
+#pragma once
 
 #include "Cell.h"
 
@@ -59,5 +58,3 @@ public:
 };
 
 /* End of the Tuple Class */
-
-#endif
