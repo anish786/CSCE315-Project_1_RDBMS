@@ -31,7 +31,7 @@ int main(){
 	t1keys.push_back("Year");
     
 	Relation cars("CARS", t1att, t1keys);
-	cars.insert_tuple(values1);
+	cars.insert_tuple(values1); 
 	cars.insert_tuple(values2);
 	cars.insert_tuple(values3);
 	
@@ -97,8 +97,5 @@ int main(){
     cout << "------------After--Renaming------------" << endl;
     cout << relation << endl;
 		system("PAUSE");
-	return 0;
-	int aa;
-	cin >> aa;
 	return 0;
 }

@@ -21,10 +21,9 @@ Cell::Cell(Attribute a, string value){
 	}
 	else if (a.get_attribute_type().compare("string") == 0){
 		cell_data.word = new char[a.get_attribute_length()];
-		for (int i = 0; i < a.get_attribute_length(); i++){
+		for (int i = 0; i < value.size(); i++){
 			cell_data.word[i] = value[i];
 		}
-		//value.copy(cell_data.word, a.get_attribute_length(), 0);
 		cell_data.word[value.size()] = '\0';
 		cell_type = 1;
 	}
@@ -71,7 +70,6 @@ void Cell::update(string value){
 		for (size_t i = 0; i < value.size(); i++){
 			cell_data.word[i] = value[i];
 		}
-		//value.copy(cell_data.word, value.size(), 0);
 		cell_data.word[value.size()] = '\0';
 	}
 }
