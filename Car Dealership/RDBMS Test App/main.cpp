@@ -34,8 +34,31 @@ int main(){
 	cars.insert_tuple(values1); 
 	cars.insert_tuple(values2);
 	cars.insert_tuple(values3);
+
+	vector< string > values1_2;
+	values1_2.push_back("Toyota");
+	values1_2.push_back("Yaris");
+	values1_2.push_back("2012");
 	
-	cout << cars << endl;
+	vector< string > values2_2;
+	values2_2.push_back("Ford");
+	values2_2.push_back("F150");
+	values2_2.push_back("2011");
+	
+	vector< string > values3_2;
+	values3_2.push_back("Ford");
+	values3_2.push_back("Fiesta");
+	values3_2.push_back("2013");
+    
+	Relation cars2("CARS", t1att, t1keys);
+	cars2.insert_tuple(values1_2); 
+	cars2.insert_tuple(values2_2);
+	cars2.insert_tuple(values3_2);
+
+	Relation cars_union = cars + cars2;
+	Relation cars_diff = cars - cars2;
+
+	cout << cars << cars2 << cars_union << endl;
 	
 	//-----------------------------
 	Attribute ta( "cust", "string", 32);
@@ -92,7 +115,7 @@ int main(){
     string attToChange = "Year";
     string newVal = "1992";
     
-    relation.rename_attributes(primKey, attToChange, newVal);
+    relation.rename_cell(primKey, attToChange, newVal);
     
     cout << "------------After--Renaming------------" << endl;
     cout << relation << endl;

@@ -21,6 +21,7 @@ Attribute::Attribute(string att_name, string att_type, int att_len){
 Attribute::Attribute(string att_name, string att_type){
 	attribute_name = att_name;
 	attribute_type = att_type;
+	attribute_length = 0;
 }
 
 /*accessors ----------------------------------------------------------------------------------*/

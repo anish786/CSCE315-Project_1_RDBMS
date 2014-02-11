@@ -37,10 +37,11 @@ public:
 	/*modifiers*/
 	void insert_tuple(vector<string>values);
 	void delete_tuple(vector<string>values);
-	void insert_attribute(string name, string type, int length);
+	void insert_from_relation(Relation r);
+	void delete_from();
 	void update(vector<string> keywords, string value, int column_index);
-	void rename_attributes(vector<string> primaryKey, string attToRename, string value);
-	void rename_attributes(string attToRename, string value);
+	void rename_cell(vector<string> primaryKey, string attToRename, string value);
+	void rename_cell(string attToRename, string value);
 	
 	/*operators*/
 	friend ostream& operator<<(ostream& os, Relation r){
@@ -95,8 +96,46 @@ public:
 	}
 	friend Relation operator-(const Relation &r1, const Relation &r2){
 		//Set Difference
+
 		Relation set_diff("Set Difference");
 
+		// TODO Check to make sure attributes are the same
+
+		//add all attributes in first set
+		for(size_t i=0; i<r1.attribute_list.size(); ++i){
+			Attribute a(r1.attribute_list[i]);
+			set_diff.attribute_list.push_back(a);
+		}
+
+		//add all tuples in the first set that are not in the second
+		for(size_t i=0; i<r1.tuple_list.size(); ++i){
+			bool found = false;
+			for(size_t j=0; j<r2.tuple_list.size(); ++j){
+				if(r1.tuple_list[i] == r2.tuple_list[j]){	//if tuples match
+					found = true;
+					break;
+				}
+			}
+			if(found == false){								//tuple was not found
+				Tuple t1(r1.tuple_list[i]);
+				set_diff.tuple_list.push_back(t1);
+			}
+		}
+		//add all tuples in the second set that are not in the first
+		for(size_t i=0; i<r2.tuple_list.size(); ++i){
+			bool found = false;
+			for(size_t j=0; j<r1.tuple_list.size(); ++j){
+				if(r1.tuple_list[j] == r2.tuple_list[i]){	//if tuples match
+					found = true;
+					break;
+				}
+			}
+			if(found == false){								//tuple was not found
+				Tuple t2(r2.tuple_list[i]);
+				set_diff.tuple_list.push_back(t2);
+			}
+		}
+		
 		return set_diff;
 	}
 };
