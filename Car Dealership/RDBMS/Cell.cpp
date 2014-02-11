@@ -4,11 +4,20 @@
 
 /*constructors ------------------------------------------------------------------------------*/
 Cell::Cell(){
+	word_length = 0;
+	cell_type = 0;
 }
 
 Cell::Cell(const Cell &cell){
 	cell_type = cell.cell_type;
-	cell_data = cell.cell_data;
+	cell_data.num = cell.cell_data.num;
+	word_length = cell.word_length;
+	if(cell.cell_type == 1){
+		cell_data.word = new char[cell.word_length];
+		for(int i = 0; i < cell.word_length; i++){
+			cell_data.word[i] = cell.cell_data.word[i];
+		}
+	}
 }
 
 Cell::Cell(Attribute a, string value){
@@ -18,14 +27,22 @@ Cell::Cell(Attribute a, string value){
 			cell_data.num = 0;
 		}
 		cell_type = 0;
+		word_length = 0;
 	}
 	else if (a.get_attribute_type().compare("string") == 0){
 		cell_data.word = new char[a.get_attribute_length()];
-		for (int i = 0; i < value.size(); i++){
+		for (size_t i = 0; i < value.size(); i++){
 			cell_data.word[i] = value[i];
 		}
 		cell_data.word[value.size()] = '\0';
 		cell_type = 1;
+		word_length = a.get_attribute_length();
+	}
+}
+
+Cell::~Cell(){
+	if(cell_type == 1){
+		delete cell_data.word;
 	}
 }
 
@@ -77,7 +94,14 @@ void Cell::update(string value){
 /*operators ---------------------------------------------------------------------------------*/
 Cell& Cell::operator=(const Cell c){
 	cell_type = c.cell_type;
-	cell_data = c.cell_data;
+	cell_data.num = c.cell_data.num;
+	word_length = c.word_length;
+	if(c.cell_type == 1){
+		cell_data.word = new char[c.word_length];
+		for(int i = 0; i < c.word_length; i++){
+			cell_data.word[i] = c.cell_data.word[i];
+		}
+	}
 	return *this;
 }
 

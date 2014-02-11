@@ -115,7 +115,7 @@ int main(){
     string attToChange = "Year";
     string newVal = "1992";
     
-    relation.rename_attributes(primKey, attToChange, newVal);
+    relation.rename_cell(primKey, attToChange, newVal);
     
     cout << "------------After--Renaming------------" << endl;
     cout << relation << endl;

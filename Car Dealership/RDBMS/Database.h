@@ -4,17 +4,17 @@
 Additional comments
 Imlementations needed:
 
-CREATE TABLE (PRIMARY KEY)
-DROP TABLE
+-CREATE TABLE (PRIMARY KEY)
+-DROP TABLE
 
-INSERT INTO
-UPDATE
+-INSERT INTO
+-UPDATE
 DELETE FROM
 
 SELECTION
--PROJECTION
+PROJECTION
 -RENAMING
-SET UNION
+-SET UNION
 SET DIFFERENCE
 -CROSS PRODUCT
 
@@ -29,6 +29,7 @@ No parser (everything is through funtion call)
 using namespace std;
 
 class Database {
+	vector<Relation> relations;
 public:
 	/*constructors*/
 	Database();
@@ -37,6 +38,9 @@ public:
 	/*accessors*/
 
 	/*modifiers*/
+	void create_relation(string rname, vector<string> aname, vector<string> atype, vector<int> alength, vector<string> kname);
+	void create_relation(string rname, vector<string> aname, vector<string> atype, vector<string> kname);
+	void drop_relation(string rname);
 
 	/*operators*/
 

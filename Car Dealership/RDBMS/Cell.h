@@ -7,7 +7,7 @@
 class Cell{
 private:
 	int cell_type;
-
+	int word_length;
 public:
 	union{
 		int num;
@@ -18,6 +18,7 @@ public:
 	Cell();
 	Cell(const Cell &cell);
 	Cell(Attribute a, string value);
+	~Cell();
 
 	/*accessors*/
 	void print_cell();
