@@ -64,27 +64,27 @@ void Database::insert_into(string rname, Relation from){
 	}
 }
 
-void Database::update(string rname, vector<string> aname, vector<string> update, vector<string> conditions){
+void Database::update(string rname, vector<string> aname, vector<string> update, Condition con){
 	for(size_t i = 0; i < relations.size(); i++){
 		if(rname.compare(relations[i].get_relation_name()) == 0){
-			relations[i].update(aname, update, conditions);
+			relations[i].update(aname, update, con);
 			break;
 		}
 	}
 }
 
-void Database::delete_from(string rname, vector<string> conditions){
+void Database::delete_from(string rname, Condition con){
 	for(size_t i = 0; i < relations.size(); i++){
 		if(rname.compare(relations[i].get_relation_name()) == 0){
-			relations[i].delete_from(conditions);
+			relations[i].delete_from(con);
 			break;
 		}
 	}
 }
 
-Relation select(vector<string> att_list, Relation r){
+Relation select(Condition con, Relation r){
 	Relation selected;
-	selected.select(att_list, r);
+	selected.select(con, r);
 	return selected;
 }
 

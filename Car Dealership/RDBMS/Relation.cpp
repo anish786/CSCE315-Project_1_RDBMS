@@ -66,6 +66,14 @@ string Relation::get_relation_name(){
 	return relation_name;
 }
 
+vector<string> Relation::get_attributes(){
+	vector<string> atts;
+	for(size_t i = 0; i < attribute_list.size(); i++){
+		atts.push_back(attribute_list[i].get_attribute_name());
+	}
+	return atts;
+}
+
 int Relation::find_tuple(vector<string>values){
 	int temp = 0;
 	int count = 0;
@@ -205,6 +213,44 @@ void Relation::project(vector<string> att_list, Relation r){
 		new_r.insert_tuple(new_t);
 	}
 	*this = new_r;
+}
+void Relation::delete_from(Condition con){
+	size_t i = 0;
+	while(i < tuple_list.size()){
+		if(con.evaluate(get_attributes() , tuple_list[i].get_values())){
+			tuple_list.erase(tuple_list.begin()+i);
+		}
+		else{
+			i++;
+		}
+	}
+}
+
+void Relation::update(vector<string> aname, vector<string> update, Condition con){
+	
+	for(size_t i = 0; i < tuple_list.size(); i++){
+		if(con.evaluate(get_attributes() , tuple_list[i].get_values())){
+			for(size_t j = 0; j < aname.size(); j++){
+				tuple_list[i].update(update[j], find_position(aname[j]));
+			}
+		}
+	}
+}
+
+void Relation::select(Condition con, Relation r){
+	Relation new_r("Selection", r.attribute_list, r.keys);
+	for(size_t i = 0; i < r.tuple_list.size(); i++){
+		if(con.evaluate(get_attributes() , tuple_list[i].get_values())){
+			new_r.insert_tuple(r.tuple_list[i].get_values());
+		}
+	}
+	*this = new_r;
+}
+
+void Relation::rename(vector<string> att_list, Relation r){
+	for(size_t i = 0; i < attribute_list.size(); i++){
+		attribute_list[i].update(att_list[i]);
+	}
 }
 
 void Relation::update(vector<string> keywords, string value, int column_index){

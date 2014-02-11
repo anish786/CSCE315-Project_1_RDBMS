@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Tuple.h"
+#include "Condition.h"
 
 /* Declaration of the Relation Class */
 
@@ -34,14 +35,15 @@ public:
 	bool check_key(vector<string>values);
 	Relation natural_join(Relation &r1, Relation &r2);
 	Tuple get_tuple(int index);
+	vector<string> get_attributes();
 	
 	/*modifiers*/
 	void insert_tuple(vector<string>values);
 	void delete_tuple(vector<string>values);
 	void insert_from_relation(Relation r);
-	void delete_from(vector<string> conditions);
-	void update(vector<string> aname, vector<string> update, vector<string> conditions);
-	void select(vector<string> att_list, Relation r);
+	void delete_from(Condition con);
+	void update(vector<string> aname, vector<string> update, Condition con);
+	void select(Condition con, Relation r);
 	void project(vector<string> att_list, Relation r);
 	void rename(vector<string> att_list, Relation r);
 	void update(vector<string> keywords, string value, int column_index);
