@@ -26,11 +26,23 @@ vector<string> Tuple::get_values(){
 	return temp;
 }
 
+vector<string> Tuple::get_values() const{
+	vector<string>temp;
+	for (size_t i = 0; i < cells.size(); i++){
+		temp.push_back(cells[i].get_value());
+	}
+	return temp;
+}
+
 string Tuple::get_cell_index(int index){
 	return cells[index].get_value();
 }
 
 vector<Cell> Tuple::get_cell(){
+	return cells;
+}
+
+vector<Cell> Tuple::get_cell() const{
 	return cells;
 }
 

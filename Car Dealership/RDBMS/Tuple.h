@@ -18,8 +18,10 @@ public:
 	
 	/*accessors*/
 	vector<string> get_values();
+	vector<string> get_values() const;
 	string get_cell_index(int index);
 	vector<Cell>get_cell();
+	vector<Cell>get_cell() const;
 
 	/*modifiers*/
 	void insert(Cell c);

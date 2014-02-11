@@ -151,33 +151,6 @@ Tuple Relation::projection(string attribute_name){
 	return Tuple();
 }
 
-void Relation::cross_product(Relation &r1, Relation &r2)
-{
-	int count = r1.tuple_list.size() * r2.tuple_list.size();
-	vector<Attribute>::iterator it;
-
-	relation_name = r1.relation_name;
-	attribute_list = r1.attribute_list;
-	keys = r1.keys;
-
-	attribute_list.insert(attribute_list.end(), r2.attribute_list.begin(), r2.attribute_list.end());
-
-	vector<string> values;
-
-	for (size_t j = 0; j<r2.tuple_list.size(); j++)
-	{
-		for (size_t i = 0; i<r1.tuple_list.size(); i++)
-		{
-			values = r1.tuple_list[i].get_values();
-			for (size_t k = 0; k<r2.attribute_list.size(); k++){
-				values.push_back(r2.tuple_list[j].get_cell()[k].get_value());
-			}
-			insert_tuple(values);
-		}
-	}
-	for (size_t i = 0; i<attribute_list.size(); i++)
-		cout << "Attribute Name: " << attribute_list[i].get_attribute_name() << endl;
-}
 void Relation::natural_join(Relation &r1, Relation &r2){
 	//vector<Attribute> temp_attribute;
 	//vector<string> temp_keys;
@@ -188,6 +161,10 @@ void Relation::natural_join(Relation &r1, Relation &r2){
 			
 	//	}
 	//}
+}
+
+Tuple Relation::get_tuple(int index){
+	return tuple_list[index];
 }
 
 /*modifiers ----------------------------------------------------------------------------------*/
@@ -318,8 +295,34 @@ Relation Relation::operator-(const Relation &r) const{
 			Tuple t2(this->tuple_list[i]);
 			set_diff.tuple_list.push_back(t2);
 		}
-	}
-		
+	}	
 	return set_diff;
+}
+
+Relation Relation::operator*(const Relation &r) const{
+	Relation cross_product;
+	int count = r.tuple_list.size() * this->tuple_list.size();
+	vector<Attribute>::iterator it;
+
+	cross_product.relation_name = r.relation_name;
+	cross_product.attribute_list = r.attribute_list;
+	cross_product.keys = r.keys;
+
+	cross_product.attribute_list.insert(attribute_list.end(), this->attribute_list.begin(), this->attribute_list.end());
+
+	vector<string> values;
+
+	for (size_t j = 0; j < this->tuple_list.size(); j++)
+	{
+		for (size_t i = 0; i < r.tuple_list.size(); i++)
+		{
+			values = r.tuple_list[i].get_values();
+			for (size_t k = 0; k < this->attribute_list.size(); k++){
+				values.push_back(this->tuple_list[j].get_cell()[k].get_value());
+			}
+			cross_product.insert_tuple(values);
+		}
+	}
+	return cross_product;
 }
 /* End of definitions */

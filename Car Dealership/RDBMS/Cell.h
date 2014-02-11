@@ -24,6 +24,7 @@ public:
 	void print_cell();
 	int get_type();
 	string get_value();
+	string get_value() const;
 
 	/*modifiers*/
 	void update(string value);

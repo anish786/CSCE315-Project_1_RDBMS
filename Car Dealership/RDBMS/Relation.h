@@ -32,8 +32,8 @@ public:
 	vector<int> find_columns(vector<string> attribute_names);
 	bool check_key(vector<string>values);
 	Tuple projection(string attribute_name);
-	void cross_product(Relation &r1, Relation &r2);
 	void natural_join(Relation &r1, Relation &r2);
+	Tuple get_tuple(int index);
 	
 	/*modifiers*/
 	void insert_tuple(vector<string>values);
@@ -47,6 +47,7 @@ public:
 	/*operators*/
 	Relation operator+(const Relation &r) const;
 	Relation operator-(const Relation &r) const;
+	Relation operator*(const Relation &r) const;
 	friend ostream& operator<<(ostream& os, Relation r){
 		//table name
 		os << "\t\t" << r.get_relation_name() << endl;

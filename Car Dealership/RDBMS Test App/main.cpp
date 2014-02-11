@@ -92,7 +92,7 @@ int main(){
 	cout << customer << endl;
 
 	Relation r3;
-	r3.cross_product(cars, customer);
+	//r3.cross_product(cars, customer);
     
 	cout << "New Table " << endl;
 	cout << r3 << endl;

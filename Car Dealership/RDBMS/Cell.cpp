@@ -74,6 +74,20 @@ string Cell::get_value(){
 	}
 }
 
+string Cell::get_value() const{
+	if (cell_type == 0){
+		stringstream ss;
+		ss << cell_data.num;
+		return ss.str();
+	}
+	else if (cell_type == 1){
+		return cell_data.word;
+	}
+	else {
+		return NULL;
+	}
+}
+
 /*modifiers ---------------------------------------------------------------------------------*/
 void Cell::update(string value){
 	if (cell_type == 0){
