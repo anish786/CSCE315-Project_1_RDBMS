@@ -51,7 +51,9 @@ public:
 					return false;
 			}
 		}
-		else return false;
+		else {
+			return false;
+		}
 		return (count == t1.cells.size());
 	}
 

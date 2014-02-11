@@ -33,7 +33,7 @@ public:
 			return (cell_1.cell_data.num == cell_2.cell_data.num);
 		}
 		else if (cell_1.cell_type == 1 && cell_2.cell_type == 1){
-			return (cell_1.cell_data.word == cell_2.cell_data.word);
+			return (*cell_1.cell_data.word == *cell_2.cell_data.word);
 		}
 	}
 	Cell& operator=(const Cell c);
