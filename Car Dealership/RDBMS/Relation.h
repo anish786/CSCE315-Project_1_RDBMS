@@ -39,7 +39,11 @@ public:
 	void insert_tuple(vector<string>values);
 	void delete_tuple(vector<string>values);
 	void insert_from_relation(Relation r);
-	void delete_from();
+	void delete_from(vector<string> conditions);
+	void update(vector<string> aname, vector<string> update, vector<string> conditions);
+	void select(vector<string> att_list, Relation r);
+	void project(vector<string> att_list, Relation r);
+	void rename(vector<string> att_list, Relation r);
 	void update(vector<string> keywords, string value, int column_index);
 	void rename_cell(vector<string> primaryKey, string attToRename, string value);
 	void rename_cell(string attToRename, string value);

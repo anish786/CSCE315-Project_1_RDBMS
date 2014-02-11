@@ -1,30 +1,6 @@
 #include "Database.h"
 
 /* Definitions of the Database Class */
-/*
-Additional comments
-Imlementations needed:
-
-
-CREATE TABLE (PRIMARY KEY)
-DROP TABLE			Delete a table
-
-INSERT INTO			Insert Tuble into a relation
-UPDATE				Update a Tuple
-DELETE FROM			Delete a Tuble from a relation
-
-SELECTION			Creates a subset of the tuples in a relation that satisfy a condition
-PROJECTION			Creates a relation that lists only a subset of columns (attributes) for the tuples
-RENAMING			
-SET UNION			Set of all elements in A or B or both
-SET DIFFERENCE		Set of all elements that are either in A or B
-CROSS PRODUCT		Creates a relation between two relations of all the sets of pairs between the two
-(NATURAL JOIN)		Combine two relations that have at least one matching attribute, delete tuples that do not share matching
-					values in the matching relation.
-
-No file I/0
-No parser (everything is through funtion call)
-*/
 
 /*constructors -------------------------------------------------------------------------------*/
 Database::Database(){
@@ -34,6 +10,14 @@ Database::~Database(){
 }
 
 /*accessors ----------------------------------------------------------------------------------*/
+Relation Database::get_relation(string rname){
+	for(size_t i = 0; i < relations.size(); i++){
+		if(rname.compare(relations[i].get_relation_name())){
+			return relations[i];
+		}
+	}
+	return NULL;
+}
 
 /*modifiers ----------------------------------------------------------------------------------*/
 
@@ -60,6 +44,78 @@ void Database::drop_relation(string rname){
 			break;
 		}
 	}
+}
+
+void Database::insert_into(string rname, vector<string> tuple){
+	for(size_t i = 0; i < relations.size(); i++){
+		if(rname.compare(relations[i].get_relation_name()) == 0){
+			relations[i].insert_tuple(tuple);
+			break;
+		}
+	}
+}
+
+void Database::insert_into(string rname, Relation from){
+	for(size_t i = 0; i < relations.size(); i++){
+		if(rname.compare(relations[i].get_relation_name()) == 0){
+			relations[i].insert_from_relation(from);
+			break;
+		}
+	}
+}
+
+void Database::update(string rname, vector<string> aname, vector<string> update, vector<string> conditions){
+	for(size_t i = 0; i < relations.size(); i++){
+		if(rname.compare(relations[i].get_relation_name()) == 0){
+			relations[i].update(aname, update, conditions);
+			break;
+		}
+	}
+}
+
+void Database::delete_from(string rname, vector<string> conditions){
+	for(size_t i = 0; i < relations.size(); i++){
+		if(rname.compare(relations[i].get_relation_name()) == 0){
+			relations[i].delete_from(conditions);
+			break;
+		}
+	}
+}
+
+Relation select(vector<string> att_list, Relation r){
+	Relation selected;
+	selected.select(att_list, r);
+	return selected;
+}
+
+Relation project(vector<string> att_list, Relation r){
+	Relation projection;
+	projection.project(att_list, r);
+	return projection;
+}
+
+Relation rename(vector<string> att_list, Relation r){
+	Relation renamed;
+	renamed.rename(att_list, r);
+	return renamed;
+}
+
+Relation set_union(Relation r1, Relation r2){
+	return r1 + r2;
+}
+
+Relation set_difference(Relation r1, Relation r2){
+	return r1 - r2;
+}
+
+Relation product(Relation r1, Relation r2){
+	return r1 * r2;
+}
+
+Relation join(Relation r1, Relation r2){
+	Relation joined;
+	joined.natural_join(r1, r2);
+	return joined;
 }
 
 /*operators ----------------------------------------------------------------------------------*/
