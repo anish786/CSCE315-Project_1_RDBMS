@@ -1,137 +1,69 @@
 #include "Cell.h"
+#include "Condition.h"
 
 /* Definitions of the Cell Class */
 
 /*constructors ------------------------------------------------------------------------------*/
-Cell::Cell(){
-	word_length = 0;
-	cell_type = 0;
-}
 
-Cell::Cell(const Cell &cell){
-	cell_type = cell.cell_type;
-	cell_data.num = cell.cell_data.num;
-	word_length = cell.word_length;
-	if(cell.cell_type == 1){
-		cell_data.word = new char[cell.word_length];
-		for(int i = 0; i < cell.word_length; i++){
-			cell_data.word[i] = cell.cell_data.word[i];
+Cell::Cell(Attribute *a, string value){
+	attribute = a;
+	if(attribute->get_attribute_type() == 1){
+		if((int)value.size() <= attribute->get_attribute_length()){
+			data = value;
+		}
+		else{
+			throw RuntimeException("String to big for cell with this attribute");
 		}
 	}
-}
-
-Cell::Cell(Attribute a, string value){
-	if (a.get_attribute_type().compare("int") == 0){
-		stringstream ss(value);
-		if (!(ss >> cell_data.num)){
-			cell_data.num = 0;
-		}
-		cell_type = 0;
-		word_length = 0;
-	}
-	else if (a.get_attribute_type().compare("string") == 0){
-		cell_data.word = new char[a.get_attribute_length()];
-		for (size_t i = 0; i < value.size(); i++){
-			cell_data.word[i] = value[i];
-		}
-		cell_data.word[value.size()] = '\0';
-		cell_type = 1;
-		word_length = a.get_attribute_length();
-	}
-}
-
-Cell::~Cell(){
-	if(cell_type == 1){
-		delete cell_data.word;
+	else{
+		data = value;
 	}
 }
 
 /*accessors ---------------------------------------------------------------------------------*/
 void Cell::print_cell(){
-	if (cell_type == 1){
-		cout << cell_data.word << endl;
+	if (attribute->get_attribute_type() == 1){
+		cout << data << endl;
 	}
 	else{
-		cout << cell_data.num << endl;
+		cout << string_to_int(data) << endl;
 	}
 }
 
 int Cell::get_type(){
-	return cell_type;
+	return attribute->get_attribute_type();
+}
+
+string Cell::get_attribute_name(){
+	return attribute->get_attribute_name();
 }
 
 string Cell::get_value(){
-	if (cell_type == 0){
-		stringstream ss;
-		ss << cell_data.num;
-		return ss.str();
-	}
-	else if (cell_type == 1){
-		return cell_data.word;
-	}
-	else {
-		return NULL;
-	}
+	return data;
 }
 
 string Cell::get_value() const{
-	if (cell_type == 0){
-		stringstream ss;
-		ss << cell_data.num;
-		return ss.str();
-	}
-	else if (cell_type == 1){
-		return cell_data.word;
-	}
-	else {
-		return NULL;
-	}
+	return data;
 }
 
 /*modifiers ---------------------------------------------------------------------------------*/
-void Cell::update(string value){
-	if (cell_type == 0){
-		int temp;
-		stringstream ss(value);
-		ss >> temp;
-		cell_data.num = temp;
-		cout << "cell data: " << cell_data.num << endl;
-	}
-	else if (cell_type == 1){
-		for (size_t i = 0; i < value.size(); i++){
-			cell_data.word[i] = value[i];
+void Cell::update_data(string value){
+	if(attribute->get_attribute_type() == 1){
+		if((int)value.size() <= attribute->get_attribute_length()){
+			data = value;
 		}
-		cell_data.word[value.size()] = '\0';
+		else{
+			throw RuntimeException("String to big for cell with this attribute");
+		}
+	}
+	else{
+		data = value;
 	}
 }
 
 /*operators ---------------------------------------------------------------------------------*/
 bool Cell::operator==(const Cell &c) const{
-		if (c.cell_type == 0 && this->cell_type == 0){
-			return (c.cell_data.num == this->cell_data.num);
-		}
-		else if (c.cell_type == 1 && this->cell_type == 1 && c.word_length == this->word_length){
-			for(int i = 0; i < c.word_length; i++){
-				if(c.cell_data.word[i] != this->cell_data.word[i]){
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
-	}
-
-Cell& Cell::operator=(const Cell c){
-	cell_type = c.cell_type;
-	cell_data.num = c.cell_data.num;
-	word_length = c.word_length;
-	if(c.cell_type == 1){
-		cell_data.word = new char[c.word_length];
-		for(int i = 0; i < c.word_length; i++){
-			cell_data.word[i] = c.cell_data.word[i];
-		}
-	}
-	return *this;
+	return this->data.compare(c.data) == 0 && this->attribute->get_attribute_type() == c.attribute->get_attribute_type();
 }
 
 /* End of definitions */

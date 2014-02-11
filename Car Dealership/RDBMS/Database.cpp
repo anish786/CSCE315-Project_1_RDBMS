@@ -21,18 +21,10 @@ Relation Database::get_relation(string rname){
 
 /*modifiers ----------------------------------------------------------------------------------*/
 
-void Database::create_relation(string rname, vector<string> aname, vector<string> atype, vector<int> alength, vector<string> kname){
+void Database::create_relation(string rname, vector<string> aname, vector<int> atype, vector<int> alength, vector<string> kname){
 	vector<Attribute> attributes;
 	for(size_t i = 0; i < aname.size(); i++){
 		attributes.push_back(Attribute(aname[i], atype[i], alength[i]));
-	}
-	relations.push_back(Relation(rname, attributes, kname));
-}
-
-void Database::create_relation(string rname, vector<string> aname, vector<string> atype, vector<string> kname){
-	vector<Attribute> attributes;
-	for(size_t i = 0; i < aname.size(); i++){
-		attributes.push_back(Attribute(aname[i], atype[i]));
 	}
 	relations.push_back(Relation(rname, attributes, kname));
 }
@@ -83,19 +75,19 @@ void Database::delete_from(string rname, Condition con){
 }
 
 Relation select(Condition con, Relation r){
-	Relation selected;
+	Relation selected("Selection");
 	selected.select(con, r);
 	return selected;
 }
 
 Relation project(vector<string> att_list, Relation r){
-	Relation projection;
+	Relation projection("Projection");
 	projection.project(att_list, r);
 	return projection;
 }
 
 Relation rename(vector<string> att_list, Relation r){
-	Relation renamed;
+	Relation renamed("Renamed");
 	renamed.rename(att_list, r);
 	return renamed;
 }
@@ -113,7 +105,7 @@ Relation product(Relation r1, Relation r2){
 }
 
 Relation join(Relation r1, Relation r2){
-	Relation joined;
+	Relation joined("Natural Join");
 	joined.natural_join(r1, r2);
 	return joined;
 }

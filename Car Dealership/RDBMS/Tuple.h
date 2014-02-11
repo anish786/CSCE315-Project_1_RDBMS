@@ -12,31 +12,25 @@ private:
 
 public:
 	/*constructors*/
-	Tuple();
 	Tuple(vector<Cell> c);
-	Tuple(vector<Attribute> attribute, vector<string> values);
+	Tuple(vector<Attribute*> attributes, vector<string> values);
 	
 	/*accessors*/
 	vector<string> get_values();
 	vector<string> get_values() const;
-	string get_cell_index(int index);
-	vector<Cell>get_cell();
-	vector<Cell>get_cell() const;
+	vector<Cell>get_cells();
+	vector<Cell>get_cells() const;
+	string get_cell_data(int position);
 
 	/*modifiers*/
 	void insert(Cell c);
-	void update(string value, int position);
+	void update_cell(string value, int position);
 	
 	/*operators*/
 	bool operator==(const Tuple &t) const;
 	friend ostream &operator<<(ostream &os, Tuple t){
 		for (size_t i = 0; i < t.cells.size(); i++){
-			if(t.cells[i].get_type()==0){
-				os << t.cells[i].cell_data.num << '\t';
-			}
-			else if(t.cells[i].get_type()==1){ // string
-				os << t.cells[i].cell_data.word << '\t';
-			}
+			os << t.get_cell_data(i) << '\t';
 		}
 		os << endl;
 		return os;
