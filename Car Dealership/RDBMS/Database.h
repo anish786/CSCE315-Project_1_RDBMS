@@ -11,12 +11,12 @@ INSERT INTO
 UPDATE
 DELETE FROM
 
-SELECTION
+-SELECTION
 -PROJECTION
--RENAMING
+RENAMING
 SET UNION
-SET DIFFERENCE
--CROSS PRODUCT
+-SET DIFFERENCE
+CROSS PRODUCT
 
 No file I/0
 No parser (everything is through funtion call)
@@ -35,6 +35,8 @@ public:
 	~Database();
 
 	/*accessors*/
+
+
 
 	/*modifiers*/
 
