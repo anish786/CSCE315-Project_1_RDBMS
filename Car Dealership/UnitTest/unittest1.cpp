@@ -97,15 +97,12 @@ namespace UnitTest
 			Attribute a( "Make", "string", 16);
 			Attribute b( "Name", "string", 16);
 
-			Cell c1(a, "Car");
-			Cell c2(a, "Car");
-			Cell c3(b, "Car");
-			Cell c4(a, "Truck");
+			Cell c1(a, "Toyota");
+			Cell c2(a, "Toyota");
+			Cell c3(b, "Corolla");
 
 			Assert::IsTrue(c1 == c2);
 			Assert::IsFalse(c1 == c3);
-			Assert::IsFalse(c1 == c3);
-
 		}
 	};
 }
