@@ -89,11 +89,16 @@ Tuple Relation::get_tuple(int index){
 
 /*modifiers ----------------------------------------------------------------------------------*/
 void Relation::insert_tuple(vector<string>values){
-	vector<Attribute*> att_pointers;
-	for(size_t i = 0; i < attribute_list.size(); i++){
-		att_pointers[i] = &attribute_list[i];
+	if(values.size() == attribute_list.size()){
+		vector<Attribute*> att_pointers;
+		for(size_t i = 0; i < attribute_list.size(); i++){
+			att_pointers.push_back(&(attribute_list[i]));
+		}
+		tuple_list.push_back(Tuple(att_pointers, values));
 	}
-	tuple_list.push_back(Tuple(att_pointers, values));
+	else{
+		throw RuntimeException("Can not insert new tuple, does not match attribute list");
+	}
 }
 
 void Relation::insert_from_relation(Relation r){
@@ -137,13 +142,17 @@ void Relation::delete_from(Condition con){
 }
 
 void Relation::update(vector<string> aname, vector<string> update, Condition con){
-	
-	for(size_t i = 0; i < tuple_list.size(); i++){
-		if(con.evaluate(get_attributes() , tuple_list[i].get_values())){
-			for(size_t j = 0; j < aname.size(); j++){
-				tuple_list[i].update_cell(update[j], find_attribute_column(aname[j]));
+	if(aname.size() == update.size()){
+		for(size_t i = 0; i < tuple_list.size(); i++){
+			if(con.evaluate(get_attributes() , tuple_list[i].get_values())){
+				for(size_t j = 0; j < aname.size(); j++){
+					tuple_list[i].update_cell(update[j], find_attribute_column(aname[j]));
+				}
 			}
 		}
+	}
+	else{
+		throw RuntimeException("In relation update, number of attributes to update differs from values to update to");
 	}
 }
 
@@ -158,8 +167,13 @@ void Relation::select(Condition con, Relation r){
 }
 
 void Relation::rename(vector<string> att_list, Relation r){
-	for(size_t i = 0; i < attribute_list.size(); i++){
-		attribute_list[i].update_name(att_list[i]);
+	if(att_list.size() == attribute_list.size()){
+		for(size_t i = 0; i < attribute_list.size(); i++){
+			attribute_list[i].update_name(att_list[i]);
+		}
+	}
+	else{
+		throw RuntimeException("In rename, number of attributes to rename differs from actual number of attributes in relation");
 	}
 }
 

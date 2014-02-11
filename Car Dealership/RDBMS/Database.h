@@ -18,7 +18,6 @@ public:
 
 
 	/*modifiers*/
-	Relation evaluate_expression(vector<string> atomic_expression);
 	void create_relation(string rname, vector<string> aname, vector<int> atype, vector<int> alength, vector<string> kname);
 	void drop_relation(string rname);
 	void insert_into(string rname, vector<string> tuple);

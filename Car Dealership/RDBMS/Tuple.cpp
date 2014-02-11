@@ -8,9 +8,14 @@ Tuple::Tuple(vector<Cell> c){
 }
 
 Tuple::Tuple(vector<Attribute*> attributes, vector<string> values){
-	for (size_t i = 0; i < attributes.size(); i++){
-		Cell c(attributes[i], values[i]);
-		cells.push_back(c);
+	if(attributes.size() == values.size()){
+		for (size_t i = 0; i < attributes.size(); i++){
+			Cell c(attributes[i], values[i]);
+			cells.push_back(c);
+		}
+	}
+	else{
+		throw RuntimeException("Different number of attributes and values");
 	}
 }
 
@@ -44,9 +49,6 @@ string Tuple::get_cell_data(int position){
 }
 
 /*modifiers ----------------------------------------------------------------------------------*/
-void Tuple::insert(Cell c){
-	cells.push_back(c);
-}
 
 void Tuple::update_cell(string value, int position){
 	cells[position].update_data(value);

@@ -12,11 +12,11 @@ Database::~Database(){
 /*accessors ----------------------------------------------------------------------------------*/
 Relation Database::get_relation(string rname){
 	for(size_t i = 0; i < relations.size(); i++){
-		if(rname.compare(relations[i].get_relation_name())){
+		if(rname.compare(relations[i].get_relation_name()) == 0){
 			return relations[i];
 		}
 	}
-	return NULL;
+	throw RuntimeException("Relation not found");
 }
 
 /*modifiers ----------------------------------------------------------------------------------*/

@@ -23,7 +23,6 @@ public:
 	string get_cell_data(int position);
 
 	/*modifiers*/
-	void insert(Cell c);
 	void update_cell(string value, int position);
 	
 	/*operators*/

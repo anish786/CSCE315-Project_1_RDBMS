@@ -65,14 +65,14 @@ namespace UnitTest
 		}
 
 		TEST_METHOD(TupleCompare){
-			Attribute a( "Make", "string", 16);
-			Attribute b( "Model", "string", 16);
-			Attribute c( "Year", "int");
+			Attribute a( "Make", 1, 16);
+			Attribute b( "Model", 1, 16);
+			Attribute c( "Year", 0);
 
-			vector< Attribute > t1att;
-			t1att.push_back(a);
-			t1att.push_back(b);
-			t1att.push_back(c);
+			vector< Attribute* > t1att;
+			t1att.push_back(&a);
+			t1att.push_back(&b);
+			t1att.push_back(&c);
 	
 			vector< string > values1;
 			values1.push_back("Toyota");
@@ -94,15 +94,61 @@ namespace UnitTest
 		}
 		TEST_METHOD(CellCompare){
 
-			Attribute a( "Make", "string", 16);
-			Attribute b( "Name", "string", 16);
+			Attribute a( "Make", 1, 16);
+			Attribute b( "Name", 1, 16);
 
-			Cell c1(a, "Toyota");
-			Cell c2(a, "Toyota");
-			Cell c3(b, "Corolla");
+			Cell c1(&a, "Toyota");
+			Cell c2(&a, "Toyota");
+			Cell c3(&b, "Corolla");
 
 			Assert::IsTrue(c1 == c2);
 			Assert::IsFalse(c1 == c3);
+		}
+
+		TEST_METHOD(DBCreateRelation){
+			Database db;
+
+			vector<string> atts;
+			atts.push_back("Attribute 1");
+			atts.push_back("Attribute 2");
+			atts.push_back("Attribute 3");
+
+			vector<int> atts_types;
+			atts_types.push_back(1);
+			atts_types.push_back(1);
+			atts_types.push_back(0);
+
+			vector<int> atts_lengths;
+			atts_lengths.push_back(12);
+			atts_lengths.push_back(12);
+			atts_lengths.push_back(0);
+
+			vector<string> keys;
+			keys.push_back("Attribute 1");
+			keys.push_back("Attribute 3");
+
+			db.create_relation("Relation Name", atts, atts_types, atts_lengths, keys);
+
+		}
+
+		TEST_METHOD(DBDropRelation){
+
+		}
+
+		TEST_METHOD(DBInsertIntoFromTuple){
+
+		}
+
+		TEST_METHOD(DBInsertIntoFromRelation){
+
+		}
+
+		TEST_METHOD(DBUpdate){
+
+		}
+
+		TEST_METHOD(DBDeleteFrom){
+
 		}
 	};
 }
