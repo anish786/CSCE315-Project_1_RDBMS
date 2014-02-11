@@ -148,16 +148,18 @@ bool Relation::check_key(vector<string>values){
 
 
 
-void Relation::natural_join(Relation &r1, Relation &r2){
-	//vector<Attribute> temp_attribute;
-	//vector<string> temp_keys;
-
-	//bool key_match = false;
-	//for(int i = 0; i < r2.tuple_list.size(); i++){
-	//	for(int j = 0; j < r1.tuple_list.size(); j++){
-			
-	//	}
-	//}
+Relation Relation::natural_join(Relation &r1, Relation &r2){
+	Relation r(r1.relation_name, r1.attribute_list, r1.keys);
+	vector<Tuple> natural_join;
+	for(size_t i = 0; i < r1.tuple_list.size(); i++){
+		for(size_t j = 0; j < r2.tuple_list.size(); j++){
+			if(r1.tuple_list[i] == r2.tuple_list[j]){
+				natural_join.push_back(r1.tuple_list[i]);
+			}
+		}
+	}
+	r.tuple_list = natural_join;
+	return r;
 }
 
 Tuple Relation::get_tuple(int index){

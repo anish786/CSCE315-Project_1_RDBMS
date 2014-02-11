@@ -32,7 +32,7 @@ public:
 	int find_tuple(vector<string>values);
 	vector<int> find_columns(vector<string> attribute_names);
 	bool check_key(vector<string>values);
-	void natural_join(Relation &r1, Relation &r2);
+	Relation natural_join(Relation &r1, Relation &r2);
 	Tuple get_tuple(int index);
 	
 	/*modifiers*/
