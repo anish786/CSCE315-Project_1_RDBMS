@@ -214,6 +214,7 @@ void Relation::project(vector<string> att_list, Relation r){
 	}
 	*this = new_r;
 }
+
 void Relation::delete_from(Condition con){
 	size_t i = 0;
 	while(i < tuple_list.size()){
