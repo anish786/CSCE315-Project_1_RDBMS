@@ -26,6 +26,7 @@ public:
 	void update(string value, int position);
 	
 	/*operators*/
+	bool operator==(const Tuple &t) const;
 	friend ostream &operator<<(ostream &os, Tuple t){
 		for (size_t i = 0; i < t.cells.size(); i++){
 			if(t.cells[i].get_type()==0){
@@ -37,24 +38,6 @@ public:
 		}
 		os << endl;
 		return os;
-	}
-	friend bool operator==(const Tuple &t1, const Tuple &t2)
-	{
-		int count = 0;
-		if( t1.cells.size() == t2.cells.size() )
-		{
-			for (size_t i = 0; i<t1.cells.size(); i++)
-			{
-				if(t1.cells[i] == t2.cells[i])
-					count++;
-				else 
-					return false;
-			}
-		}
-		else {
-			return false;
-		}
-		return (count == t1.cells.size());
 	}
 
 };

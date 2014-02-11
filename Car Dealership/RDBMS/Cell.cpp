@@ -93,13 +93,19 @@ void Cell::update(string value){
 
 /*operators ---------------------------------------------------------------------------------*/
 bool Cell::operator==(const Cell &c) const{
-	if (c.cell_type == 0 && this->cell_type == 0){
-		return (c.cell_data.num == this->cell_data.num);
+		if (c.cell_type == 0 && this->cell_type == 0){
+			return (c.cell_data.num == this->cell_data.num);
+		}
+		else if (c.cell_type == 1 && this->cell_type == 1 && c.word_length == this->word_length){
+			for(int i = 0; i < c.word_length; i++){
+				if(c.cell_data.word[i] != this->cell_data.word[i]){
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
 	}
-	else if (c.cell_type == 1 && this->cell_type == 1){
-		return (c.cell_data.word == this->cell_data.word);
-	}
-}
 
 Cell& Cell::operator=(const Cell c){
 	cell_type = c.cell_type;

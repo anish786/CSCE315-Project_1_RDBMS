@@ -44,5 +44,21 @@ void Tuple::update(string value, int position){
 }
 
 /*operators ----------------------------------------------------------------------------------*/
-
+bool Tuple::operator==(const Tuple &t) const{
+	int count = 0;
+	if( t.cells.size() == this->cells.size() )
+	{
+		for (size_t i = 0; i<t.cells.size(); i++)
+		{
+			if(t.cells[i] == this->cells[i])
+				count++;
+			else 
+				return false;
+		}
+	}
+	else {
+		return false;
+	}
+	return (count == t.cells.size());
+}
 /* End of definitions */

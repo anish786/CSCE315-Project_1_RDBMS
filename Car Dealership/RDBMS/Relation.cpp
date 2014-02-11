@@ -245,5 +245,81 @@ void Relation::rename_cell(string attToRename, string value){
 }
 
 /*operators ----------------------------------------------------------------------------------*/
+Relation Relation::operator+(const Relation &r) const{
+	//Set Union
+	Relation set_union("Set Union");
 
+	// TODO Check to make sure attributes are the same
+
+	//add all attributes in first set
+	for(size_t i=0; i<r.attribute_list.size(); ++i){
+		Attribute a(r.attribute_list[i]);
+		set_union.attribute_list.push_back(a);
+	}
+	//add all tuples in the first set
+	for(size_t i=0; i<r.tuple_list.size(); ++i){
+		Tuple t(r.tuple_list[i]);
+		set_union.tuple_list.push_back(t);
+	}
+	//add non-duplicate tuples in the second relation
+	for(size_t i=0; i<this->tuple_list.size(); ++i){
+		bool found = false;
+		for(size_t j=0; j<r.tuple_list.size(); ++j){
+			if(r.tuple_list[j] == this->tuple_list[i]){	//if tuples match
+				found = true;
+				break;
+			}
+		}
+		if(found == false){								//tuple was not found
+			Tuple t2(this->tuple_list[i]);
+			set_union.tuple_list.push_back(t2);
+		}
+	}
+	return set_union;
+}
+
+Relation Relation::operator-(const Relation &r) const{
+	//Set Difference
+
+	Relation set_diff("Set Difference");
+
+	// TODO Check to make sure attributes are the same
+
+	//add all attributes in first set
+	for(size_t i=0; i<r.attribute_list.size(); ++i){
+		Attribute a(r.attribute_list[i]);
+		set_diff.attribute_list.push_back(a);
+	}
+
+	//add all tuples in the first set that are not in the second
+	for(size_t i=0; i<r.tuple_list.size(); ++i){
+		bool found = false;
+		for(size_t j=0; j<this->tuple_list.size(); ++j){
+			if(r.tuple_list[i] == this->tuple_list[j]){	//if tuples match
+				found = true;
+				break;
+			}
+		}
+		if(found == false){								//tuple was not found
+			Tuple t1(r.tuple_list[i]);
+			set_diff.tuple_list.push_back(t1);
+		}
+	}
+	//add all tuples in the second set that are not in the first
+	for(size_t i=0; i<this->tuple_list.size(); ++i){
+		bool found = false;
+		for(size_t j=0; j<r.tuple_list.size(); ++j){
+			if(r.tuple_list[j] == this->tuple_list[i]){	//if tuples match
+				found = true;
+				break;
+			}
+		}
+		if(found == false){								//tuple was not found
+			Tuple t2(this->tuple_list[i]);
+			set_diff.tuple_list.push_back(t2);
+		}
+	}
+		
+	return set_diff;
+}
 /* End of definitions */

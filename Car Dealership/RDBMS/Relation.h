@@ -45,6 +45,8 @@ public:
 	void rename_cell(string attToRename, string value);
 	
 	/*operators*/
+	Relation operator+(const Relation &r) const;
+	Relation operator-(const Relation &r) const;
 	friend ostream& operator<<(ostream& os, Relation r){
 		//table name
 		os << "\t\t" << r.get_relation_name() << endl;
@@ -62,82 +64,6 @@ public:
 			os << r.tuple_list[i];
 		}
 		return os;
-	}
-	friend Relation operator+(const Relation &r1, const Relation &r2){
-		//Set Union
-		Relation set_union("Set Union");
-
-		// TODO Check to make sure attributes are the same
-
-		//add all attributes in first set
-		for(size_t i=0; i<r1.attribute_list.size(); ++i){
-			Attribute a(r1.attribute_list[i]);
-			set_union.attribute_list.push_back(a);
-		}
-		//add all tuples in the first set
-		for(size_t i=0; i<r1.tuple_list.size(); ++i){
-			Tuple t(r1.tuple_list[i]);
-			set_union.tuple_list.push_back(t);
-		}
-		//add non-duplicate tuples in the second relation
-		for(size_t i=0; i<r2.tuple_list.size(); ++i){
-			bool found = false;
-			for(size_t j=0; j<r1.tuple_list.size(); ++j){
-				if(r1.tuple_list[j] == r2.tuple_list[i]){	//if tuples match
-					found = true;
-					break;
-				}
-			}
-			if(found == false){								//tuple was not found
-				Tuple t2(r2.tuple_list[i]);
-				set_union.tuple_list.push_back(t2);
-			}
-		}
-		return set_union;
-	}
-	friend Relation operator-(const Relation &r1, const Relation &r2){
-		//Set Difference
-
-		Relation set_diff("Set Difference");
-
-		// TODO Check to make sure attributes are the same
-
-		//add all attributes in first set
-		for(size_t i=0; i<r1.attribute_list.size(); ++i){
-			Attribute a(r1.attribute_list[i]);
-			set_diff.attribute_list.push_back(a);
-		}
-
-		//add all tuples in the first set that are not in the second
-		for(size_t i=0; i<r1.tuple_list.size(); ++i){
-			bool found = false;
-			for(size_t j=0; j<r2.tuple_list.size(); ++j){
-				if(r1.tuple_list[i] == r2.tuple_list[j]){	//if tuples match
-					found = true;
-					break;
-				}
-			}
-			if(found == false){								//tuple was not found
-				Tuple t1(r1.tuple_list[i]);
-				set_diff.tuple_list.push_back(t1);
-			}
-		}
-		//add all tuples in the second set that are not in the first
-		for(size_t i=0; i<r2.tuple_list.size(); ++i){
-			bool found = false;
-			for(size_t j=0; j<r1.tuple_list.size(); ++j){
-				if(r1.tuple_list[j] == r2.tuple_list[i]){	//if tuples match
-					found = true;
-					break;
-				}
-			}
-			if(found == false){								//tuple was not found
-				Tuple t2(r2.tuple_list[i]);
-				set_diff.tuple_list.push_back(t2);
-			}
-		}
-		
-		return set_diff;
 	}
 };
 
