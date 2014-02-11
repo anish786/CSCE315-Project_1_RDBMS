@@ -88,8 +88,8 @@ namespace UnitTest
 			Tuple t2(t1att, values1);
 			Tuple t3(t1att, values2);
 
-			//Assert::IsTrue(t1 == t2);
-			//Assert::IsFalse(t1 == t3);
+			Assert::IsTrue(t1 == t2);
+			Assert::IsFalse(t1 == t3);
 
 		}
 		TEST_METHOD(CellCompare){
