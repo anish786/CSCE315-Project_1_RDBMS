@@ -6,32 +6,24 @@
 
 class Cell{
 private:
-	int cell_type;
-	int word_length;
+	Attribute *attribute; //Pointer to the columns attribute
+	string data; //Data either a string or an integer as a string
 public:
-	union{
-		int num;
-		char *word;
-	}cell_data;
-	
 	/*constructors*/
-	Cell();
-	Cell(const Cell &cell);
-	Cell(Attribute a, string value);
-	~Cell();
+	Cell(Attribute *a, string value);
 
 	/*accessors*/
 	void print_cell();
 	int get_type();
+	string get_attribute_name();
 	string get_value();
 	string get_value() const;
 
 	/*modifiers*/
-	void update(string value);
+	void update_data(string value);
 
 	/*operators*/
 	bool operator==(const Cell &c) const;
-	Cell& operator=(const Cell c);
 
 };
 

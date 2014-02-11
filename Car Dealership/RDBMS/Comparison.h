@@ -2,8 +2,12 @@
 
 #include <vector>
 #include <string>
+#include <sstream>
 
 using namespace std;
+
+// Helper function
+int string_to_int(string s);
 
 class Comparison
 {

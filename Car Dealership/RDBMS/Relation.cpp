@@ -3,7 +3,6 @@
 /* Definitions of the Relation Class */
 
 /*constructors -------------------------------------------------------------------------------*/
-Relation::Relation(){}
 
 Relation::Relation(string r_name){
 	relation_name = r_name;
@@ -23,11 +22,11 @@ Relation::Relation(string r_name, vector<Attribute> a_list, vector<string> key_n
 		attribute_list.push_back(a_list[i]);
 	}
 	for (size_t i = 0; i < key_names.size(); i++){
-		if (check(key_names[i])){
-			keys.push_back(find_position(key_names[i]));
+		if (has_attribute(key_names[i])){
+			keys.push_back(find_attribute_column(key_names[i]));
 		}
 		else{
-			cout << "did not found" << endl;
+			throw RuntimeException("One of the given keys is not in the attribute list");
 		}
 	}
 }
@@ -35,31 +34,27 @@ Relation::Relation(string r_name, vector<Attribute> a_list, vector<string> key_n
 /*accessors ----------------------------------------------------------------------------------*/
 
 /*find position in vector*/
-int Relation::find_position(string keyword)
+int Relation::find_attribute_column(string attribute)
 {
-	int address = 0;
 	for (size_t i = 0; i<attribute_list.size(); i++)
 	{
-		if (attribute_list[i].get_attribute_name().compare(keyword) == 0)
+		if (attribute_list[i].get_attribute_name().compare(attribute) == 0)
 		{
-			address = i;
-			break;
+			return i;
 		}
 	}
-	return address;
+	throw RuntimeException("Attribute is not in this relation");
 }
 
 /*check if values exist*/
-bool Relation::check(string keyword)
+bool Relation::has_attribute(string attribute)
 {
-	int a = 0;
-	for (size_t i = 0; i<attribute_list.size(); i++)
-	if (attribute_list[i].get_attribute_name().compare(keyword) == 0)
-		a = 1;
-	if (a == 1)
-		return true;
-	else 
-		return false;
+	for (size_t i = 0; i<attribute_list.size(); i++){
+		if (attribute_list[i].get_attribute_name().compare(attribute) == 0){
+			return true;
+		}
+	}
+	return false;
 }
 
 string Relation::get_relation_name(){
@@ -73,88 +68,6 @@ vector<string> Relation::get_attributes(){
 	}
 	return atts;
 }
-
-int Relation::find_tuple(vector<string>values){
-	int temp = 0;
-	int count = 0;
-	bool flag = false;
-
-	for (size_t i = 0; i < tuple_list.size(); i++){
-		for (size_t j = 0; j < keys.size(); j++){
-			if (tuple_list[i].get_cell()[keys[j]].get_type() == 0){
-				stringstream ss(values[j]);
-				int int_value;
-				ss >> int_value;
-				if (int_value == tuple_list[i].get_cell()[keys[j]].cell_data.num){
-					count++;
-				}
-			}
-			else if (tuple_list[i].get_cell()[keys[j]].get_type() == 1){
-				string s = tuple_list[i].get_cell()[keys[j]].cell_data.word;
-				if (s.compare(values[j]) == 0){
-					count++;
-				}
-			}
-		}
-		if (count == keys.size()){
-			temp = i;
-			flag = 1;
-			break;
-		}
-		count = 0;
-	}
-	if (flag == 0){
-		cerr << "Search is not found" << endl;
-	}
-	return temp;
-}
-
-vector<int> Relation::find_columns(vector<string> attribute_names){
-	vector<int>columns;
-	vector<Attribute> a_list;
-	for (size_t i = 0; i < attribute_names.size(); i++){
-		if (check(attribute_names[i])){
-			columns.push_back(find_position(attribute_names[i]));
-		}
-	}
-	return columns;
-}
-
-bool Relation::check_key(vector<string>values){
-	int count = 0;
-	bool flag = false;
-	if (keys.size() != values.size()){
-		return flag;
-	}
-	for (size_t i = 0; i < tuple_list.size(); i++){
-		count = 0;
-		for (size_t j = 0; j < keys.size(); j++){
-			if (tuple_list[i].get_cell()[keys[j]].get_type() == 0){
-				stringstream ss(values[j]);
-				int int_value;
-				ss >> int_value;
-				if (int_value == tuple_list[i].get_cell()[keys[j]].cell_data.num){
-					count++;
-				}
-			}
-			else if (tuple_list[i].get_cell()[keys[j]].get_type() == 1){
-				string s = tuple_list[i].get_cell()[keys[j]].cell_data.word;
-				if (s.compare(values[j]) == 0)
-				{
-					count++;
-				}
-			}
-
-		}
-		if (count == keys.size()){
-			flag = true;
-			break;
-		}
-	}
-	return flag;
-}
-
-
 
 Relation Relation::natural_join(Relation &r1, Relation &r2){
 	Relation r(r1.relation_name, r1.attribute_list, r1.keys);
@@ -176,20 +89,21 @@ Tuple Relation::get_tuple(int index){
 
 /*modifiers ----------------------------------------------------------------------------------*/
 void Relation::insert_tuple(vector<string>values){
-	Tuple t(attribute_list, values);
-	tuple_list.push_back(t);
-}
-
-void Relation::delete_tuple(vector<string>values){
-	if (check_key(values)){
-		int a = find_tuple(values);
-		tuple_list.erase(tuple_list.begin() + a);
+	if(values.size() == attribute_list.size()){
+		vector<Attribute*> att_pointers;
+		for(size_t i = 0; i < attribute_list.size(); i++){
+			att_pointers.push_back(&(attribute_list[i]));
+		}
+		tuple_list.push_back(Tuple(att_pointers, values));
+	}
+	else{
+		throw RuntimeException("Can not insert new tuple, does not match attribute list");
 	}
 }
 
 void Relation::insert_from_relation(Relation r){
-	for(size_t i = 0; i < tuple_list.size(); i++){
-		insert_tuple(tuple_list[i].get_values());
+	for(size_t i = 0; i < r.tuple_list.size(); i++){
+		insert_tuple(r.tuple_list[i].get_values());
 	}
 }
 
@@ -228,13 +142,17 @@ void Relation::delete_from(Condition con){
 }
 
 void Relation::update(vector<string> aname, vector<string> update, Condition con){
-	
-	for(size_t i = 0; i < tuple_list.size(); i++){
-		if(con.evaluate(get_attributes() , tuple_list[i].get_values())){
-			for(size_t j = 0; j < aname.size(); j++){
-				tuple_list[i].update(update[j], find_position(aname[j]));
+	if(aname.size() == update.size()){
+		for(size_t i = 0; i < tuple_list.size(); i++){
+			if(con.evaluate(get_attributes() , tuple_list[i].get_values())){
+				for(size_t j = 0; j < aname.size(); j++){
+					tuple_list[i].update_cell(update[j], find_attribute_column(aname[j]));
+				}
 			}
 		}
+	}
+	else{
+		throw RuntimeException("In relation update, number of attributes to update differs from values to update to");
 	}
 }
 
@@ -249,43 +167,16 @@ void Relation::select(Condition con, Relation r){
 }
 
 void Relation::rename(vector<string> att_list, Relation r){
-	for(size_t i = 0; i < attribute_list.size(); i++){
-		attribute_list[i].update(att_list[i]);
-	}
-}
-
-void Relation::update(vector<string> keywords, string value, int column_index){
-	if (keywords[0] == "0"){
-		attribute_list[column_index].update(value);
+	if(att_list.size() == attribute_list.size()){
+		for(size_t i = 0; i < attribute_list.size(); i++){
+			attribute_list[i].update_name(att_list[i]);
+		}
 	}
 	else{
-		cout << "Keywords: " << keywords[0] << ", " << keywords[1] << endl;
-		int row_index = find_tuple(keywords);
-		cout << "changing row index: " << row_index << " and column index: " << column_index << endl;
-		tuple_list[row_index].update(value, column_index);
+		throw RuntimeException("In rename, number of attributes to rename differs from actual number of attributes in relation");
 	}
 }
 
-void Relation::rename_cell(vector<string> primaryKey, string attToRename, string value){
-	for (size_t i = 0; i<attribute_list.size(); i++){
-		if ((attribute_list[i].get_attribute_name().compare(attToRename)) == 0){
-			update(primaryKey, value, i);
-			cout << "The attribute " << attToRename << " has been renamed " << value << endl;
-		}
-	}
-}
-
-void Relation::rename_cell(string attToRename, string value){
-	vector<string> nullKey(1, "0");
-	for (size_t i = 0; i<attribute_list.size(); i++) {
-		for (size_t j = 0; j<attToRename.size(); j++) {
-			if (attribute_list[i].get_attribute_name().compare(attToRename) == 0) {
-				update(nullKey, value, i);
-				cout << "The table attribute " << attToRename << " has been renamed " << value << endl;
-			}
-		}
-	}
-}
 
 /*operators ----------------------------------------------------------------------------------*/
 Relation Relation::operator+(const Relation &r) const{
@@ -366,7 +257,7 @@ Relation Relation::operator-(const Relation &r) const{
 }
 
 Relation Relation::operator*(const Relation &r) const{
-	Relation cross_product;
+	Relation cross_product("Cross Product");
 	int count = r.tuple_list.size() * this->tuple_list.size();
 	vector<Attribute>::iterator it;
 
@@ -384,7 +275,7 @@ Relation Relation::operator*(const Relation &r) const{
 		{
 			values = r.tuple_list[i].get_values();
 			for (size_t k = 0; k < this->attribute_list.size(); k++){
-				values.push_back(this->tuple_list[j].get_cell()[k].get_value());
+				values.push_back(this->tuple_list[j].get_cells()[k].get_value());
 			}
 			cross_product.insert_tuple(values);
 		}

@@ -81,6 +81,7 @@
     <ClInclude Include="Database.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="Relation.h" />
+    <ClInclude Include="RuntimeException.h" />
     <ClInclude Include="Tuple.h" />
   </ItemGroup>
   <ItemGroup>

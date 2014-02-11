@@ -1,5 +1,11 @@
 #include "Comparison.h"
-#include <sstream>
+
+int string_to_int(string s){
+	stringstream ss(s);
+	int i;
+	ss >> i;
+	return i;
+}
 
 Comparison::Comparison(string o1, string o2, string o){
 	operand1 = o1;
@@ -9,13 +15,6 @@ Comparison::Comparison(string o1, string o2, string o){
 
 Comparison::~Comparison(void){
 
-}
-
-int string_to_int(string s){
-	stringstream ss(s);
-	int i;
-	ss >> i;
-	return i;
 }
 
 bool Comparison::evaluate(vector<string> variables, vector<string> values){
