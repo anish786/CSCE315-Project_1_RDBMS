@@ -37,10 +37,11 @@ public:
 	/*modifiers*/
 	void insert_tuple(vector<string>values);
 	void delete_tuple(vector<string>values);
-	void insert_attribute(string name, string type, int length);
+	void insert_from_relation(Relation r);
+	void delete_from();
 	void update(vector<string> keywords, string value, int column_index);
-	void rename_attributes(vector<string> primaryKey, string attToRename, string value);
-	void rename_attributes(string attToRename, string value);
+	void rename_cell(vector<string> primaryKey, string attToRename, string value);
+	void rename_cell(string attToRename, string value);
 	
 	/*operators*/
 	friend ostream& operator<<(ostream& os, Relation r){
