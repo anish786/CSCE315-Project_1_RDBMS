@@ -75,6 +75,9 @@
   <ItemGroup>
     <ClInclude Include="Attribute.h" />
     <ClInclude Include="Cell.h" />
+    <ClInclude Include="Comparison.h" />
+    <ClInclude Include="Condition.h" />
+    <ClInclude Include="Conjunction.h" />
     <ClInclude Include="Database.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="Relation.h" />
@@ -83,6 +86,9 @@
   <ItemGroup>
     <ClCompile Include="Attribute.cpp" />
     <ClCompile Include="Cell.cpp" />
+    <ClCompile Include="Comparison.cpp" />
+    <ClCompile Include="Condition.cpp" />
+    <ClCompile Include="Conjunction.cpp" />
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Relation.cpp" />
