@@ -96,7 +96,9 @@ int main(){
     
 	cout << "New Table " << endl;
 	cout << r3 << endl;
-	cout << r3.projection("cust") << endl;
+	vector<string> att_list;
+	att_list.push_back("cust");
+	r3.project(att_list, customer);
 
 	cout << endl << "------------Before-Renaming------------" << endl;
     Relation relation("Inventory", t1att, t1keys);

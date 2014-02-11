@@ -17,6 +17,7 @@ public:
 	/*constructors*/
 	Relation();
 	Relation(string r_name);
+	Relation(string r_name, vector<Attribute> a_list, vector<int> key_list);
 	Relation(string r_name, vector<Attribute> a_list, vector<string> key_names);
 	
 	/*accessors*/
@@ -31,7 +32,6 @@ public:
 	int find_tuple(vector<string>values);
 	vector<int> find_columns(vector<string> attribute_names);
 	bool check_key(vector<string>values);
-	Tuple projection(string attribute_name);
 	void natural_join(Relation &r1, Relation &r2);
 	Tuple get_tuple(int index);
 	

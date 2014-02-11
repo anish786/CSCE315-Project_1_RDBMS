@@ -9,6 +9,14 @@ Relation::Relation(string r_name){
 	relation_name = r_name;
 }
 
+Relation::Relation(string r_name, vector<Attribute> a_list, vector<int> key_list){
+	relation_name = r_name;
+	for (size_t i = 0; i < a_list.size(); i++){
+		attribute_list.push_back(a_list[i]);
+	}
+	keys = key_list;
+}
+
 Relation::Relation(string r_name, vector<Attribute> a_list, vector<string> key_names){
 	relation_name = r_name;
 	for (size_t i = 0; i < a_list.size(); i++){
@@ -138,18 +146,7 @@ bool Relation::check_key(vector<string>values){
 	return flag;
 }
 
-Tuple Relation::projection(string attribute_name){
-	if (check(attribute_name)){
-		int position = find_position(attribute_name);
-		vector<Cell> column_value;
-		for (size_t i = 0; i < tuple_list.size(); i++){
-			column_value.push_back(tuple_list[i].get_cell()[position]);
-		}
-		Tuple column(column_value);
-		return column;
-	}
-	return Tuple();
-}
+
 
 void Relation::natural_join(Relation &r1, Relation &r2){
 	//vector<Attribute> temp_attribute;
@@ -186,7 +183,27 @@ void Relation::insert_from_relation(Relation r){
 	}
 }
 
-
+void Relation::project(vector<string> att_list, Relation r){
+	vector<Attribute> a_list;
+	vector<int> a_loc;
+	for(size_t i = 0; i < att_list.size(); i++){
+		for(size_t j = 0; j < r.attribute_list.size(); j++){
+			if(r.attribute_list[j].get_attribute_name().compare(att_list[i]) == 0){
+				a_list.push_back(r.attribute_list[j]);
+				a_loc.push_back(j);
+			}
+		}
+	}
+	Relation new_r("Projection", a_list, a_loc);
+	for(size_t i = 0; i < r.tuple_list.size(); i++){
+		vector<string> new_t;
+		for(size_t j = 0; j < a_list.size(); j++){
+			new_t.push_back(r.tuple_list[i].get_values()[a_loc[j]]);
+		}
+		new_r.insert_tuple(new_t);
+	}
+	*this = new_r;
+}
 
 void Relation::update(vector<string> keywords, string value, int column_index){
 	if (keywords[0] == "0"){
