@@ -33,6 +33,7 @@ public:
 	bool check_key(vector<string>values);
 	Tuple projection(string attribute_name);
 	void cross_product(Relation &r1, Relation &r2);
+	void natural_join(Relation &r1, Relation &r2);
 	
 	/*modifiers*/
 	void insert_tuple(vector<string>values);

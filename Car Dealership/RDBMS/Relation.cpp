@@ -177,6 +177,17 @@ void Relation::cross_product(Relation &r1, Relation &r2)
 	for (size_t i = 0; i<attribute_list.size(); i++)
 		cout << "Attribute Name: " << attribute_list[i].get_attribute_name() << endl;
 }
+void Relation::natural_join(Relation &r1, Relation &r2){
+	//vector<Attribute> temp_attribute;
+	//vector<string> temp_keys;
+
+	//bool key_match = false;
+	//for(int i = 0; i < r2.tuple_list.size(); i++){
+	//	for(int j = 0; j < r1.tuple_list.size(); j++){
+			
+	//	}
+	//}
+}
 
 /*modifiers ----------------------------------------------------------------------------------*/
 void Relation::insert_tuple(vector<string>values){
