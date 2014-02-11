@@ -29,18 +29,7 @@ public:
 	
 	/*operators*/
 	bool operator==(const Tuple &t) const;
-	friend ostream &operator<<(ostream &os, Tuple t){
-		for (size_t i = 0; i < t.cells.size(); i++){
-			if(t.cells[i].get_type()==0){
-				os << t.cells[i].cell_data.num << '\t';
-			}
-			else if(t.cells[i].get_type()==1){ // string
-				os << t.cells[i].cell_data.word << '\t';
-			}
-		}
-		os << endl;
-		return os;
-	}
+	friend ostream &operator<<(ostream &os, Tuple t);
 
 };
 

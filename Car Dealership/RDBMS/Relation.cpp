@@ -391,4 +391,24 @@ Relation Relation::operator*(const Relation &r) const{
 	}
 	return cross_product;
 }
+
+ostream& operator<<(ostream& os, Relation r){
+	//table name
+	os << "\t\t" << r.get_relation_name() << endl;
+	os << endl;
+
+	/*attribute list*/
+	for (size_t i = 0; i<r.attribute_list.size(); i++){
+		os << r.attribute_list[i].get_attribute_name() << "\t";
+	}
+	os << endl << endl;
+
+	/*cell info*/
+	for (size_t i = 0; i<r.tuple_list.size(); i++)
+	{
+		os << r.tuple_list[i];
+	}
+	return os;
+}
+
 /* End of definitions */
