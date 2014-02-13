@@ -25,12 +25,15 @@ public:
 	Attribute(string att_name, int att_type, int att_len);
 	
 	/*accessors*/
-	string get_attribute_name();
-	int get_attribute_type();
-	int get_attribute_length();
+	string get_attribute_name() const;
+	int get_attribute_type() const;
+	int get_attribute_length() const;
 
 	/*modifiers*/
 	void update_name(string new_attribute_name);
+
+	/*operators*/
+	bool operator==(const Attribute &a) const;
 
 };
 

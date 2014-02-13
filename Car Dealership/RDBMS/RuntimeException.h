@@ -1,5 +1,4 @@
-#ifndef RUNTIMEEXCEPTION_H_
-#define RUNTIMEEXCEPTION_H_
+#pragma once
 
 #include <iostream>
 #include <string>
@@ -20,4 +19,3 @@ inline std::ostream& operator<<(std::ostream& out, const RuntimeException& e)
    return out;
 }
 
-#endif

@@ -10,13 +10,17 @@ Database::~Database(){
 }
 
 /*accessors ----------------------------------------------------------------------------------*/
-Relation Database::get_relation(string rname){
+Relation Database::get_relation(string rname) const{
 	for(size_t i = 0; i < relations.size(); i++){
 		if(rname.compare(relations[i].get_relation_name()) == 0){
 			return relations[i];
 		}
 	}
 	throw RuntimeException("Relation not found");
+}
+
+int Database::get_num_relations() const{
+	return relations.size();
 }
 
 /*modifiers ----------------------------------------------------------------------------------*/
@@ -80,37 +84,37 @@ void Database::delete_from(string rname, Condition con){
 	}
 }
 
-Relation select(Condition con, Relation r){
+Relation Database::select(Condition con, Relation r){
 	Relation selected("Selection");
 	selected.select(con, r);
 	return selected;
 }
 
-Relation project(vector<string> att_list, Relation r){
+Relation Database::project(vector<string> att_list, Relation r){
 	Relation projection("Projection");
 	projection.project(att_list, r);
 	return projection;
 }
 
-Relation rename(vector<string> att_list, Relation r){
+Relation Database::rename(vector<string> att_list, Relation r){
 	Relation renamed("Renamed");
 	renamed.rename(att_list, r);
 	return renamed;
 }
 
-Relation set_union(Relation r1, Relation r2){
+Relation Database::set_union(Relation r1, Relation r2){
 	return r1 + r2;
 }
 
-Relation set_difference(Relation r1, Relation r2){
+Relation Database::set_difference(Relation r1, Relation r2){
 	return r1 - r2;
 }
 
-Relation product(Relation r1, Relation r2){
+Relation Database::product(Relation r1, Relation r2){
 	return r1 * r2;
 }
 
-Relation join(Relation r1, Relation r2){
+Relation Database::join(Relation r1, Relation r2){
 	Relation joined("Natural Join");
 	joined.natural_join(r1, r2);
 	return joined;
