@@ -14,9 +14,12 @@ class Comparison
 	string operand1;
 	string operand2;
 	string op;
+	bool is_condition;
+	//Condition condition;
+
 public:
+	//Comparison(Condition cond);
 	Comparison(string o1, string o2, string o);
-	~Comparison(void);
 	bool evaluate(vector<string> variables, vector<string> values);
 };
 

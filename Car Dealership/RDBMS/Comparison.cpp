@@ -13,10 +13,6 @@ Comparison::Comparison(string o1, string o2, string o){
 	op = o;
 }
 
-Comparison::~Comparison(void){
-
-}
-
 bool Comparison::evaluate(vector<string> variables, vector<string> values){
 	string eval_operand1 = operand1;
 	string eval_operand2 = operand2;

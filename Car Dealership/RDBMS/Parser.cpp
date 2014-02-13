@@ -97,6 +97,9 @@ void Parser::tokenize(string command, vector<string> * tokens){
 			token = token + command[position];
 		}
 	}
+	if(token.size() > 0){
+		tokens->push_back(token);
+	}
 
 	//combine tokens that are strings ex. "Hello World" into a single token
 	for (size_t i = 0; i < tokens->size(); i++){
