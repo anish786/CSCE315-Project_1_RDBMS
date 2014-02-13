@@ -78,10 +78,10 @@ bool Tuple::operator==(const Tuple &t) const{
 ostream &operator<<(ostream &os, Tuple t){
 	for (size_t i = 0; i < t.cells.size(); i++){
 		if(t.cells[i].get_type()==0){
-			os << t.cells[i].get_value() << '\t';
+			os << setw(MAX_LENGTH) << t.cells[i].get_value() << '\t';
 		}
 		else if(t.cells[i].get_type()==1){ // string
-			os << t.cells[i].get_value() << '\t';
+			os << setw(MAX_LENGTH) << t.cells[i].get_value() << '\t';
 		}
 	}
 	os << endl;

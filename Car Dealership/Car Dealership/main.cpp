@@ -3,6 +3,15 @@
 int main(){
 	Database db;
 
+	Attribute a( "Make", 1, 16);
+	Attribute b( "Model", 1, 16);
+	Attribute c( "Year", 0);
+
+	vector< Attribute > t1att;
+	t1att.push_back(a);
+	t1att.push_back(b);
+	t1att.push_back(c);
+
 	vector<string> atts;
 	atts.push_back("Make");
 	atts.push_back("Model");
@@ -41,6 +50,14 @@ int main(){
 	t4.push_back("Lamborghini");
 	t4.push_back("Diablo");
 	t4.push_back("2014");
+
+	Relation c1 = Relation("Cars1", t1att, keys);
+	c1.insert_tuple(t1);
+	c1.insert_tuple(t2);
+	Relation c2 = Relation("Cars2", t1att, keys);
+	c2.insert_tuple(t1);
+	c2.insert_tuple(t3);
+	c2.insert_tuple(t4);
 	
 	db.create_relation("CARS", atts, atts_types, atts_lengths, keys);
 	db.get_relation("CARS").insert_tuple(t1);
@@ -50,5 +67,5 @@ int main(){
 	db.get_relation("CARS2").insert_tuple(t3);
 	db.get_relation("CARS2").insert_tuple(t4);
 
-	cout << db.get_relation("CARS") << db.get_relation("CARS2");
+	cout << db.get_relation("CARS") << db.get_relation("CARS2") << c1 << c2 << endl;
 }
