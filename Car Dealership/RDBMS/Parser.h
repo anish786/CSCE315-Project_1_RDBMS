@@ -8,7 +8,7 @@ using namespace std;
 
 /* Delimiter and tokens */
 
-static const string db_parser_delimiters = " =|<>!*+-,()\"";
+static const string db_parser_delimiters = " =|<>!*+-,()\"\n;";
 static const string db_parser_tokens = "=|<>!*+-,()\"";
 static const string db_parser_double_tokens = "=-";
 
@@ -16,10 +16,12 @@ static const string db_parser_double_tokens = "=-";
 
 class Parser
 {
-	
+	Database db;
+	bool exit;
 public:
 	Parser();
-	~Parser();
+	// A command line like loop to take in commands
+	void parser_commandline();
 	// Input a command and it will parse the command and perform the correct action
 	void parse_command(string command);
 	// Takes a tokenized command and actually does the parsing
@@ -32,6 +34,10 @@ public:
 	bool is_token(char c);
 	// // Checks to see if a character is part of a double token
 	bool Parser::is_double_token(char c);
+	// Uses the Db to evaluate an atomic expressions tokens
+	Relation evalutate_atomic_expression(vector<string> atomic_exp);
+	// Create Condition from tokens
+	Condition create_condition(vector<string> condition_exp);
 };
 
 /* End of the Parser Class */

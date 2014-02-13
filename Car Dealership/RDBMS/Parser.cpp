@@ -4,11 +4,24 @@
 using namespace std;
 
 Parser::Parser(){
+	exit = false;
 }
 
-Parser::~Parser(){
-}
 
+// A command line like loop to take in commands
+void Parser::parser_commandline(){
+	while(!exit){
+		cout << "::";
+		string command;
+		getline(cin, command);
+		try{
+			parse_command(command);
+		}
+		catch(RuntimeException r){
+			cout << r.getMessage() << endl;
+		}
+	}
+}
 
 // Input a command and it will parse the command and perform the correct action
 void Parser::parse_command(string command){
@@ -20,7 +33,44 @@ void Parser::parse_command(string command){
 
 // Takes a tokenized command and actually does the parsing
 void Parser::parse(vector<string> tokens){
+	if(tokens.size() >= 2){
+		if(tokens[0].compare("CREATE") == 0){
 
+		}
+		else if(tokens[0].compare("INSERT") == 0){
+
+		}
+		else if(tokens[0].compare("SHOW") == 0){
+
+		}
+		else if(tokens[0].compare("DELETE") == 0){
+
+		}
+		else if(tokens[0].compare("UPDATE") == 0){
+
+		}
+		else if(tokens[1].compare("<-") == 0){
+
+		}
+		else if(tokens[0].compare("OPEN") == 0){
+
+		}
+		else if(tokens[0].compare("CLOSE") == 0){
+
+		}
+		else if(tokens[0].compare("WRITE") == 0){
+
+		}
+		else{
+			cout << "Command or Query not recognized." << endl;
+		}
+	}
+	else if(tokens.size() >= 1 && tokens[0].compare("EXIT") == 0){
+		exit = true;
+	}
+	else{
+		cout << "Command or Query not recognized." << endl;
+	}
 }
 
 
@@ -86,4 +136,21 @@ bool Parser::is_token(char c)
 bool Parser::is_double_token(char c)
 {
 	return db_parser_double_tokens.find(c) >= 0 && db_parser_double_tokens.find(c) < db_parser_double_tokens.size();
+}
+
+// Uses the Db to evaluate an atomic expressions tokens
+Relation Parser::evalutate_atomic_expression(vector<string> atomic_exp){
+
+	//TODO: make this actually do something
+	Relation r("TEMP");
+	return r;
+}
+
+// Create Condition from tokens
+Condition Parser::create_condition(vector<string> condition_exp){
+
+	//TODO: make this actually do something
+	vector<Conjunction> temp;
+	Condition c(temp);
+	return c;
 }
