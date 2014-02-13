@@ -14,8 +14,8 @@ public:
 	~Database();
 
 	/*accessors*/
-	Relation get_relation(string rname);
-
+	Relation get_relation(string rname) const;
+	int get_num_relations() const;
 
 	/*modifiers*/
 	void create_relation(string rname, vector<string> aname, vector<int> atype, vector<int> alength, vector<string> kname);
@@ -24,7 +24,7 @@ public:
 	void insert_into(string rname, Relation from);
 	void update(string rname, vector<string> aname, vector<string> update, Condition con);
 	void delete_from(string rname, Condition con);
-	Relation select(vector<string> att_list, Relation r);
+	Relation select(Condition con, Relation r);
 	Relation project(vector<string> att_list, Relation r);
 	Relation rename(vector<string> att_list, Relation r);
 	Relation set_union(Relation r1, Relation r2);

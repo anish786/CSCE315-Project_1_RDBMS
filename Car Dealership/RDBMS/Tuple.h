@@ -12,15 +12,13 @@ private:
 
 public:
 	/*constructors*/
-	Tuple(vector<Cell> c);
-	Tuple(vector<Attribute*> attributes, vector<string> values);
+	Tuple(vector<Attribute> attributes, vector<string> values);
 	
 	/*accessors*/
-	vector<string> get_values();
 	vector<string> get_values() const;
-	vector<Cell>get_cells();
 	vector<Cell>get_cells() const;
-	string get_cell_data(int position);
+	string get_cell_data(int position) const;
+	int get_num_cells() const;
 
 	/*modifiers*/
 	void update_cell(string value, int position);

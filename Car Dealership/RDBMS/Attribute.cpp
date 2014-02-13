@@ -16,21 +16,26 @@ Attribute::Attribute(string att_name, int att_type){
 }
 
 /*accessors ----------------------------------------------------------------------------------*/
-string Attribute::get_attribute_name(){
+string Attribute::get_attribute_name() const{
 	return attribute_name;
 }
 
-int Attribute::get_attribute_type(){
+int Attribute::get_attribute_type() const{
 	return attribute_type;
 }
 
-int Attribute::get_attribute_length(){
+int Attribute::get_attribute_length() const{
 	return attribute_length;
 }
 
 /*modifiers ----------------------------------------------------------------------------------*/
 void Attribute::update_name(string new_attribute_name){
 	attribute_name = new_attribute_name;
+}
+
+/*operators ---------------------------------------------------------------------------------*/
+bool Attribute::operator==(const Attribute &a) const{
+	return attribute_name.compare(a.attribute_name) == 0 && attribute_type == a.attribute_type && attribute_length == a.attribute_length;
 }
 
 /* End of definitions */

@@ -3,11 +3,8 @@
 /* Definitions of the Tuple Class */
 
 /*constructors -------------------------------------------------------------------------------*/
-Tuple::Tuple(vector<Cell> c){
-	cells = c;
-}
 
-Tuple::Tuple(vector<Attribute*> attributes, vector<string> values){
+Tuple::Tuple(vector<Attribute> attributes, vector<string> values){
 	if(attributes.size() == values.size()){
 		for (size_t i = 0; i < attributes.size(); i++){
 			Cell c(attributes[i], values[i]);
@@ -20,14 +17,6 @@ Tuple::Tuple(vector<Attribute*> attributes, vector<string> values){
 }
 
 /*accessors ----------------------------------------------------------------------------------*/
-vector<string> Tuple::get_values(){
-	vector<string>temp;
-	for (size_t i = 0; i < cells.size(); i++){
-		temp.push_back(cells[i].get_value());
-	}
-	return temp;
-}
-
 vector<string> Tuple::get_values() const{
 	vector<string>temp;
 	for (size_t i = 0; i < cells.size(); i++){
@@ -36,16 +25,16 @@ vector<string> Tuple::get_values() const{
 	return temp;
 }
 
-vector<Cell> Tuple::get_cells(){
-	return cells;
-}
-
 vector<Cell> Tuple::get_cells() const{
 	return cells;
 }
 
-string Tuple::get_cell_data(int position){
+string Tuple::get_cell_data(int position) const{
 	return cells[position].get_value();
+}
+
+int Tuple::get_num_cells() const{
+	return cells.size();
 }
 
 /*modifiers ----------------------------------------------------------------------------------*/
@@ -56,11 +45,11 @@ void Tuple::update_cell(string value, int position){
 
 /*operators ----------------------------------------------------------------------------------*/
 bool Tuple::operator==(const Tuple &t) const{
-	if( t.cells.size() == this->cells.size() )
+	if( t.cells.size() == cells.size() )
 	{
 		for (size_t i = 0; i<t.cells.size(); i++)
 		{
-			if(t.cells[i] == this->cells[i]){
+			if(t.cells[i] == cells[i]){
 				//do nothing
 			}
 			else {
@@ -77,12 +66,7 @@ bool Tuple::operator==(const Tuple &t) const{
 
 ostream &operator<<(ostream &os, Tuple t){
 	for (size_t i = 0; i < t.cells.size(); i++){
-		if(t.cells[i].get_type()==0){
-			os << t.cells[i].cell_data.num << '\t';
-		}
-		else if(t.cells[i].get_type()==1){ // string
-			os << t.cells[i].cell_data.word << '\t';
-		}
+		os << t.cells[i].get_value() << '\t';
 	}
 	os << endl;
 	return os;
