@@ -22,11 +22,17 @@ Relation Database::get_relation(string rname){
 /*modifiers ----------------------------------------------------------------------------------*/
 
 void Database::create_relation(string rname, vector<string> aname, vector<int> atype, vector<int> alength, vector<string> kname){
-	vector<Attribute> attributes;
-	for(size_t i = 0; i < aname.size(); i++){
-		attributes.push_back(Attribute(aname[i], atype[i], alength[i]));
+	if(aname.size() == atype.size() && aname.size() == alength.size()){
+
+		vector<Attribute> attributes;
+		for(size_t i = 0; i < aname.size(); ++i){
+			attributes.push_back(Attribute(aname[i], atype[i], alength[i]));
+		}
+		relations.push_back(Relation(rname, attributes, kname));
 	}
-	relations.push_back(Relation(rname, attributes, kname));
+	else{
+		throw RuntimeException("Can not create new relation, attribute lengths do not match");
+	}
 }
 
 void Database::drop_relation(string rname){
