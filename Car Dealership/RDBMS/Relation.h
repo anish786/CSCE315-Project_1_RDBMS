@@ -20,11 +20,13 @@ public:
 	Relation(string r_name, vector<Attribute> a_list, vector<string> key_names);
 	
 	/*accessors*/
-	int find_attribute_column(string attribute);
-	bool has_attribute(string attribute);
-	string get_relation_name();
-	vector<string> get_attributes();
-	Tuple get_tuple(int index);
+	int find_attribute_column(string attribute) const;
+	bool has_attribute(string attribute) const;
+	string get_relation_name() const;
+	vector<string> get_attributes() const;
+	Tuple get_tuple(int index) const;
+	int get_num_tuples() const;
+	int get_num_attributes() const;
 	
 	
 	/*modifiers*/
@@ -35,7 +37,7 @@ public:
 	void select(Condition con, Relation r);
 	void project(vector<string> att_list, Relation r);
 	void rename(vector<string> att_list, Relation r);
-	Relation natural_join(Relation &r1, Relation &r2);
+	void natural_join(Relation r1, Relation r2);
 	
 	/*operators*/
 	//Union

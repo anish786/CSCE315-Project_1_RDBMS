@@ -6,17 +6,16 @@
 
 class Cell{
 private:
-	Attribute *attribute; //Pointer to the columns attribute
+	int type; //Type either string (1) or int (0)
+	int size; //Size limit if string
 	string data; //Data either a string or an integer as a string
 public:
 	/*constructors*/
-	Cell(Attribute *a, string value);
+	Cell(Attribute a, string value);
 
 	/*accessors*/
-	void print_cell();
-	int get_type();
-	string get_attribute_name();
-	string get_value();
+	void print_cell() const;
+	int get_type() const;
 	string get_value() const;
 
 	/*modifiers*/
