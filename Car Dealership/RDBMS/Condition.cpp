@@ -65,11 +65,14 @@ Comparison::Comparison(string o1, string o2, string o){
 // inputs variables and corresponding values for replacement during comparsion
 // returns a bool
 bool Comparison::evaluate(vector<string> variables, vector<string> values){
-	if (is_condition){
+	// If actually a condition, evaluate that condtion instead
+	if (is_condition){ 
 		return condition.evaluate(variables, values);
 	}
+	// Temporaries for evaluation
 	string eval_operand1 = operand1;
 	string eval_operand2 = operand2;
+	// Replace operands with values of variables if they match
 	for (size_t i = 0; i < variables.size(); i++){
 		if (operand1.compare(variables[i]) == 0){
 			eval_operand1 = values[i];
@@ -78,35 +81,44 @@ bool Comparison::evaluate(vector<string> variables, vector<string> values){
 			eval_operand2 = values[i];
 		}
 	}
+	// Do the actual comparison
 	if (op.compare("==") == 0){
 		if (eval_operand1.compare(eval_operand2) == 0){
 			return true;
 		}
+		return false;
 	}
 	else if (op.compare("!=") == 0){
 		if (eval_operand1.compare(eval_operand2) != 0){
 			return true;
 		}
+		return false;
 	}
 	else if (op.compare("<") == 0){
 		if (string_to_int(eval_operand1) < string_to_int(eval_operand2)){
 			return true;
 		}
+		return false;
 	}
 	else if (op.compare(">") == 0){
 		if (string_to_int(eval_operand1) > string_to_int(eval_operand2)){
 			return true;
 		}
+		return false;
 	}
 	else if (op.compare("<=") == 0){
 		if (string_to_int(eval_operand1) <= string_to_int(eval_operand2)){
 			return true;
 		}
+		return false;
 	}
 	else if (op.compare(">=") == 0){
 		if (string_to_int(eval_operand1) >= string_to_int(eval_operand2)){
 			return true;
 		}
+		return false;
 	}
-	return false;
+	else{
+		throw RuntimeException("Comparison operator is unexpected token");
+	}
 }

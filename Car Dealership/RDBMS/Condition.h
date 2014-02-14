@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include "RuntimeException.h"
 
 using namespace std;
 

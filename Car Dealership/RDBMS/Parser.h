@@ -8,17 +8,23 @@ using namespace std;
 
 /* Delimiter and tokens */
 
+// All delimiters
 static const string db_parser_delimiters = " =|<>!*+-,()\";";
+// Delimiters that should be treated as tokens
 static const string db_parser_tokens = "=|<>!*+-,()\"";
+// Characters that could be the second part of a delimiter token
 static const string db_parser_double_tokens = "=-";
 
 /* Declaration of the Parser Class */
 
 class Parser
 {
+	// The database to perform operations on
 	Database db;
+	// A control flag for exiting the parser commandline
 	bool exit;
 public:
+	// The default constructor
 	Parser();
 	// A command line like loop to take in commands
 	void parser_commandline();
