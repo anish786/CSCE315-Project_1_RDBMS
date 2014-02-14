@@ -138,7 +138,10 @@ void Parser::parse(vector<string> tokens){
 			}
 		}
 		else if(tokens[0].compare("SHOW") == 0){
-			
+			if(tokens.size() == 2)
+				cout << db.get_relation(tokens[1]);
+			else
+				throw RuntimeException("Invalid Query.");
 		}
 		else if(tokens[0].compare("DELETE") == 0){
 
