@@ -153,11 +153,59 @@ bool Parser::is_double_token(char c)
 }
 
 // Uses the Db to evaluate an atomic expressions tokens
-Relation Parser::evalutate_atomic_expression(vector<string> atomic_exp){
+Relation Parser::evalutate_atomic_expression(vector<string> atomic_expr){
+	if (atomic_expr.size() == 1){
+		return db.get_relation(atomic_expr[0]);
+	}
+	else if (atomic_expr[0].compare("select") == 0){
+		vector<string> condition;
+		Condition cond(create_condition(condition));
+		vector<string> next_atomic_expr;
 
-	//TODO: make this actually do something
-	Relation r("TEMP");
-	return r;
+		return db.select(cond, evalutate_atomic_expression(next_atomic_expr));
+	}
+	else if (atomic_expr[0].compare("project") == 0){
+		vector<string> att_list;
+		vector<string> next_atomic_expr;
+
+		return db.project(att_list, evalutate_atomic_expression(next_atomic_expr));
+	}
+	else if (atomic_expr[0].compare("rename") == 0){
+		vector<string> att_list;
+		vector<string> next_atomic_expr;
+
+		return db.rename(att_list, evalutate_atomic_expression(next_atomic_expr));
+	}
+
+	string atomic_operation;
+
+	if (atomic_operation.compare("+") == 0){
+		vector<string> first_atomic;
+		vector<string> second_atomic;
+		
+		return evalutate_atomic_expression(first_atomic) + evalutate_atomic_expression(second_atomic);
+	}
+	else if (atomic_operation.compare("-") == 0){
+		vector<string> first_atomic;
+		vector<string> second_atomic;
+
+		return evalutate_atomic_expression(first_atomic) + evalutate_atomic_expression(second_atomic);
+	}
+	else if (atomic_operation.compare("*") == 0){
+		vector<string> first_atomic;
+		vector<string> second_atomic;
+
+		return evalutate_atomic_expression(first_atomic) + evalutate_atomic_expression(second_atomic);
+	}
+	else if (atomic_operation.compare("JOIN") == 0){
+		vector<string> first_atomic;
+		vector<string> second_atomic;
+
+		return evalutate_atomic_expression(first_atomic) + evalutate_atomic_expression(second_atomic);
+	}
+	else{
+		throw RuntimeException("Could not evaluate atomic expression");
+	}
 }
 
 // Create Condition from tokens
