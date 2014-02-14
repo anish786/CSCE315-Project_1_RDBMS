@@ -1,5 +1,6 @@
 #include "Condition.h"
 
+// Converts a string to an integer
 int string_to_int(string s){
 	stringstream ss(s);
 	int i;
@@ -7,14 +8,19 @@ int string_to_int(string s){
 	return i;
 }
 
+// Default Constructor
 Condition::Condition(){
 
 }
 
+// Constructor that takes in a list of conjuctions
 Condition::Condition(vector<Conjunction> con){
 	conjunctions = con;
 }
 
+// ||'s the evaluation of all Conjuctions together
+// input is variables and corresponding values for replacement in comparisons
+// returns a bool
 bool Condition::evaluate(vector<string> variables, vector<string> values){
 	for(size_t i = 0; i < conjunctions.size(); i++){
 		if(conjunctions[i].evaluate(variables, values)){
@@ -24,10 +30,14 @@ bool Condition::evaluate(vector<string> variables, vector<string> values){
 	return false;
 }
 
+// Constructor that takes in a list of comparisons
 Conjunction::Conjunction(vector<Comparison> comp){
 	comparisons = comp;
 }
 
+// &&'s the evaluation of all Comparisons together
+// input is variables and corresponding values for replacement in comparisons
+// returns a bool
 bool Conjunction::evaluate(vector<string> variables, vector<string> values){
 	for (size_t i = 0; i < comparisons.size(); i++){
 		if (!comparisons[i].evaluate(variables, values)){
@@ -37,11 +47,13 @@ bool Conjunction::evaluate(vector<string> variables, vector<string> values){
 	return true;
 }
 
+// Constructor to make this comparison a condition
 Comparison::Comparison(Condition cond){
 	condition = cond;
 	is_condition = true;
 }
 
+// Constructor to make this comparsion a comparison
 Comparison::Comparison(string o1, string o2, string o){
 	operand1 = o1;
 	operand2 = o2;
@@ -49,6 +61,9 @@ Comparison::Comparison(string o1, string o2, string o){
 	is_condition = false;
 }
 
+// Evaluates operand1 op operand2 or if is_condition is true evaluates condition
+// inputs variables and corresponding values for replacement during comparsion
+// returns a bool
 bool Comparison::evaluate(vector<string> variables, vector<string> values){
 	if (is_condition){
 		return condition.evaluate(variables, values);
