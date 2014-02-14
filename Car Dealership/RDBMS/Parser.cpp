@@ -137,8 +137,11 @@ void Parser::parse(vector<string> tokens){
 				}
 			}
 		}
+		// checks if the command is SHOW
 		else if(tokens[0].compare("SHOW") == 0){
+			// checks if the token size is 2
 			if(tokens.size() == 2)
+				// prints the relation on console
 				cout << db.get_relation(tokens[1]);
 			else
 				throw RuntimeException("Invalid Query.");
