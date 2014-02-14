@@ -100,26 +100,40 @@ void Parser::parse(vector<string> tokens){
 
 // Tokenizes a command into tokens. Pass a reference to the vector that you want the tokens to be stored in.
 void Parser::tokenize(string command, vector<string> * tokens){
+	// Current token parsed
 	string token = "";
+	// Go throught each caracter in the command
 	for (size_t position = 0; position < command.size(); position++){
+		// Check if the character is a delimiter
 		if (is_delimiter(command[position])){
+			// Push back the current token if it exist
 			if (token.size() > 0){
 				tokens->push_back(token);
 			}
+			// Check to see if the delimiter is also a valid token
 			if (is_token(command[position])){
+				// Clear token and add the delimiter to the token
 				token = "";
 				token = token + command[position];
+				// Check if the next character is a part of the same token
 				if (position < command.size() - 1 && is_double_token(command[position+1])){
 					position++;
 					token = token + command[position];
 				}
+				// Push back the token that was a delimiter
 				tokens->push_back(token);
 			}
+			// Clear the token
 			token = "";
 		}
 		else{
+			// Was not a delimiter to just add the character to the current token
 			token = token + command[position];
 		}
+	}
+	if(token.size() > 0){
+		// Check to see if there is a token at the end of the command
+		tokens->push_back(token);
 	}
 
 	//combine tokens that are strings ex. "Hello World" into a single token
@@ -137,7 +151,7 @@ void Parser::tokenize(string command, vector<string> * tokens){
 			}
 			// Remove old tokens
 			tokens->erase(tokens->begin()+i, tokens->begin()+j+1);
-			// Inster combined token
+			// Instert combined token
 			tokens->insert(tokens->begin()+i, combined);
 		}
 	}

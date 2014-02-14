@@ -8,17 +8,23 @@ using namespace std;
 
 /* Delimiter and tokens */
 
-static const string db_parser_delimiters = " =|<>!*+-,()\"\n;";
+// All delimiters
+static const string db_parser_delimiters = " =|<>!*+-,()\";";
+// Delimiters that should be treated as tokens
 static const string db_parser_tokens = "=|<>!*+-,()\"";
+// Characters that could be the second part of a delimiter token
 static const string db_parser_double_tokens = "=-";
 
 /* Declaration of the Parser Class */
 
 class Parser
 {
+	// The database to perform operations on
 	Database db;
+	// A control flag for exiting the parser commandline
 	bool exit;
 public:
+	// The default constructor
 	Parser();
 	// A command line like loop to take in commands
 	void parser_commandline();
@@ -30,9 +36,9 @@ public:
 	void tokenize(string command, vector<string> * tokens);
 	// Checks to see if a character is a delimiter.
 	bool is_delimiter(char c);
-	// // Checks to see if a character is token
+	// Checks to see if a character is token
 	bool is_token(char c);
-	// // Checks to see if a character is part of a double token
+	// Checks to see if a character is part of a double token
 	bool Parser::is_double_token(char c);
 	// Uses the Db to evaluate an atomic expressions tokens
 	Relation evalutate_atomic_expression(vector<string> atomic_exp);
