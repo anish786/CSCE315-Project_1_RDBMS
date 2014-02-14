@@ -342,11 +342,9 @@ ostream& operator<<(ostream& os, Relation r){
 	os << endl << endl;
 
 	/*cell info*/
-	for (size_t i = 0; i<r.tuple_list.size(); i++)
-	{
+	for (size_t i = 0; i<r.tuple_list.size(); i++){
 		os << r.tuple_list[i];
 	}
 	return os;
 }
-
 /* End of definitions */
