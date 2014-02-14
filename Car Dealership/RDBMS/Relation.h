@@ -38,6 +38,7 @@ public:
 	void project(vector<string> att_list, Relation r);
 	void rename(vector<string> att_list, Relation r);
 	void natural_join(Relation r1, Relation r2);
+	void rename_relation(string name);
 	
 	/*operators*/
 	//Union
