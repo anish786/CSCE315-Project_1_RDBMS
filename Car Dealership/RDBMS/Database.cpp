@@ -34,7 +34,7 @@ int Database::get_num_relations() const{
 //		a vector of ints for the length of the attributes (lengths will be ignored for ints so any value is acceptabe)
 //		a vector of strings for the attributes to use as keys
 void Database::create_relation(string rname, vector<string> aname, vector<int> atype, vector<int> alength, vector<string> kname){
-	if(aname.size() == atype.size() && aname.size() == alength.size()){
+	if(aname.size() == atype.size() || aname.size() == alength.size()){
 		bool found = false;
 		for (size_t i = 0; i < relations.size(); i++){
 			if (relations[i].get_relation_name().compare(rname) == 0){
