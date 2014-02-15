@@ -38,7 +38,22 @@ void Parser::parse(vector<string> tokens){
 
 		}
 		else if(tokens[0].compare("INSERT") == 0){
-
+			if(tokens[1].compare("INTO") == 0){
+				if(tokens[3].compare("VALUES") == 0){
+					if(tokens[4].compare("FROM") == 0){
+						if(tokens[5].compare("(") == 0){
+							int i = 6;
+							vector<string> tup_list;
+							while(tokens[i] !=  ")"){
+								if(tokens[i] != ",")
+									tup_list.push_back(tokens[i]);
+								i++;
+							}
+							db.insert_into(tokens[2], tup_list);
+						}
+					}
+				}
+			}
 		}
 		else if(tokens[0].compare("SHOW") == 0){
 
