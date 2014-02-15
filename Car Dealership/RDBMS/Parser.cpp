@@ -34,29 +34,117 @@ void Parser::parse_command(string command){
 // Takes a tokenized command and actually does the parsing
 void Parser::parse(vector<string> tokens){
 	if(tokens.size() >= 2){
+		// checks for the CREATE command
 		if(tokens[0].compare("CREATE") == 0){
-
-		}
-		else if(tokens[0].compare("INSERT") == 0){
-			if(tokens[1].compare("INTO") == 0){
-				if(tokens[3].compare("VALUES") == 0){
-					if(tokens[4].compare("FROM") == 0){
-						if(tokens[5].compare("(") == 0){
-							int i = 6;
-							vector<string> tup_list;
-							while(tokens[i] !=  ")"){
-								if(tokens[i] != ",")
-									tup_list.push_back(tokens[i]);
+			// checks for the TABLE command
+			if(tokens[1].compare("TABLE") == 0){
+				// check for the total size of tokens
+				if(tokens.size() >= 12){
+					// compares if the 4th token is (
+					if(tokens[3].compare("(") == 0){
+						// initializing i to 4
+						int i = 4;
+						// declaring vector of ints for relation name, and keys
+						vector<string> temp_name, temp_keys;
+						//declaring vector of ints for attribute type and attribute length
+						vector<int> temp_type, temp_len;
+						// while loop checks for the token )
+						while(tokens[i]!= ")"){
+							// checks for the token ,
+							if(tokens[i] != ","){
+								// relation name been pushed to temp_name
+								temp_name.push_back(tokens[i]);
 								i++;
+								// checks if token is VARCHAR
+								if(tokens[i].compare("VARCHAR") == 0)
+									// 1 (string) is been push to attribute type (temp_type)
+									temp_type.push_back(1);
+								// checks if token is INTEGER
+								else if(tokens[i].compare("INTEGER") == 0){
+									// 0 is been push to attribute length (temp_len)
+									temp_len.push_back(0);
+									// 0 (int) is been push to attribute type (temp_type)
+									temp_type.push_back(0);
+								}
+								// checks if token is (
+								if(tokens[i+1] =="("){
+									i+=2;
+									// attribute length is push to temp_len
+									temp_len.push_back(stoi(tokens[i]));
+									i+=2;
+								}
+								else
+									i+=1;
 							}
-							db.insert_into(tokens[2], tup_list);
+							// checks if token is )
+							if(tokens[i]!= ")")
+								i++;
+						}
+						i+=4;
+						// checks if token is not )
+						while(tokens[i] !=  ")"){
+							// checks if token is not ,
+							if(tokens[i] != ","){
+								//push back a keys into temp_keys
+								temp_keys.push_back(tokens[i]);
+							}
+							i++;
+						}
+						// pushing relation name, attribute names, attribute types, attribute length, attribute keys to the database
+						db.create_relation(tokens[2],temp_name,temp_type,temp_len,temp_keys);
+					}
+					else {
+						throw RuntimeException("Expected token \"(\".");
+					}
+					Relation temp(tokens[2]);
+				}
+				else{
+					throw RuntimeException("Command does not have enough arguments.");
+				}
+			}
+			else{
+				throw RuntimeException("Command not recognized.");
+			}
+		}
+		// Checks for the command INSERT
+		else if(tokens[0].compare("INSERT") == 0){
+			//checks for the token size
+			if(tokens.size() >  6){
+			// Checks if the second token is INTO
+				if(tokens[1].compare("INTO") == 0){ 
+					// checks if the fourth token is VALUES
+					if(tokens[3].compare("VALUES") == 0){ 
+						// checks if the fifth token is FROM
+						if(tokens[4].compare("FROM") == 0){
+							// checks if the sixth token is (
+							if(tokens[5].compare("(") == 0){ 
+								int i = 6;						
+								vector<string> tup_list;
+								// while loops runs until it find ) token
+								while(tokens[i] !=  ")"){
+									// checks if token is not ,
+									if(tokens[i] != ","){
+										//push back a cell into tup_list
+										tup_list.push_back(tokens[i]);
+									}
+									i++;
+								}
+								// inserting into the database
+								db.insert_into(tokens[2], tup_list);
+							}
 						}
 					}
 				}
 			}
 		}
+		// checks if the command is SHOW
 		else if(tokens[0].compare("SHOW") == 0){
-
+			// checks if the token size is 2
+			if(tokens.size() == 2)
+				// prints the relation on console
+				cout << db.get_relation(tokens[1]);
+			else
+				throw RuntimeException("Invalid Query.");
 		}
 		else if(tokens[0].compare("DELETE") == 0){
 
