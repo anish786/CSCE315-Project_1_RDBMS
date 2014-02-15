@@ -299,6 +299,9 @@ void Relation::natural_join(Relation r1, Relation r2){\
 	}
 }
 
+void Relation::rename_relation(string name){
+	relation_name = name;
+}
 
 /*operators ----------------------------------------------------------------------------------*/
 // Perform a Union of two relations

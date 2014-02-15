@@ -30,7 +30,6 @@ void Parser::parse_command(string command){
 	parse(tokens);
 }
 
-
 // Takes a tokenized command and actually does the parsing
 void Parser::parse(vector<string> tokens){
 	if(tokens.size() >= 2){
@@ -153,7 +152,16 @@ void Parser::parse(vector<string> tokens){
 
 		}
 		else if(tokens[1].compare("<-") == 0){
-
+			vector<string> atomic_expression;
+			if(tokens.size() >= 3){
+				atomic_expression.insert(atomic_expression.begin(), tokens.begin() + 2, tokens.end());
+				Relation temp(evalutate_atomic_expression(atomic_expression));
+				temp.rename_relation(tokens[0]);
+				//TODO: create add relation and push temp on to the database
+			}
+			else {
+				throw RuntimeException("Query does not have enough arguments.");
+			}
 		}
 		else if(tokens[0].compare("OPEN") == 0){
 
@@ -165,14 +173,14 @@ void Parser::parse(vector<string> tokens){
 
 		}
 		else{
-			cout << "Command or Query not recognized." << endl;
+			throw RuntimeException("Command or Query not recognized.");
 		}
 	}
 	else if(tokens.size() >= 1 && tokens[0].compare("EXIT") == 0){
 		exit = true;
 	}
 	else{
-		cout << "Command or Query not recognized." << endl;
+		throw RuntimeException("Command or Query not recognized.");
 	}
 }
 
