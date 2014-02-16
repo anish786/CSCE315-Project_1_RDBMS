@@ -91,6 +91,8 @@ public:
 	// Input a relation to be the left side of the join
 	//		a relation to join with the first input
 	void natural_join(Relation r1, Relation r2);
+	// Change the name of this relation
+	// Input a string for the new name of the relation
 	void rename_relation(string name);
 	
 	/*operators*/

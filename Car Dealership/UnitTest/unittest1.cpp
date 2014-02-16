@@ -64,6 +64,44 @@ namespace UnitTest
 			Assert::AreEqual("hammer", tokens3[6].c_str());
 		}
 
+		TEST_METHOD(TestParserCreateCondition)
+		{
+			vector<string> condition_exp;
+			condition_exp.push_back("x1");
+			condition_exp.push_back("==");
+			condition_exp.push_back("x2");
+			condition_exp.push_back("||");
+			condition_exp.push_back("(");
+			condition_exp.push_back("x1");
+			condition_exp.push_back(">=");
+			condition_exp.push_back("0");
+			condition_exp.push_back("&&");
+			condition_exp.push_back("(");
+			condition_exp.push_back("x1");
+			condition_exp.push_back("<");
+			condition_exp.push_back("3");
+			condition_exp.push_back("||");
+			condition_exp.push_back("x1");
+			condition_exp.push_back("==");
+			condition_exp.push_back("10");
+			condition_exp.push_back(")");
+			condition_exp.push_back(")");
+
+			Parser parser;
+
+			Condition cond(parser.create_condition(condition_exp));
+
+			vector<string> variables;
+			variables.push_back("x1");
+			variables.push_back("x2");
+
+			vector<string> values;
+			values.push_back("2");
+			values.push_back("5");
+
+			Assert::IsTrue(cond.evaluate(variables, values));
+		}
+
 		TEST_METHOD(TestCompareTuple){
 			Attribute a( "Make", 1, 16);
 			Attribute b( "Model", 1, 16);

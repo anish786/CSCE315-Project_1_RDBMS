@@ -44,6 +44,28 @@ public:
 	Relation evalutate_atomic_expression(vector<string> atomic_exp);
 	// Create Condition from tokens
 	Condition create_condition(vector<string> condition_exp);
+	// Create Conjunction from tokens
+	Conjunction create_conjunction(vector<string> condition_exp);
+	// Create Comparison from tokens
+	Comparison create_comparison(vector<string> condition_exp);
+	// Parse the create command
+	void parse_create(vector<string> tokens);
+	// Parse the insert commands
+	void parse_insert(vector<string> tokens);
+	// Parse the show command
+	void parse_show(vector<string> tokens);
+	// Parse the delete command
+	void parse_delete(vector<string> tokens);
+	// Parse the update command
+	void parse_update(vector<string> tokens);
+	// Parse queries
+	void parse_query(vector<string> tokens);
+	// Parse the open command
+	void parse_open(vector<string> tokens);
+	// Parse the close command
+	void parse_close(vector<string> tokens);
+	// Parse the write command
+	void parse_write(vector<string> tokens);
 };
 
 /* End of the Parser Class */

@@ -299,6 +299,8 @@ void Relation::natural_join(Relation r1, Relation r2){\
 	}
 }
 
+// Change the name of this relation
+// Input a string for the new name of the relation
 void Relation::rename_relation(string name){
 	relation_name = name;
 }
