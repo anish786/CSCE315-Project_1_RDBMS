@@ -166,6 +166,8 @@ Relation Parser::evalutate_atomic_expression(vector<string> atomic_expr){
 		return db.get_relation(atomic_expr[0]);
 	}
 	else if (atomic_expr[0].compare("select") == 0){
+		int i = 1;
+		if (i >= (int)atomic_expr.size());
 		vector<string> condition;
 		Condition cond(create_condition(condition));
 		vector<string> next_atomic_expr;
@@ -339,7 +341,7 @@ void Parser::parse_create(vector<string> tokens){
 							temp_len.push_back(string_to_int(tokens[i]));
 							//Increment position and check for still in token bounds
 							i++;
-							if (i >= (int)tokens.size() && tokens[i] != ")"){
+							if (i >= (int)tokens.size() || tokens[i] != ")"){
 								throw RuntimeException("Expected token )");
 							}
 						}
@@ -359,20 +361,20 @@ void Parser::parse_create(vector<string> tokens){
 					}
 				}
 				i++;
-				if (i >= (int)tokens.size() && (tokens[i] != "," || tokens[i] != ")")){
+				if (i >= (int)tokens.size() || (tokens[i] != "," && tokens[i] != ")")){
 					throw RuntimeException("Expected token , or )");
 				}
 			}
 			i++;
-			if (i >= (int)tokens.size() && tokens[i].compare("PRIMARY") != 0){
+			if (i >= (int)tokens.size() || tokens[i].compare("PRIMARY") != 0){
 				throw RuntimeException("Expected token PRIMARY");
 			}
 			i++;
-			if (i >= (int)tokens.size() && tokens[i].compare("KEY") != 0){
+			if (i >= (int)tokens.size() || tokens[i].compare("KEY") != 0){
 				throw RuntimeException("Expected token KEY");
 			}
 			i++;
-			if (i >= (int)tokens.size() && tokens[i].compare("(") != 0){
+			if (i >= (int)tokens.size() || tokens[i].compare("(") != 0){
 				throw RuntimeException("Expected token (");
 			}
 			i++;
@@ -387,7 +389,7 @@ void Parser::parse_create(vector<string> tokens){
 					temp_keys.push_back(tokens[i]);
 				}
 				i++;
-				if (i >= (int)tokens.size() && (tokens[i] != "," || tokens[i] != ")")){
+				if (i >= (int)tokens.size() || (tokens[i] != "," && tokens[i] != ")")){
 					throw RuntimeException("Expected token , or )");
 				}
 			}
@@ -399,7 +401,7 @@ void Parser::parse_create(vector<string> tokens){
 		}
 	}
 	else{
-		throw RuntimeException("Expected TABLE and ( tokens");
+		throw RuntimeException("Inncorrect format for CREATE TABLE command");
 	}
 }
 
