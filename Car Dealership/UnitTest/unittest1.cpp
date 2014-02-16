@@ -67,10 +67,6 @@ namespace UnitTest
 		TEST_METHOD(TestParserCreateCondition)
 		{
 			vector<string> condition_exp;
-			condition_exp.push_back("x1");
-			condition_exp.push_back("==");
-			condition_exp.push_back("x2");
-			condition_exp.push_back("||");
 			condition_exp.push_back("(");
 			condition_exp.push_back("x1");
 			condition_exp.push_back(">=");
@@ -86,6 +82,10 @@ namespace UnitTest
 			condition_exp.push_back("10");
 			condition_exp.push_back(")");
 			condition_exp.push_back(")");
+			condition_exp.push_back("||");
+			condition_exp.push_back("x1");
+			condition_exp.push_back("==");
+			condition_exp.push_back("x2");
 
 			Parser parser;
 
@@ -100,6 +100,21 @@ namespace UnitTest
 			values.push_back("5");
 
 			Assert::IsTrue(cond.evaluate(variables, values));
+		}
+
+		TEST_METHOD(TestParserEvalutateAtomicExpression)
+		{
+			Parser psr;
+			psr.parse_command("CREATE TABLE t1 (a1 INTEGER, a2 VARCHAR(20)) PRIMARY KEY (a1)");
+			psr.parse_command("INSERT INTO t1 VALUES FROM (1, \"string 1\")");
+			psr.parse_command("INSERT INTO t1 VALUES FROM (2, \"string 2\")");
+
+			psr.parse_command("selection1 <- select (a1 == 1) t1");
+			psr.parse_command("selection2 <- select (a3 >= 0) (rename (a3, a4) t1)"); 
+			psr.parse_command("crossproduct <- t1 * selection2");
+
+			// TODO: Make this test more robust
+			Assert::IsTrue(true);
 		}
 
 		TEST_METHOD(TestCompareTuple){

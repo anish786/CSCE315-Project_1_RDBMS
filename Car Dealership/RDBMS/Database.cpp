@@ -27,6 +27,18 @@ int Database::get_num_relations() const{
 }
 
 /*modifiers ----------------------------------------------------------------------------------*/
+// Adds a relation to the database
+// Input a relation to be added to the database
+void Database::add_relation(Relation r){
+	string rname = r.get_relation_name();
+	for (size_t i = 0; i < relations.size(); i++){
+		if (rname.compare(relations[i].get_relation_name()) == 0){
+			throw RuntimeException("Relation with that name is already in the database");
+		}
+	}
+	relations.push_back(r);
+}
+
 // Create a relation in the database
 // Input a string for the name of the relation
 //		a vector of strings for the list of attributes

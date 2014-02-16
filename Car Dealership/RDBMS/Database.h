@@ -24,6 +24,9 @@ public:
 	int get_num_relations() const;
 
 	/*modifiers*/
+	// Adds a relation to the database
+	// Input a relation to be added to the database
+	void add_relation(Relation r);
 	// Create a relation in the database
 	// Input a string for the name of the relation
 	//		a vector of strings for the list of attributes

@@ -165,43 +165,159 @@ Relation Parser::evalutate_atomic_expression(vector<string> atomic_expr){
 	if (atomic_expr.size() == 1){
 		return db.get_relation(atomic_expr[0]);
 	}
-	else if (atomic_expr[0].compare("select") == 0){
-		int i = 1;
-		if (i >= (int)atomic_expr.size());
-		vector<string> condition;
+	else if ((int)atomic_expr.size() > 1 && atomic_expr[0].compare("select") == 0){
+		int begin = 1;
+		if (begin >= (int)atomic_expr.size() || atomic_expr[begin] != "("){
+			throw RuntimeException("Expected token (");
+		}
+
+		int end = 2;
+		if (end >= (int)atomic_expr.size()){
+			throw RuntimeException("Expected token condition");
+		}
+
+		int open_par = 0;
+		while (end < (int)atomic_expr.size() - 1 && (atomic_expr[end].compare(")") != 0 || open_par != 0)){
+			if (atomic_expr[end].compare("(") == 0){
+				open_par++;
+			}
+			if (atomic_expr[end].compare(")") == 0){
+				open_par--;
+			}
+			end++;
+		}
+		vector<string> condition(atomic_expr.begin() + begin + 1, atomic_expr.begin() + end);
 		Condition cond(create_condition(condition));
-		vector<string> next_atomic_expr;
+
+		begin = end + 1;
+		int end_par = 0;
+		if (atomic_expr[begin].compare("(") == 0){
+			begin++;
+			end_par = 1;
+		}
+		vector<string> next_atomic_expr(atomic_expr.begin()+begin, atomic_expr.end()-end_par);
 
 		return db.select(cond, evalutate_atomic_expression(next_atomic_expr));
 	}
-	else if (atomic_expr[0].compare("project") == 0){
-		vector<string> att_list;
-		vector<string> next_atomic_expr;
+	else if ((int)atomic_expr.size() > 1 && atomic_expr[0].compare("project") == 0){
+		int begin = 1;
+		if (begin >= (int)atomic_expr.size() || atomic_expr[begin] != "("){
+			throw RuntimeException("Expected token (");
+		}
+
+		int end = 2;
+		int open_par = 0;
+		while (end < (int)atomic_expr.size() - 1 && (atomic_expr[end].compare(")") != 0 || open_par != 0)){
+			if (atomic_expr[end].compare("(") == 0){
+				open_par++;
+			}
+			if (atomic_expr[end].compare(")") == 0){
+				open_par--;
+			}
+			end++;
+		}
+		vector<string> att_list(atomic_expr.begin() + begin + 1, atomic_expr.begin() + end);
+
+		for (size_t i = 0; i < att_list.size(); i++){
+			if (att_list[i].compare(",") == 0){
+				att_list.erase(att_list.begin()+i);
+				i--;
+			}
+		}
+
+		begin = end + 1;
+		int end_par = 0;
+		if (atomic_expr[begin].compare("(") == 0){
+			begin++;
+			end_par = 1;
+		}
+		vector<string> next_atomic_expr(atomic_expr.begin() + begin, atomic_expr.end() - end_par);
 
 		return db.project(att_list, evalutate_atomic_expression(next_atomic_expr));
 	}
-	else if (atomic_expr[0].compare("rename") == 0){
-		vector<string> att_list;
-		vector<string> next_atomic_expr;
+	else if ((int)atomic_expr.size() > 1 && atomic_expr[0].compare("rename") == 0){
+		int begin = 1;
+		if (begin >= (int)atomic_expr.size() || atomic_expr[begin] != "("){
+			throw RuntimeException("Expected token (");
+		}
+
+		int end = 2;
+		int open_par = 0;
+		while (end < (int)atomic_expr.size() - 1 && (atomic_expr[end].compare(")") != 0 || open_par != 0)){
+			if (atomic_expr[end].compare("(") == 0){
+				open_par++;
+			}
+			if (atomic_expr[end].compare(")") == 0){
+				open_par--;
+			}
+			end++;
+		}
+		vector<string> att_list(atomic_expr.begin() + begin + 1, atomic_expr.begin() + end);
+
+		for (size_t i = 0; i < att_list.size(); i++){
+			if (att_list[i].compare(",") == 0){
+				att_list.erase(att_list.begin() + i);
+				i--;
+			}
+		}
+
+		begin = end + 1;
+		int end_par = 0;
+		if (atomic_expr[begin].compare("(") == 0){
+			begin++;
+			end_par = 1;
+		}
+		vector<string> next_atomic_expr(atomic_expr.begin() + begin, atomic_expr.end() - end_par);
 
 		return db.rename(att_list, evalutate_atomic_expression(next_atomic_expr));
 	}
+	
+	int operation_loc = 0;
+	if ((int)atomic_expr.size() > 1 && atomic_expr[0].compare("(") == 0){
+		int open_par = 0;
+		while (operation_loc < (int)atomic_expr.size() - 1 && (atomic_expr[operation_loc].compare(")") != 0 || open_par != 0)){
+			if (atomic_expr[operation_loc].compare("(") == 0){
+				open_par++;
+			}
+			if (atomic_expr[operation_loc].compare(")") == 0){
+				open_par--;
+			}
+			operation_loc++;
+		}
+		if (atomic_expr[operation_loc].compare(")") != 0){
+			throw RuntimeException("Expected closing ) token");
+		}
+	}
 
-	string atomic_operation;
-	vector<string> first_atomic;
-	vector<string> second_atomic;
+	operation_loc++;
+	if (operation_loc >= (int)atomic_expr.size()){
+		throw RuntimeException("Expected operator token for atomic expresion");
+	}
+	string atomic_operation = atomic_expr[operation_loc];
+	int parentheses = 0;
+	if (atomic_expr[0].compare("(") == 0){
+		parentheses = 1;
+	}
+	vector<string> first_atomic(atomic_expr.begin() + parentheses, atomic_expr.begin() + operation_loc - parentheses);
+	parentheses = 0;
+	if (atomic_expr[operation_loc + 1].compare("(") == 0){
+		parentheses = 1;
+	}
+	vector<string> second_atomic(atomic_expr.begin() + operation_loc + 1 + parentheses, atomic_expr.end() - parentheses);
 
 	if (atomic_operation.compare("+") == 0){
 		return evalutate_atomic_expression(first_atomic) + evalutate_atomic_expression(second_atomic);
 	}
 	else if (atomic_operation.compare("-") == 0){
-		return evalutate_atomic_expression(first_atomic) + evalutate_atomic_expression(second_atomic);
+		return evalutate_atomic_expression(first_atomic) - evalutate_atomic_expression(second_atomic);
 	}
 	else if (atomic_operation.compare("*") == 0){
-		return evalutate_atomic_expression(first_atomic) + evalutate_atomic_expression(second_atomic);
+		return evalutate_atomic_expression(first_atomic) * evalutate_atomic_expression(second_atomic);
 	}
 	else if (atomic_operation.compare("JOIN") == 0){
-		return evalutate_atomic_expression(first_atomic) + evalutate_atomic_expression(second_atomic);
+		Relation r("JOIN");
+		r.natural_join(evalutate_atomic_expression(first_atomic), evalutate_atomic_expression(second_atomic));
+		return r;
 	}
 	else{
 		throw RuntimeException("Could not evaluate atomic expression");
@@ -225,12 +341,13 @@ Condition Parser::create_condition(vector<string> condition_exp){
 			start = end + 1;
 		}
 		if (condition_exp[end].compare("(") == 0){
+			end++;
 			int open_par = 0;
 			while (end < condition_exp.size()-1 && (condition_exp[end].compare(")") != 0 || open_par != 0)){
-				if (condition_exp[end].compare("(") != 0){
+				if (condition_exp[end].compare("(") == 0){
 					open_par++;
 				}
-				if (condition_exp[end].compare(")") != 0){
+				if (condition_exp[end].compare(")") == 0){
 					open_par--;
 				}
 				end++;
@@ -267,12 +384,13 @@ Conjunction Parser::create_conjunction(vector<string> conj_exp){
 			start = end + 1;
 		}
 		if (conj_exp[end].compare("(") == 0){
+			end++;
 			int open_par = 0;
 			while (end < conj_exp.size() - 1 && (conj_exp[end].compare(")") != 0 || open_par != 0)){
-				if (conj_exp[end].compare("(") != 0){
+				if (conj_exp[end].compare("(") == 0){
 					open_par++;
 				}
-				if (conj_exp[end].compare(")") != 0){
+				if (conj_exp[end].compare(")") == 0){
 					open_par--;
 				}
 				end++;
@@ -361,8 +479,8 @@ void Parser::parse_create(vector<string> tokens){
 					}
 				}
 				i++;
-				if (i >= (int)tokens.size() || (tokens[i] != "," && tokens[i] != ")")){
-					throw RuntimeException("Expected token , or )");
+				if (i >= (int)tokens.size()){
+					throw RuntimeException("Expected more tokens");
 				}
 			}
 			i++;
@@ -401,7 +519,7 @@ void Parser::parse_create(vector<string> tokens){
 		}
 	}
 	else{
-		throw RuntimeException("Inncorrect format for CREATE TABLE command");
+		throw RuntimeException("Incorrect format for CREATE TABLE command");
 	}
 }
 
@@ -464,7 +582,7 @@ void Parser::parse_query(vector<string> tokens){
 		atomic_expression.insert(atomic_expression.begin(), tokens.begin() + 2, tokens.end());
 		Relation temp(evalutate_atomic_expression(atomic_expression));
 		temp.rename_relation(tokens[0]);
-		//TODO: create add relation and push temp on to the database
+		db.add_relation(temp);
 	}
 	else {
 		throw RuntimeException("Query does not have enough arguments.");
