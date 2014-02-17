@@ -437,19 +437,52 @@ Relation Relation::operator*(const Relation &r) const{
 
 // Print the relation to a output stream
 ostream& operator<<(ostream& os, Relation r){
+	vector<int> column_widths;
+	for (size_t i = 0; i < r.attribute_list.size(); i++){
+		if (r.attribute_list[i].get_attribute_type() == 1){
+			if ((int)r.attribute_list[i].get_attribute_name().size() > r.attribute_list[i].get_attribute_length()){
+				column_widths.push_back(r.attribute_list[i].get_attribute_name().size() + 3);
+			}
+			else{
+				column_widths.push_back(r.attribute_list[i].get_attribute_length() + 3);
+			}
+		}
+		else{
+			int column = 0;
+			for (size_t j = 0; j < r.tuple_list.size(); j++){
+				if ((int)r.tuple_list[j].get_cell_data(i).size() > column){
+					column = r.tuple_list[j].get_cell_data(i).size();
+				}
+			}
+			if ((int)r.attribute_list[i].get_attribute_name().size() > column){
+				column = r.attribute_list[i].get_attribute_name().size();
+			}
+			column_widths.push_back(column+3);
+		}
+	}
+	int total_size = 0;
+	for (size_t i = 0; i < column_widths.size(); i++){
+		total_size += column_widths[i];
+	}
+	string divider(total_size+1, '-');
+
 	//table name
-	os << "\t\t" << r.get_relation_name() << endl;
-	os << endl;
+	os << divider << endl << "|" << setw(total_size) << left << string(" ") + r.get_relation_name() + string(total_size-r.get_relation_name().size() - 2, ' ') + string("|") << endl;
 
 	/*attribute list*/
+	os << divider << endl << "|" << right;
 	for (size_t i = 0; i<r.attribute_list.size(); i++){
-		os << r.attribute_list[i].get_attribute_name() << "\t";
+		os << setw(column_widths[i]) << string(" ") + r.attribute_list[i].get_attribute_name() + string(" |");
 	}
-	os << endl << endl;
+	os << endl << divider << endl << divider << endl;
 
 	/*cell info*/
 	for (size_t i = 0; i<r.tuple_list.size(); i++){
-		os << r.tuple_list[i];
+		os << "|";
+		for (int j = 0; j < r.tuple_list[i].get_num_cells(); j++){
+			os << setw(column_widths[j]) << string(" ") + r.tuple_list[i].get_cell_data(j) + string(" |");
+		}
+		os << endl << divider << endl;
 	}
 	return os;
 }
