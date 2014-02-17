@@ -549,6 +549,11 @@ void Parser::parse_insert(vector<string> tokens){
 						// inserting into the database
 						db.insert_into(tokens[2], tup_list);
 					}
+					else if (tokens[5].compare("RELATION") == 0){
+						vector<string> atomic_expression(tokens.begin()+6, tokens.end());
+						Relation r(evalutate_atomic_expression(atomic_expression));
+						db.insert_into(tokens[2], r);
+					}
 				}
 			}
 		}
