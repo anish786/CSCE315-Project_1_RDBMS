@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Relation.h"
+#include <iostream>
+#include <fstream>
 
 /* Declaration of the Database Class */
 
@@ -90,6 +92,9 @@ public:
 	//		a relation that is the right hand side
 	// Returns a relation that is the first input relation joined with the second
 	Relation join(Relation r1, Relation r2);
+	// Write a relation to a file
+	// Input a string for the name of the relation in the database to write
+	void write_relation(string rname);
 	/*operators*/
 
 };

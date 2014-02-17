@@ -48,16 +48,25 @@ public:
 	// Get a list of the attributes in the relation
 	// Returns a vector of strings that are the names of the attributes
 	vector<string> get_attributes() const;
+	// Get a list of the attributes in the relation
+	// Returns a vector of Attributes that are in the relation
+	vector<Attribute> get_attributes_list() const;
 	// Get a tuple by its index
 	// Input a int that is the index of the tuple
 	// Returns a tuple
 	Tuple get_tuple(int index) const;
+	// Get a list of the tuples
+	// Returns a vector of tuples in this relation
+	vector<Tuple> get_tuple_list() const;
 	// Get the number of tuples in the relation
 	// Returns an int
 	int get_num_tuples() const;
 	// Get the number of attributes in the tuple
 	// Returns an int
 	int get_num_attributes() const;
+	// Get a list keys
+	// Returns a vector of strings that are the keys in the relation
+	vector<string> get_key_list() const;
 	
 	
 	/*modifiers*/

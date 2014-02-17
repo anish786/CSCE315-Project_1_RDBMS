@@ -195,6 +195,72 @@ Relation Database::join(Relation r1, Relation r2){
 	return joined;
 }
 
+// Write a relation to a file
+// Input a string for the name of the relation in the database to write
+void Database::write_relation(string rname){
+	size_t r_pos;
+	for (r_pos = 0; r_pos < relations.size(); r_pos++){
+		if (rname.compare(relations[r_pos].get_relation_name()) == 0){
+			break;
+		}
+	}
+	if (rname.compare(relations[r_pos].get_relation_name()) != 0){
+		throw RuntimeException("Relation not in database");
+	}
+
+	ofstream db_file;
+	string db_filename = rname + ".db";
+	db_file.open(db_filename);
+
+	db_file << "CREATE TABLE " + rname + "(";
+
+	vector<Attribute> atts = relations[r_pos].get_attributes_list();
+	size_t i;
+	for (i = 0; i < atts.size() - 1; i++){
+		if (atts[i].get_attribute_type() == 1){
+			db_file <<atts[i].get_attribute_name() << " VARCHAR(" << atts[i].get_attribute_length() << "), ";
+		}
+		else{
+			db_file << atts[i].get_attribute_name() << " INTEGER,";
+		}
+	}
+	if (atts[i].get_attribute_type() == 1){
+		db_file << "\"" << atts[i].get_attribute_name() << "\" VARCHAR(" << atts[i].get_attribute_length() << ")) PRIMARY KEY (";
+	}
+	else{
+		db_file << atts[i].get_attribute_name() << " INTEGER) PRIMARY KEY (";
+	}
+
+	vector<string> keys = relations[r_pos].get_key_list();
+	for (i = 0; i < keys.size() - 1; i++){
+		db_file << keys[i] << ", ";
+	}
+	db_file << keys[i] << ");\n";
+
+	vector<Tuple> tuples = relations[r_pos].get_tuple_list();
+	for (size_t i = 0; i < tuples.size(); i++){
+		db_file << "INSERT INTO " << rname << " VALUES FROM (";
+		vector<Cell> cells = tuples[i].get_cells();
+		size_t j;
+		for (j = 0; j < cells.size() - 1; j++){
+			if (cells[j].get_type() == 1){
+				db_file << "\"" << cells[j].get_value() << "\", ";
+			}
+			else{
+				db_file << cells[j].get_value() << ", ";
+			}
+		}
+		if (cells[j].get_type() == 1){
+			db_file << "\"" << cells[j].get_value() << "\");\n";
+		}
+		else{
+			db_file << cells[j].get_value() << ");\n";
+		}
+	}
+
+	db_file.close();
+}
+
 /*operators ----------------------------------------------------------------------------------*/
 
 /* End of definitions */

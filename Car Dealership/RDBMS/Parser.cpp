@@ -591,15 +591,48 @@ void Parser::parse_query(vector<string> tokens){
 
 // Parse the open command
 void Parser::parse_open(vector<string> tokens){
+	if (tokens.size() == 2){
+		Relation r (tokens[1]);
+		
+		ifstream db_file;
+		string db_filename = tokens[1] + ".db";
 
+		db_file.open(db_filename);
+		if (db_file.is_open()){
+			string command;
+			while (!db_file.eof()){
+				getline(db_file, command);
+				if (command.size() > 0){
+					parse_command(command);
+				}
+			}
+		}
+		else{
+			throw RuntimeException("Could not open .db file.");
+		}
+	}
+	else{
+		throw RuntimeException("Invalid command usage.");
+	}
 }
 
 // Parse the close command
 void Parser::parse_close(vector<string> tokens){
-
+	if (tokens.size() == 2){
+		db.write_relation(tokens[1]);
+		exit = true;
+	}
+	else{
+		throw RuntimeException("Invalid command usage.");
+	}
 }
 
 // Parse the write command
 void Parser::parse_write(vector<string> tokens){
-
+	if (tokens.size() == 2){
+		db.write_relation(tokens[1]);
+	}
+	else{
+		throw RuntimeException("Invalid command usage.");
+	}
 }

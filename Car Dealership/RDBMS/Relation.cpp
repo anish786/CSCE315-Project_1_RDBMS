@@ -85,6 +85,12 @@ vector<string> Relation::get_attributes() const{
 	return atts;
 }
 
+// Get a list of the attributes in the relation
+// Returns a vector of Attributes that are in the relation
+vector<Attribute> Relation::get_attributes_list() const{
+	return attribute_list;
+}
+
 // Get a tuple by its index
 // Input a int that is the index of the tuple
 // Returns a tuple
@@ -97,6 +103,12 @@ Tuple Relation::get_tuple(int index) const{
 	}
 }
 
+// Get a list of the tuples
+// Returns a vector of tuples in this relation
+vector<Tuple> Relation::get_tuple_list() const{
+	return tuple_list;
+}
+
 // Get the number of tuples in the relation
 // Returns an int
 int Relation::get_num_tuples() const{
@@ -107,6 +119,16 @@ int Relation::get_num_tuples() const{
 // Returns an int
 int Relation::get_num_attributes() const{
 	return attribute_list.size();
+}
+
+// Get a list keys
+// Returns a vector of strings that are the keys in the relation
+vector<string> Relation::get_key_list() const{
+	vector<string> k;
+	for (size_t i = 0; i < keys.size(); i++){
+		k.push_back(attribute_list[keys[i]].get_attribute_name());
+	}
+	return k;
 }
 
 /*modifiers ----------------------------------------------------------------------------------*/
