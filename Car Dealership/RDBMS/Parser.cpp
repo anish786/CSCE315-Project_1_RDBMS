@@ -572,7 +572,56 @@ void Parser::parse_delete(vector<string> tokens){
 
 // Parse the update command
 void Parser::parse_update(vector<string> tokens){
+	int i = 1;
+	if (i > (int)tokens.size()){
+		throw RuntimeException("Expected token relation-name.");
+	}
+	string relation_name = tokens[i];
 
+	i++;
+	if (i > (int)tokens.size() || tokens[i].compare("SET") != 0){
+		throw RuntimeException("Expected token SET");
+	}
+
+	i++;
+	if (i > (int)tokens.size()){
+		throw RuntimeException("Expected token attribute-name.");
+	}
+
+	vector<string> attribute_name;
+	vector<string> update_value;
+
+	while (tokens[i].compare("WHERE") != 0){
+		attribute_name.push_back(tokens[i]);
+		i++;
+		if (i > (int)tokens.size() || tokens[i].compare("=") != 0){
+			throw RuntimeException("Expected token =");
+		}
+		i++;
+		if (i > (int)tokens.size()){
+			throw RuntimeException("Expected token literal.");
+		}
+		update_value.push_back(tokens[i]);
+		i++;
+		if (i > (int)tokens.size() || (tokens[i].compare(",") != 0 && tokens[i].compare("WHERE") != 0)){
+			throw RuntimeException("Expected token , or WHERE.");
+		}
+		if (tokens[i].compare(",") == 0){
+			i++;
+			if (i > (int)tokens.size()){
+				throw RuntimeException("Expected more tokens");
+			}
+		}
+	}
+
+	i++;
+	if (i > (int)tokens.size()){
+		throw RuntimeException("Expected token condition");
+	}
+	vector<string> condition(tokens.begin()+i, tokens.end());
+	Condition cond(create_condition(condition));
+
+	db.update(relation_name, attribute_name, update_value, cond);
 }
 
 // Parse queries
