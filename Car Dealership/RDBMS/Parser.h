@@ -66,6 +66,8 @@ public:
 	void parse_close(vector<string> tokens);
 	// Parse the write command
 	void parse_write(vector<string> tokens);
+	// Retruns a copy of the database
+	Database get_database();
 };
 
 /* End of the Parser Class */

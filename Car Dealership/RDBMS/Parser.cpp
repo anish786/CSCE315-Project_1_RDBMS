@@ -507,8 +507,8 @@ void Parser::parse_create(vector<string> tokens){
 					temp_keys.push_back(tokens[i]);
 				}
 				i++;
-				if (i >= (int)tokens.size() || (tokens[i] != "," && tokens[i] != ")")){
-					throw RuntimeException("Expected token , or )");
+				if (i >= (int)tokens.size()){
+					throw RuntimeException("Expected more tokens");
 				}
 			}
 			// pushing relation name, attribute names, attribute types, attribute length, attribute keys to the database
@@ -526,7 +526,7 @@ void Parser::parse_create(vector<string> tokens){
 // Parse the insert commands
 void Parser::parse_insert(vector<string> tokens){
 	//checks for the token size
-	if (tokens.size() >  6){
+	if (tokens.size() >  7){
 		// Checks if the second token is INTO
 		if (tokens[1].compare("INTO") == 0){
 			// checks if the fourth token is VALUES
@@ -545,6 +545,9 @@ void Parser::parse_insert(vector<string> tokens){
 								tup_list.push_back(tokens[i]);
 							}
 							i++;
+							if (i >= (int)tokens.size()){
+								throw RuntimeException("Expected more tokens");
+							}
 						}
 						// inserting into the database
 						db.insert_into(tokens[2], tup_list);
@@ -554,9 +557,24 @@ void Parser::parse_insert(vector<string> tokens){
 						Relation r(evalutate_atomic_expression(atomic_expression));
 						db.insert_into(tokens[2], r);
 					}
+					else{
+						throw RuntimeException("Expected token ( or RELATION");
+					}
+				}
+				else{
+					throw RuntimeException("Expected token FROM");
 				}
 			}
+			else{
+				throw RuntimeException("Expected token VALUES");
+			}
 		}
+		else{
+			throw RuntimeException("Expected token INTO");
+		}
+	}
+	else{
+		throw RuntimeException("Expected more tokens");
 	}
 }
 
@@ -572,24 +590,46 @@ void Parser::parse_show(vector<string> tokens){
 
 // Parse the delete command
 void Parser::parse_delete(vector<string> tokens){
-
-}
-
-// Parse the update command
-void Parser::parse_update(vector<string> tokens){
 	int i = 1;
-	if (i > (int)tokens.size()){
+	if (i >= (int)tokens.size() || tokens[i].compare("FROM") != 0){
+		throw RuntimeException("Expected token FROM");
+	}
+	i++;
+	if (i >= (int)tokens.size()){
 		throw RuntimeException("Expected token relation-name.");
 	}
 	string relation_name = tokens[i];
 
 	i++;
-	if (i > (int)tokens.size() || tokens[i].compare("SET") != 0){
+	if (i >= (int)tokens.size() || tokens[i].compare("WHERE") != 0){
+		throw RuntimeException("Expected token WHERE");
+	}
+
+	i++;
+	if (i >= (int)tokens.size()){
+		throw RuntimeException("Expected token condition");
+	}
+	vector<string> condition(tokens.begin() + i, tokens.end());
+	Condition cond(create_condition(condition));
+
+	db.delete_from(relation_name, cond);
+}
+
+// Parse the update command
+void Parser::parse_update(vector<string> tokens){
+	int i = 1;
+	if (i >= (int)tokens.size()){
+		throw RuntimeException("Expected token relation-name.");
+	}
+	string relation_name = tokens[i];
+
+	i++;
+	if (i >= (int)tokens.size() || tokens[i].compare("SET") != 0){
 		throw RuntimeException("Expected token SET");
 	}
 
 	i++;
-	if (i > (int)tokens.size()){
+	if (i >= (int)tokens.size()){
 		throw RuntimeException("Expected token attribute-name.");
 	}
 
@@ -599,28 +639,28 @@ void Parser::parse_update(vector<string> tokens){
 	while (tokens[i].compare("WHERE") != 0){
 		attribute_name.push_back(tokens[i]);
 		i++;
-		if (i > (int)tokens.size() || tokens[i].compare("=") != 0){
+		if (i >= (int)tokens.size() || tokens[i].compare("=") != 0){
 			throw RuntimeException("Expected token =");
 		}
 		i++;
-		if (i > (int)tokens.size()){
+		if (i >= (int)tokens.size()){
 			throw RuntimeException("Expected token literal.");
 		}
 		update_value.push_back(tokens[i]);
 		i++;
-		if (i > (int)tokens.size() || (tokens[i].compare(",") != 0 && tokens[i].compare("WHERE") != 0)){
+		if (i >= (int)tokens.size() || (tokens[i].compare(",") != 0 && tokens[i].compare("WHERE") != 0)){
 			throw RuntimeException("Expected token , or WHERE.");
 		}
 		if (tokens[i].compare(",") == 0){
 			i++;
-			if (i > (int)tokens.size()){
+			if (i >= (int)tokens.size()){
 				throw RuntimeException("Expected more tokens");
 			}
 		}
 	}
 
 	i++;
-	if (i > (int)tokens.size()){
+	if (i >= (int)tokens.size()){
 		throw RuntimeException("Expected token condition");
 	}
 	vector<string> condition(tokens.begin()+i, tokens.end());
@@ -689,4 +729,9 @@ void Parser::parse_write(vector<string> tokens){
 	else{
 		throw RuntimeException("Invalid command usage.");
 	}
+}
+
+// Retruns a copy of the database
+Database Parser::get_database(){
+	return db;
 }

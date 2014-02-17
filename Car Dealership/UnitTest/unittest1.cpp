@@ -102,19 +102,81 @@ namespace UnitTest
 			Assert::IsTrue(cond.evaluate(variables, values));
 		}
 
-		TEST_METHOD(TestParserEvalutateAtomicExpression)
+		TEST_METHOD(TestParser)
 		{
 			Parser psr;
-			psr.parse_command("CREATE TABLE t1 (a1 INTEGER, a2 VARCHAR(20)) PRIMARY KEY (a1)");
-			psr.parse_command("INSERT INTO t1 VALUES FROM (1, \"string 1\")");
-			psr.parse_command("INSERT INTO t1 VALUES FROM (2, \"string 2\")");
+			psr.parse_command("CREATE TABLE animals (name VARCHAR(20), kind VARCHAR(8), years INTEGER) PRIMARY KEY (name, kind);");
+			psr.parse_command("INSERT INTO animals VALUES FROM(\"Joe\", \"cat\", 4);");
+			psr.parse_command("INSERT INTO animals VALUES FROM (\"Spot\", \"dog\", 10);");
+			psr.parse_command("INSERT INTO animals VALUES FROM (\"Snoopy\", \"dog\", 3);");
+			psr.parse_command("INSERT INTO animals VALUES FROM (\"Tweety\", \"bird\", 1);");
+			psr.parse_command("INSERT INTO animals VALUES FROM (\"Joe\", \"bird\", 2);");
 
-			psr.parse_command("selection1 <- select (a1 == 1) t1");
-			psr.parse_command("selection2 <- select (a3 >= 0) (rename (a3, a4) t1)"); 
-			psr.parse_command("crossproduct <- t1 * selection2");
+			Assert::AreEqual(1, psr.get_database().get_num_relations());
 
-			// TODO: Make this test more robust
-			Assert::IsTrue(true);
+			psr.parse_command("WRITE animals;");
+			psr.parse_command("OPEN animals;");
+			psr.parse_command("CREATE TABLE tools (kind VARCHAR(8), weight INTEGER, cost INTEGER) PRIMARY KEY (kind);");
+			psr.parse_command("INSERT INTO tools VALUES FROM (\"hammer\", 3, 10);");
+			psr.parse_command("INSERT INTO tools VALUES FROM (\"screw driver\", 1, 2);");
+			psr.parse_command("INSERT INTO tools VALUES FROM (\"plane\", 2, 10);");
+			psr.parse_command("INSERT INTO tools VALUES FROM (\"hand saw\", 2, 22);");
+			psr.parse_command("INSERT INTO tools VALUES FROM (\"blow torch\", 3, 25);");
+			psr.parse_command("INSERT INTO tools VALUES FROM (\"jack hammer\", 55, 300);");
+			psr.parse_command("INSERT INTO tools VALUES FROM (\"plow\", 300, 500);");
+			psr.parse_command("CREATE TABLE friends (fname VARCHAR(20), lname VARCHAR(20), personality VARCHAR(20), value INTEGER) PRIMARY KEY (fname, lname);");
+			psr.parse_command("INSERT INTO friends VALUES FROM (\"X\", \"N/A\", \"Awesome!\", 100);");
+			psr.parse_command("INSERT INTO friends VALUES FROM (\"Smith\", \"Smith\", \"Annoying\", 5);");
+			psr.parse_command("INSERT INTO friends VALUES FROM (\"Algebra\", \"Homework\", \"Boring\", -100);");
+			psr.parse_command("CREATE TABLE enemies (fname VARCHAR(20), lname VARCHAR(20), personality VARCHAR(20), value INTEGER) PRIMARY KEY (fname, lname);");
+			psr.parse_command("INSERT INTO enemies VALUES FROM (\"X\", \"N/A\", \"Awesome!\", 100);");
+			psr.parse_command("INSERT INTO enemies VALUES FROM (\"The\", \"Penguin\", \"Weird\", 100);");
+			psr.parse_command("INSERT INTO enemies VALUES FROM (\"Joker\", \"N/A\", \"Weird\", 150);");
+			psr.parse_command("project_test <- project (fname, lname) friends;");
+			psr.parse_command("rename_test <- rename (v_fname, v_lname, v_personality, v_bounty) enemies;");
+			psr.parse_command("good_and_bad_guys <- friends + enemies;");
+			psr.parse_command("diff_test <- friends - enemies;");
+			psr.parse_command("CREATE TABLE baseball_players (fname VARCHAR(20), lname VARCHAR(30), team VARCHAR(20), homeruns INTEGER, salary INTEGER) PRIMARY KEY (fname, lname);");
+			psr.parse_command("INSERT INTO baseball_players VALUES FROM (\"Joe\", \"Swatter\", \"Pirates\", 40, 1000000);");
+			psr.parse_command("INSERT INTO baseball_players VALUES FROM (\"Sarah\", \"Batter\", \"Dinosaurs\", 100, 5000000);");
+			psr.parse_command("INSERT INTO baseball_players VALUES FROM (\"Snoopy\", \"Slinger\", \"Pirates\", 3, 200000);");
+			psr.parse_command("INSERT INTO baseball_players VALUES FROM (\"Donald\", \"Runner\", \"Dinosaurs\", 89, 200000);");
+			psr.parse_command("INSERT INTO baseball_players VALUES FROM (\"Alexander\", \"Smith\", \"Pirates\", 2, 150000);");
+			psr.parse_command("high_hitters <- select (homeruns >= 40) baseball_players;");
+			psr.parse_command("dinosaur_players <- select (team == \"Dinosaurs\") baseball_players;");
+			psr.parse_command("high_hit_pirates <- select (team == \"Pirates\") (select (homeruns >= 40) baseball_players);");
+			psr.parse_command("CREATE TABLE shapes (shape VARCHAR(20)) PRIMARY KEY (shape);");
+			psr.parse_command("INSERT INTO shapes VALUES FROM (\"circle\");");
+			psr.parse_command("INSERT INTO shapes VALUES FROM (\"square\");");
+			psr.parse_command("INSERT INTO shapes VALUES FROM (\"rectangle\");");
+			psr.parse_command("INSERT INTO shapes VALUES FROM (\"triangle\");");
+			psr.parse_command("CREATE TABLE colors (color VARCHAR(20)) PRIMARY KEY (color);");
+			psr.parse_command("INSERT INTO colors VALUES FROM (\"red\");");
+			psr.parse_command("INSERT INTO colors VALUES FROM (\"blue\");");
+			psr.parse_command("product_test <- shapes * colors;");
+			psr.parse_command("CREATE TABLE shape_color (shape VARCHAR(20), color VARCHAR(20)) PRIMARY KEY (shape, color);");
+			psr.parse_command("INSERT INTO shape_color VALUES FROM (\"circle\", \"red\");");
+			psr.parse_command("INSERT INTO shape_color VALUES FROM (\"circle\", \"blue\");");
+			psr.parse_command("INSERT INTO shape_color VALUES FROM (\"square\", \"red\");");
+			psr.parse_command("INSERT INTO shape_color VALUES FROM (\"rectangle\", \"blue\");");
+			psr.parse_command("INSERT INTO shape_color VALUES FROM (\"sphere\", \"orange\");");
+			psr.parse_command("set_diff_test <- product_test - shape_color;");
+			psr.parse_command("CREATE TABLE points (x INTEGER, y INTEGER, z INTEGER) PRIMARY KEY (x, y, z);");
+			psr.parse_command("INSERT INTO points VALUES FROM (0, 0, 0);");
+			psr.parse_command("INSERT INTO points VALUES FROM (1, 1, 1);");
+			psr.parse_command("INSERT INTO points VALUES FROM (0, 1, 2);");
+			psr.parse_command("INSERT INTO points VALUES FROM (-1, 20, 3);");
+			psr.parse_command("INSERT INTO points VALUES FROM (-15, 0, 5);");
+			psr.parse_command("CREATE TABLE dots (x1 INTEGER, y1 INTEGER, z1 INTEGER) PRIMARY KEY (x1, y1, z1);");
+			psr.parse_command("INSERT INTO dots VALUES FROM (-1, 0, 20);");
+			psr.parse_command("INSERT INTO dots VALUES FROM (3, 2, 5);");
+			psr.parse_command("INSERT INTO dots VALUES FROM (0, 0, 0);");
+			psr.parse_command("bad_query <- project (t) points;");
+			psr.parse_command("dots_to_points <- rename (x2, y2, z2) dots;");
+			psr.parse_command("UPDATE dots SET x1 = 0 WHERE x1 < 0;");
+			psr.parse_command("INSERT INTO points VALUES FROM RELATION (select (z2 > 0) dots_to_points);");
+			psr.parse_command("DELETE FROM dots WHERE (y1 <= 0);");
+			psr.parse_command("advanced_query <- project (x) (select (y == y2) (points * dots_to_points));");
 		}
 
 		TEST_METHOD(TestCompareTuple){

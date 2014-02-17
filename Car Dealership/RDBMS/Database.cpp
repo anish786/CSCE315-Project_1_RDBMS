@@ -33,7 +33,8 @@ void Database::add_relation(Relation r){
 	string rname = r.get_relation_name();
 	for (size_t i = 0; i < relations.size(); i++){
 		if (rname.compare(relations[i].get_relation_name()) == 0){
-			throw RuntimeException("Relation with that name is already in the database");
+			relations[i] = r;
+			return;
 		}
 	}
 	relations.push_back(r);
@@ -47,23 +48,17 @@ void Database::add_relation(Relation r){
 //		a vector of strings for the attributes to use as keys
 void Database::create_relation(string rname, vector<string> aname, vector<int> atype, vector<int> alength, vector<string> kname){
 	if(aname.size() == atype.size() && aname.size() == alength.size()){
-		bool found = false;
+		vector<Attribute> attributes;
+		for (size_t i = 0; i < aname.size(); ++i){
+			attributes.push_back(Attribute(aname[i], atype[i], alength[i]));
+		}
 		for (size_t i = 0; i < relations.size(); i++){
 			if (relations[i].get_relation_name().compare(rname) == 0){
-				found = true;
-				break;
+				relations[i] = Relation(rname, attributes, kname);
+				return;
 			}
 		}
-		if (!found){
-			vector<Attribute> attributes;
-			for (size_t i = 0; i < aname.size(); ++i){
-				attributes.push_back(Attribute(aname[i], atype[i], alength[i]));
-			}
-			relations.push_back(Relation(rname, attributes, kname));
-		}
-		else{
-			throw RuntimeException("Relation with that name is already in the database");
-		}
+		relations.push_back(Relation(rname, attributes, kname));
 	}
 	else{
 		throw RuntimeException("Can not create new relation, attribute lengths do not match");
@@ -204,7 +199,7 @@ void Database::write_relation(string rname){
 			break;
 		}
 	}
-	if (rname.compare(relations[r_pos].get_relation_name()) != 0){
+	if (r_pos >= (int)relations.size()){
 		throw RuntimeException("Relation not in database");
 	}
 
