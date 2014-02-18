@@ -12,6 +12,8 @@ using namespace std;
 static const string db_parser_delimiters = " =|<>!*+-,()\";";
 // Delimiters that should be treated as tokens
 static const string db_parser_tokens = "=|<>!*+-,()\"";
+// Characters that could be the first part of a delimiter token
+static const string db_first_parser_double_tokens = "=!><";
 // Characters that could be the second part of a delimiter token
 static const string db_parser_double_tokens = "=-";
 
@@ -38,8 +40,10 @@ public:
 	bool is_delimiter(char c);
 	// Checks to see if a character is token
 	bool is_token(char c);
-	// Checks to see if a character is part of a double token
-	bool Parser::is_double_token(char c);
+	// Checks to see if a character is the first part of a double token
+	bool is_first_double_token(char c);
+	// Checks to see if a character is the second part of a double token
+	bool is_double_token(char c);
 	// Uses the Db to evaluate an atomic expressions tokens
 	Relation evalutate_atomic_expression(vector<string> atomic_exp);
 	// Create Condition from tokens

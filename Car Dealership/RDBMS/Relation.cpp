@@ -136,11 +136,7 @@ vector<string> Relation::get_key_list() const{
 // Input a vector of strings that are the values of of the data in the tuples
 void Relation::insert_tuple(vector<string>values){
 	if (values.size() == attribute_list.size()){
-		vector<Attribute> atts;
-		for (size_t i = 0; i < attribute_list.size(); i++){
-			atts.push_back(attribute_list[i]);
-		}
-		Tuple temp(atts, values);
+		Tuple temp(attribute_list, values);
 		bool found = false;
 		for (size_t i = 0; i < tuple_list.size(); i++){
 			if (tuple_list[i] == temp){
@@ -186,7 +182,17 @@ void Relation::project(vector<string> att_list, Relation r){
 		for(size_t j = 0; j < a_list.size(); j++){
 			new_t.push_back(r.tuple_list[i].get_cell_data(r.find_attribute_column(a_list[j].get_attribute_name())));
 		}
-		insert_tuple(new_t);
+		bool found = false;
+		Tuple temp(attribute_list, new_t);
+		for (size_t i = 0; i < tuple_list.size(); i++){
+			if (tuple_list[i] == temp){
+				found = true;
+				break;
+			}
+		}
+		if (!found){
+			tuple_list.push_back(temp);
+		}
 	}
 }
 

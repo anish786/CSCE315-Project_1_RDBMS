@@ -100,7 +100,7 @@ void Parser::tokenize(string command, vector<string> * tokens){
 				token = "";
 				token = token + command[position];
 				// Check if the next character is a part of the same token
-				if (position < command.size() - 1 && is_double_token(command[position+1])){
+				if (position < command.size() - 1 && is_double_token(command[position+1]) && is_first_double_token(command[position])){
 					position++;
 					token = token + command[position];
 				}
@@ -152,6 +152,11 @@ bool Parser::is_delimiter(char c)
 bool Parser::is_token(char c)
 {
 	return db_parser_tokens.find(c) >= 0 && db_parser_tokens.find(c) < db_parser_tokens.size();
+}
+
+// Checks to see if a character is the first part of a double token
+bool Parser::is_first_double_token(char c){
+	return db_first_parser_double_tokens.find(c) >= 0 && db_first_parser_double_tokens.find(c) < db_first_parser_double_tokens.size();
 }
 
 // // Checks to see if a character is part of a double token
@@ -541,8 +546,17 @@ void Parser::parse_insert(vector<string> tokens){
 						while (tokens[i] != ")"){
 							// checks if token is not ,
 							if (tokens[i] != ","){
-								//push back a cell into tup_list
-								tup_list.push_back(tokens[i]);
+								if (tokens[i] == "-"){
+									i++;
+									if (i >= (int)tokens.size()){
+										throw RuntimeException("Expected token int");
+									}
+									tup_list.push_back(tokens[i-1]+tokens[i]);
+								}
+								else{
+									//push back a cell into tup_list
+									tup_list.push_back(tokens[i]);
+								}
 							}
 							i++;
 							if (i >= (int)tokens.size()){
