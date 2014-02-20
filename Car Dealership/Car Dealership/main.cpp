@@ -3,6 +3,14 @@
 int main(){
 
 	Dealership dl;
+	vector<string> open_file;
+	open_file.push_back("customers");
+	open_file.push_back("cars");
+	open_file.push_back("salesperson");
+	open_file.push_back("transactions");
+	for(size_t i = 0; i < open_file.size(); i++){
+		dl.open_relation(open_file[i]);
+	}
 	cout << "\n\n********************************************************************************"
 	 << "\n\t\t WELCOME TO CARS2GO AUTO DEALERSHIP!\n"
 	 << "\n********************************************************************************";
