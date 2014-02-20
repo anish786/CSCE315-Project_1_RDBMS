@@ -445,26 +445,16 @@ Relation Relation::operator*(const Relation &r) const{
 ostream& operator<<(ostream& os, Relation r){
 	vector<int> column_widths;
 	for (size_t i = 0; i < r.attribute_list.size(); i++){
-		if (r.attribute_list[i].get_attribute_type() == 1){
-			if ((int)r.attribute_list[i].get_attribute_name().size() > r.attribute_list[i].get_attribute_length()){
-				column_widths.push_back(r.attribute_list[i].get_attribute_name().size() + 3);
-			}
-			else{
-				column_widths.push_back(r.attribute_list[i].get_attribute_length() + 3);
+		int column = 0;
+		for (size_t j = 0; j < r.tuple_list.size(); j++){
+			if ((int)r.tuple_list[j].get_cell_data(i).size() > column){
+				column = r.tuple_list[j].get_cell_data(i).size();
 			}
 		}
-		else{
-			int column = 0;
-			for (size_t j = 0; j < r.tuple_list.size(); j++){
-				if ((int)r.tuple_list[j].get_cell_data(i).size() > column){
-					column = r.tuple_list[j].get_cell_data(i).size();
-				}
-			}
-			if ((int)r.attribute_list[i].get_attribute_name().size() > column){
-				column = r.attribute_list[i].get_attribute_name().size();
-			}
-			column_widths.push_back(column+3);
+		if ((int)r.attribute_list[i].get_attribute_name().size() > column){
+			column = r.attribute_list[i].get_attribute_name().size();
 		}
+		column_widths.push_back(column+3);
 	}
 	int total_size = 0;
 	for (size_t i = 0; i < column_widths.size(); i++){
