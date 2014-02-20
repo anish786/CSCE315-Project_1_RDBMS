@@ -284,7 +284,7 @@ namespace UnitTest
 
 			Assert::AreEqual("0", psr.get_database().get_relation("dots").get_tuple(0).get_cell_data(0).c_str());
 
-			psr.parse_command("INSERT INTO points VALUES FROM RELATION select (z2 > 0) dots_to_points;");
+			psr.parse_command("INSERT INTO points VALUES FROM RELATION (select (z2 > 0) dots_to_points);");
 
 			Assert::AreEqual(7, psr.get_database().get_relation("points").get_num_tuples());
 

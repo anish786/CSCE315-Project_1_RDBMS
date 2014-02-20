@@ -473,10 +473,17 @@ ostream& operator<<(ostream& os, Relation r){
 	string divider(total_size+1, '-');
 
 	//table name
-	os << divider << endl << "|" << setw(total_size) << left << string(" ") + r.get_relation_name() + string(total_size-r.get_relation_name().size() - 2, ' ') + string("|") << endl;
+	if ((int)r.get_relation_name().size() <= total_size-2) {
+		string title = string(" ") + r.get_relation_name() + string(total_size - r.get_relation_name().size() - 2, ' ') + string("|");
+		os << divider << endl << "|" << setw(total_size) << left << title << endl << divider;
+	}
+	else {
+		string title_div(r.get_relation_name().size() + 4, '-');
+		os << title_div << endl << "| " << r.get_relation_name() << " |" << endl << title_div;
+	}
 
 	/*attribute list*/
-	os << divider << endl << "|" << right;
+	os << endl << "|" << right;
 	for (size_t i = 0; i<r.attribute_list.size(); i++){
 		os << setw(column_widths[i]) << string(" ") + r.attribute_list[i].get_attribute_name() + string(" |");
 	}
