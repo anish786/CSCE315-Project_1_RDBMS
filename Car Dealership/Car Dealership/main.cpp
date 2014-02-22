@@ -27,10 +27,30 @@ void add_menu(){
 		<< "\tPlease choose option: ";
 }
 void modify_menu(){
-
+		cout << "\t______________________________________________________\n" << endl
+		<< "\t                     MAIN MENU -> Modify Menu" << endl
+		<< "\t______________________________________________________\n" << endl
+		<< "\t   Options:" << endl
+		<< "\t      1. Modify a car " << endl
+		<< "\t      2. Modify a customer " << endl
+		<< "\t      3. Modify a salesperson" << endl
+		<< "\t      4. <- Back to MAIN MENU" << endl
+		<< "\t      5. Quit" << endl
+		<< "\t______________________________________________________\n" << endl
+		<< "\tPlease choose option: ";
 }
 void delete_menu(){
-
+		cout << "\t______________________________________________________\n" << endl
+		<< "\t                     MAIN MENU -> Delete Menu" << endl
+		<< "\t______________________________________________________\n" << endl
+		<< "\t   Options:" << endl
+		<< "\t      1. Delete a car " << endl
+		<< "\t      2. Delete a customer " << endl
+		<< "\t      3. Delete a salesperson" << endl
+		<< "\t      4. <- Back to MAIN MENU" << endl
+		<< "\t      5. Quit" << endl
+		<< "\t______________________________________________________\n" << endl
+		<< "\tPlease choose option: ";
 }
 
 // main method
@@ -67,13 +87,13 @@ int main(){
 				cin >> choice;
 				if(choice >= 1 && choice <=5){
 					if(choice == 1){
-
+						cout << "\nAdding car\n";
 					}
 					else if(choice == 2){
-
+						cout << "\nAdding customer\n";
 					}
 					else if(choice == 3){
-
+						cout << "\nAdding salesperson\n";
 					}
 					else if(choice == 4){
 						break;
@@ -89,38 +109,60 @@ int main(){
 			}
 		}
 		else if(choice == 2){
-			//dl.print_salesperson();
+			// Loop for Modify Menu
+			while(done == false){
+
+				modify_menu();
+				cin >> choice;
+				if(choice == 1){
+					cout << "\nModifying car\n";
+				}
+				else if(choice == 2){
+					cout << "\nModifying customer\n";
+				}
+				else if(choice == 3){
+					cout << "\nModifying salesperson\n";
+				}
+				else if(choice == 4){
+					break;
+				}
+				else if(choice == 5){
+					done = true;
+					break;
+				}
+				else{
+					cerr << "\n****** ERROR: Option value not in specified range. *******\n";
+				}
+			}
 		}
 		else if(choice == 3){
-			//dl.print_customers();
-			cin >> select;
-			if(select == 1){
-				//dl.show_customer();
-				cout <<"Choose option: ";
-				cin >> select;
-			}
-			if(select == 2){
+			// Loop for Delete Menu
+			while(done == false){
 
+				delete_menu();
+				cin >> choice;
+				if(choice >= 1 && choice <=5){
+					if(choice == 1){
+						cout << "\Deleting car\n";
+					}
+					else if(choice == 2){
+						cout << "\nDeleting customer\n";
+					}
+					else if(choice == 3){
+						cout << "\nDeleting salesperson\n";
+					}
+					else if(choice == 4){
+						break;
+					}
+					else if(choice == 5){
+						done = true;
+						break;
+					}
+				}
+				else{
+					cerr << "\n****** ERROR: Option value not in specified range. *******\n";
+				}
 			}
-			if(select == 3){
-				//dl.add_customer();
-				//dl.print_customers();
-				cin >> select;
-			}
-			if(select == 4){
-
-			}
-			if(select == 5){
-
-			}
-			if(select == 6){
-				//dl.main_menu();
-
-			}
-			else if(choice == 4){
-				break;
-			}
-			cin >> choice;
 		}
 		else if(choice == 4){
 			done = true;
