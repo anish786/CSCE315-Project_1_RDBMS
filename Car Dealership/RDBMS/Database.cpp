@@ -33,7 +33,8 @@ void Database::add_relation(Relation r){
 	string rname = r.get_relation_name();
 	for (size_t i = 0; i < relations.size(); i++){
 		if (rname.compare(relations[i].get_relation_name()) == 0){
-			throw RuntimeException("Relation with that name is already in the database");
+			relations[i] = r;
+			return;
 		}
 	}
 	relations.push_back(r);
@@ -47,23 +48,17 @@ void Database::add_relation(Relation r){
 //		a vector of strings for the attributes to use as keys
 void Database::create_relation(string rname, vector<string> aname, vector<int> atype, vector<int> alength, vector<string> kname){
 	if(aname.size() == atype.size() && aname.size() == alength.size()){
-		bool found = false;
+		vector<Attribute> attributes;
+		for (size_t i = 0; i < aname.size(); ++i){
+			attributes.push_back(Attribute(aname[i], atype[i], alength[i]));
+		}
 		for (size_t i = 0; i < relations.size(); i++){
 			if (relations[i].get_relation_name().compare(rname) == 0){
-				found = true;
-				break;
+				relations[i] = Relation(rname, attributes, kname);
+				return;
 			}
 		}
-		if (!found){
-			vector<Attribute> attributes;
-			for (size_t i = 0; i < aname.size(); ++i){
-				attributes.push_back(Attribute(aname[i], atype[i], alength[i]));
-			}
-			relations.push_back(Relation(rname, attributes, kname));
-		}
-		else{
-			throw RuntimeException("Relation with that name is already in the database");
-		}
+		relations.push_back(Relation(rname, attributes, kname));
 	}
 	else{
 		throw RuntimeException("Can not create new relation, attribute lengths do not match");
@@ -193,6 +188,72 @@ Relation Database::join(Relation r1, Relation r2){
 	Relation joined("Natural Join");
 	joined.natural_join(r1, r2);
 	return joined;
+}
+
+// Write a relation to a file
+// Input a string for the name of the relation in the database to write
+void Database::write_relation(string rname){
+	size_t r_pos;
+	for (r_pos = 0; r_pos < relations.size(); r_pos++){
+		if (rname.compare(relations[r_pos].get_relation_name()) == 0){
+			break;
+		}
+	}
+	if (r_pos >= (int)relations.size()){
+		throw RuntimeException("Relation not in database");
+	}
+
+	ofstream db_file;
+	string db_filename = rname + ".db";
+	db_file.open(db_filename);
+
+	db_file << "CREATE TABLE " + rname + "(";
+
+	vector<Attribute> atts = relations[r_pos].get_attributes_list();
+	size_t i;
+	for (i = 0; i < atts.size() - 1; i++){
+		if (atts[i].get_attribute_type() == 1){
+			db_file <<atts[i].get_attribute_name() << " VARCHAR(" << atts[i].get_attribute_length() << "), ";
+		}
+		else{
+			db_file << atts[i].get_attribute_name() << " INTEGER,";
+		}
+	}
+	if (atts[i].get_attribute_type() == 1){
+		db_file << "\"" << atts[i].get_attribute_name() << "\" VARCHAR(" << atts[i].get_attribute_length() << ")) PRIMARY KEY (";
+	}
+	else{
+		db_file << atts[i].get_attribute_name() << " INTEGER) PRIMARY KEY (";
+	}
+
+	vector<string> keys = relations[r_pos].get_key_list();
+	for (i = 0; i < keys.size() - 1; i++){
+		db_file << keys[i] << ", ";
+	}
+	db_file << keys[i] << ");\n";
+
+	vector<Tuple> tuples = relations[r_pos].get_tuple_list();
+	for (size_t i = 0; i < tuples.size(); i++){
+		db_file << "INSERT INTO " << rname << " VALUES FROM (";
+		vector<Cell> cells = tuples[i].get_cells();
+		size_t j;
+		for (j = 0; j < cells.size() - 1; j++){
+			if (cells[j].get_type() == 1){
+				db_file << "\"" << cells[j].get_value() << "\", ";
+			}
+			else{
+				db_file << cells[j].get_value() << ", ";
+			}
+		}
+		if (cells[j].get_type() == 1){
+			db_file << "\"" << cells[j].get_value() << "\");\n";
+		}
+		else{
+			db_file << cells[j].get_value() << ");\n";
+		}
+	}
+
+	db_file.close();
 }
 
 /*operators ----------------------------------------------------------------------------------*/

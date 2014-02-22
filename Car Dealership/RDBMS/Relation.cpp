@@ -85,6 +85,12 @@ vector<string> Relation::get_attributes() const{
 	return atts;
 }
 
+// Get a list of the attributes in the relation
+// Returns a vector of Attributes that are in the relation
+vector<Attribute> Relation::get_attributes_list() const{
+	return attribute_list;
+}
+
 // Get a tuple by its index
 // Input a int that is the index of the tuple
 // Returns a tuple
@@ -95,6 +101,12 @@ Tuple Relation::get_tuple(int index) const{
 	else{
 		throw RuntimeException("Index is out of bounds for tuple list");
 	}
+}
+
+// Get a list of the tuples
+// Returns a vector of tuples in this relation
+vector<Tuple> Relation::get_tuple_list() const{
+	return tuple_list;
 }
 
 // Get the number of tuples in the relation
@@ -109,16 +121,22 @@ int Relation::get_num_attributes() const{
 	return attribute_list.size();
 }
 
+// Get a list keys
+// Returns a vector of strings that are the keys in the relation
+vector<string> Relation::get_key_list() const{
+	vector<string> k;
+	for (size_t i = 0; i < keys.size(); i++){
+		k.push_back(attribute_list[keys[i]].get_attribute_name());
+	}
+	return k;
+}
+
 /*modifiers ----------------------------------------------------------------------------------*/
 // Insert a tuple into the relation
 // Input a vector of strings that are the values of of the data in the tuples
 void Relation::insert_tuple(vector<string>values){
 	if (values.size() == attribute_list.size()){
-		vector<Attribute> atts;
-		for (size_t i = 0; i < attribute_list.size(); i++){
-			atts.push_back(attribute_list[i]);
-		}
-		Tuple temp(atts, values);
+		Tuple temp(attribute_list, values);
 		bool found = false;
 		for (size_t i = 0; i < tuple_list.size(); i++){
 			if (tuple_list[i] == temp){
@@ -164,7 +182,17 @@ void Relation::project(vector<string> att_list, Relation r){
 		for(size_t j = 0; j < a_list.size(); j++){
 			new_t.push_back(r.tuple_list[i].get_cell_data(r.find_attribute_column(a_list[j].get_attribute_name())));
 		}
-		insert_tuple(new_t);
+		bool found = false;
+		Tuple temp(attribute_list, new_t);
+		for (size_t i = 0; i < tuple_list.size(); i++){
+			if (tuple_list[i] == temp){
+				found = true;
+				break;
+			}
+		}
+		if (!found){
+			tuple_list.push_back(temp);
+		}
 	}
 }
 
@@ -415,19 +443,52 @@ Relation Relation::operator*(const Relation &r) const{
 
 // Print the relation to a output stream
 ostream& operator<<(ostream& os, Relation r){
+	vector<int> column_widths;
+	for (size_t i = 0; i < r.attribute_list.size(); i++){
+		if (r.attribute_list[i].get_attribute_type() == 1){
+			if ((int)r.attribute_list[i].get_attribute_name().size() > r.attribute_list[i].get_attribute_length()){
+				column_widths.push_back(r.attribute_list[i].get_attribute_name().size() + 3);
+			}
+			else{
+				column_widths.push_back(r.attribute_list[i].get_attribute_length() + 3);
+			}
+		}
+		else{
+			int column = 0;
+			for (size_t j = 0; j < r.tuple_list.size(); j++){
+				if ((int)r.tuple_list[j].get_cell_data(i).size() > column){
+					column = r.tuple_list[j].get_cell_data(i).size();
+				}
+			}
+			if ((int)r.attribute_list[i].get_attribute_name().size() > column){
+				column = r.attribute_list[i].get_attribute_name().size();
+			}
+			column_widths.push_back(column+3);
+		}
+	}
+	int total_size = 0;
+	for (size_t i = 0; i < column_widths.size(); i++){
+		total_size += column_widths[i];
+	}
+	string divider(total_size+1, '-');
+
 	//table name
-	os << "\t\t" << r.get_relation_name() << endl;
-	os << endl;
+	os << divider << endl << "|" << setw(total_size) << left << string(" ") + r.get_relation_name() + string(total_size-r.get_relation_name().size() - 2, ' ') + string("|") << endl;
 
 	/*attribute list*/
+	os << divider << endl << "|" << right;
 	for (size_t i = 0; i<r.attribute_list.size(); i++){
-		os << r.attribute_list[i].get_attribute_name() << "\t";
+		os << setw(column_widths[i]) << string(" ") + r.attribute_list[i].get_attribute_name() + string(" |");
 	}
-	os << endl << endl;
+	os << endl << divider << endl << divider << endl;
 
 	/*cell info*/
 	for (size_t i = 0; i<r.tuple_list.size(); i++){
-		os << r.tuple_list[i];
+		os << "|";
+		for (int j = 0; j < r.tuple_list[i].get_num_cells(); j++){
+			os << setw(column_widths[j]) << string(" ") + r.tuple_list[i].get_cell_data(j) + string(" |");
+		}
+		os << endl << divider << endl;
 	}
 	return os;
 }
