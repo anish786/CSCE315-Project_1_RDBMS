@@ -8,8 +8,10 @@ int main(){
 	open_file.push_back("cars");
 	open_file.push_back("salesperson");
 	open_file.push_back("transactions");
+	ifstream db_file;
 	for(size_t i = 0; i < open_file.size(); i++){
 		dl.open_relation(open_file[i]);
+		//dl.write_to_file(open_file[0]);
 	}
 	cout << "\n\n********************************************************************************"
 	 << "\n\t\t WELCOME TO CARS2GO AUTO DEALERSHIP!\n"
@@ -26,36 +28,72 @@ int main(){
 		}
 		else if(choice == 2){
 			dl.print_salesperson();
+			cin >> select;
+			if(select == 1){
+				dl.show_relations("salesperson");
+				dl.print_salesperson();
+				cin >> select;
+			}
+			if(select == 2){
+				dl.add_salesperson();
+				dl.print_salesperson();
+				cin >> select;
+				
+			}
+			if(select == 3){
+				dl.update_salesperson("salesperson");
+				dl.print_customers();
+				cin >> select;
+			}
+			if(select == 4){
+				dl.delete_salesperson("salesperson");
+				dl.print_customers();
+				cin >> select;
+			}
+			if(select == 5){
+				dl.main_menu();
+				dl.write_to_file("salesperson");
+			}
 		}
 		else if(choice == 3){
 			dl.print_customers();
 			cin >> select;
 			if(select == 1){
-				dl.show_customer();
-				cout <<"Choose option: ";
+				dl.show_relations("customers");
+				dl.print_customers();
 				cin >> select;
 			}
 			if(select == 2){
-
+				dl.add_customer();
+				dl.print_customers();
+				cin >> select;
+				
 			}
 			if(select == 3){
-				dl.add_customer();
+				dl.update_customer("customers");
 				dl.print_customers();
 				cin >> select;
 			}
 			if(select == 4){
-
+				dl.delete_customer("customers");
+				dl.print_customers();
+				cin >> select;
 			}
 			if(select == 5){
-
-			}
-			if(select == 6){
 				dl.main_menu();
-
+				dl.write_to_file("customers");
 			}
 		}
 		else if(choice == 4){
-			break;
+			dl.write_to_file("customers");
+			dl.write_to_file("cars");
+			dl.write_to_file("salesperson");
+			dl.write_to_file("transactions");
+			dl.close_file("customers");
+			dl.close_file("cars");
+			dl.close_file("salesperson");
+			dl.close_file("transaction");
+			dl.exit();
 		}
 		cin >> choice;
 	}
