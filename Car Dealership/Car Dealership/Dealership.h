@@ -31,7 +31,7 @@ public:
 
 	//SALESPERSON
 	void update_salesperson(string);
-	void add_salesperson(string);
+	void add_salesperson();
 	void delete_salesperson(string);
 
 };

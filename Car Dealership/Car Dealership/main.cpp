@@ -13,6 +13,7 @@ int main(){
 		dl.open_relation(open_file[i]);
 		//dl.write_to_file(open_file[0]);
 	}
+
 	cout << "\n\n********************************************************************************"
 	 << "\n\t\t WELCOME TO CARS2GO AUTO DEALERSHIP!\n"
 	 << "\n********************************************************************************";
@@ -35,18 +36,18 @@ int main(){
 				cin >> select;
 			}
 			if(select == 2){
-				dl.add_salesperson();
+				//dl.add_salesperson();
 				dl.print_salesperson();
 				cin >> select;
 				
 			}
 			if(select == 3){
-				dl.update_salesperson("salesperson");
+				//dl.update_salesperson("salesperson");
 				dl.print_customers();
 				cin >> select;
 			}
 			if(select == 4){
-				dl.delete_salesperson("salesperson");
+				//dl.delete_salesperson("salesperson");
 				dl.print_customers();
 				cin >> select;
 			}
@@ -67,7 +68,6 @@ int main(){
 				dl.add_customer();
 				dl.print_customers();
 				cin >> select;
-				
 			}
 			if(select == 3){
 				dl.update_customer("customers");
