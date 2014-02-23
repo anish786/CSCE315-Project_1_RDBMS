@@ -14,12 +14,12 @@ public:
 	void exit();
 	//Prints main menu
 	void main_menu();
-	//prints customers menu
-	void print_customers();
-	//prints cars menu
-	void print_cars();
-	//prints salesperson menu
-	void print_salesperson();
+	//Prints car menu
+	void car_menu();
+	//Prints customer menu
+	void customer_menu();
+	//Prints sales people menu
+	void salespeople_menu();
 	//shows the customer relation
 	void show_relations(string);
 	// updates the relation

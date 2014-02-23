@@ -19,93 +19,103 @@ int main(){
 	 << "\n********************************************************************************";
 	int choice = 0;
 	int select = 0;
+	bool done = false;
 	string command;
-	//----------------
-	dl.main_menu();
-	cin >> choice;
-	while(choice  != 4){
+
+	while(done == false){
+		dl.main_menu();
+		cin >> choice;
+		// Cars Menu
 		if(choice == 1){
-			dl.print_cars();
-			cin >> select;
-			if(select == 1){
-				dl.show_relations("cars");
-				dl.print_salesperson();
+			while(true){
+				dl.car_menu();
 				cin >> select;
-			}
-			if(select == 2){
-				dl.add_car("cars");
-				dl.print_salesperson();
-				cin >> select;
-			}
-			if(select == 3){
-				dl.update_relation("cars");
-				dl.print_customers();
-				cin >> select;
-			}
-			if(select == 4){
-				dl.delete_relation("cars");
-				dl.print_customers();
-				cin >> select;
-			}
-			if(select == 5){
-				dl.main_menu();
-				dl.write_to_file("cars");
+				while(select < 1 || select > 6){
+					cerr << "\n\t***** ERROR: Please input a valid option *****"
+						<< "\n\tPlease try again: ";
+					cin >> select;
+				}
+				if(select == 1){
+					dl.show_relations("cars");
+				}
+				if(select == 2){
+					
+				}
+				if(select == 3){
+					dl.add_car("cars");
+				}
+				if(select == 4){
+					dl.update_relation("cars");
+				}
+				if(select == 5){
+					dl.delete_relation("cars");
+				}
+				if(select == 6){
+					dl.write_to_file("cars");
+					break;
+				}
 			}
 		}
+		// Customer Menu
 		else if(choice == 2){
-			dl.print_salesperson();
-			cin >> select;
-			if(select == 1){
-				dl.show_relations("salesperson");
-				dl.print_salesperson();
+			while(true){
+				dl.customer_menu();
 				cin >> select;
-			}
-			if(select == 2){
-				dl.add_salesperson("salesperson");
-				dl.print_salesperson();
-				cin >> select;
-			}
-			if(select == 3){
-				dl.update_relation("salesperson");
-				dl.print_customers();
-				cin >> select;
-			}
-			if(select == 4){
-				dl.delete_relation("salesperson");
-				dl.print_customers();
-				cin >> select;
-			}
-			if(select == 5){
-				dl.main_menu();
-				dl.write_to_file("salesperson");
+				while(select < 1 || select > 6){
+						cerr << "\n\t***** ERROR: Please input a valid option *****"
+							<< "\n\tPlease try again: ";
+						cin >> select;
+				}
+				if(select == 1){
+					dl.show_relations("customers");
+				}
+				if(select == 2){
+
+				}
+				if(select == 3){
+					dl.add_customer("customers");
+				}
+				if(select == 4){
+					dl.update_relation("customers");
+				}
+				if(select == 5){
+					dl.delete_relation("customers");
+				}
+				if(select == 6){
+					dl.write_to_file("customers");
+					break;
+				}
 			}
 		}
+		// Sales People Menu
 		else if(choice == 3){
-			dl.print_customers();
-			cin >> select;
-			if(select == 1){
-				dl.show_relations("customers");
-				dl.print_customers();
+			while(true){
+				dl.salespeople_menu();
 				cin >> select;
-			}
-			if(select == 2){
-				dl.add_customer("customers");
-				dl.print_customers();
-				cin >> select;
-			}
-			if(select == 3){
-				dl.update_relation("customers");
-				dl.print_customers();
-				cin >> select;
-			}
-			if(select == 4){
-				dl.delete_relation("customers");
-				dl.print_customers();
-				cin >> select;
-			}
-			if(select == 5){
-				dl.main_menu();
-				dl.write_to_file("customers");
+				while(select < 1 || select > 6){
+					cerr << "\n\t***** ERROR: Please input a valid option *****"
+						<< "\n\tPlease try again: ";
+					cin >> select;
+				}
+				if(select == 1){
+					dl.show_relations("salesperson");
+				}
+				else if(select == 2){
+
+				}
+				else if(select == 3){
+					dl.add_salesperson("salesperson");
+				}
+				else if(select == 4){
+					dl.update_relation("salesperson");
+				}
+				else if(select == 5){
+					dl.delete_relation("salesperson");
+				}
+				else if(select == 6){
+					dl.write_to_file("salesperson");
+					break;
+				}
 			}
 		}
 		else if(choice == 4){
@@ -119,7 +129,6 @@ int main(){
 			dl.close_file("transaction");
 			dl.exit();
 		}
-		cin >> choice;
 	}
 	return 0;
 }

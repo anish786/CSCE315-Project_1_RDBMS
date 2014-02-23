@@ -2,55 +2,60 @@
 
 // prints main menu
 void Dealership::main_menu(){
-	cout << "\t\t\t*********************"<<endl;
-	cout << "\t\t\t*     Main Menu     *"<<endl;
-	cout << "\t\t\t*********************"<<endl;
-	cout << "\t\t\t*  1. Cars          *"<<endl;
-	cout << "\t\t\t*  2. Sales Person  *"<<endl;
-	cout << "\t\t\t*  3. Customers     *"<<endl;
-	cout << "\t\t\t*  4. Quit          *"<<endl;
-	cout << "\t\t\t*********************"<<endl;
-	cout << "Choose option: ";
+	cout << "\t_________________________________________________\n" << endl
+		<< "\t                  MAIN MENU" << endl
+		<< "\t_________________________________________________\n" << endl
+		<< "\t   Options:" << endl
+		<< "\t      1. Cars " << endl
+		<< "\t      2. Customers " << endl
+		<< "\t      3. Sales People" << endl
+		<< "\t      4. Quit" << endl
+		<< "\t_________________________________________________\n" << endl
+		<< "\tPlease choose option: ";
 }
-// prints customers
-void Dealership::print_customers(){
-	cout <<"\t\t\t*************************"<<endl;
-	cout <<"\t\t\t*      Customers        *"<<endl;
-	cout <<"\t\t\t*************************"<<endl;
-	cout <<"\t\t\t* 1. Show Customers     *"<<endl;
-	cout <<"\t\t\t* 2. Add Customer       *"<<endl;
-	cout <<"\t\t\t* 3. Edit Customer      *"<<endl;
-	cout <<"\t\t\t* 4. Delete Customer    *"<<endl;
-	cout <<"\t\t\t* 5. Back to Main Menu  *"<<endl;
-	cout <<"\t\t\t*************************"<<endl;
-	cout <<  "Choose option: ";
+void Dealership::car_menu(){
+		cout << "\t_________________________________________________\n" << endl
+		<< "\t                  MAIN MENU -> Cars" << endl
+		<< "\t_________________________________________________\n" << endl
+		<< "\t   Options:" << endl
+		<< "\t      1. Show Inventory " << endl
+		<< "\t      2. Show Vehicle " << endl
+		<< "\t      3. Add Vehicle " << endl
+		<< "\t      4. Edit Vehicle" << endl
+		<< "\t      5. Delete Vehicle" << endl
+		<< "\t      6. Back to MAIN MENU" << endl
+		<< "\t_________________________________________________\n" << endl
+		<< "\tPlease choose option: ";
 }
-// prints cars
-void Dealership::print_cars(){
-	cout <<"\t\t\t*************************"<<endl;
-	cout <<"\t\t\t*       Inventory       *"<<endl;
-	cout <<"\t\t\t*************************"<<endl;
-	cout <<"\t\t\t* 1. Show Inventory     *"<<endl;
-	cout <<"\t\t\t* 2. Add Vehicle        *"<<endl;
-	cout <<"\t\t\t* 3. Edit Vehicle       *"<<endl;
-	cout <<"\t\t\t* 4. Delete Vehicle     *"<<endl;
-	cout <<"\t\t\t* 5. Back to Main Menu  *"<<endl;
-	cout <<"\t\t\t*************************"<<endl;
-	cout <<"Choose option: ";
+void Dealership::customer_menu(){
+		cout << "\t_________________________________________________\n" << endl
+		<< "\t                  MAIN MENU -> Customers" << endl
+		<< "\t_________________________________________________\n" << endl
+		<< "\t   Options:" << endl
+		<< "\t      1. Show All Customers " << endl
+		<< "\t      2. Show Customer " << endl
+		<< "\t      3. Add Customer " << endl
+		<< "\t      4. Edit Customer" << endl
+		<< "\t      5. Delete Customer" << endl
+		<< "\t      6. Back to MAIN MENU" << endl
+		<< "\t_________________________________________________\n" << endl
+		<< "\tPlease choose option: ";
 }
-// prints salesperson
-void Dealership::print_salesperson(){
-	cout <<"\t\t\t******************************"<<endl;
-	cout <<"\t\t\t*         Sales Person       *"<<endl;
-	cout <<"\t\t\t******************************"<<endl;
-	cout <<"\t\t\t* 1. Show Sales Person       *"<<endl;
-	cout <<"\t\t\t* 2. Add Sales Person        *"<<endl;
-	cout <<"\t\t\t* 3. Edit Sales Person       *"<<endl;
-	cout <<"\t\t\t* 4. Delete Sales Person     *"<<endl;
-	cout <<"\t\t\t* 5. Back to Main Menu       *"<<endl;
-	cout <<"\t\t\t******************************"<<endl;
-	cout <<"Choose option: ";
+void Dealership::salespeople_menu(){
+		cout << "\t_________________________________________________\n" << endl
+		<< "\t                  MAIN MENU -> Sales People" << endl
+		<< "\t_________________________________________________\n" << endl
+		<< "\t   Options:" << endl
+		<< "\t      1. Show All Sales People " << endl
+		<< "\t      2. Show Sales Person " << endl
+		<< "\t      3. Add Sales Person " << endl
+		<< "\t      4. Modify Sales Person" << endl
+		<< "\t      5. Delete Sales Person" << endl
+		<< "\t      6. Back to MAIN MENU" << endl
+		<< "\t_________________________________________________\n" << endl
+		<< "\tPlease choose option: ";
 }
+
 void Dealership::open_relation(string file_name){
 	parser.parse_command(string("OPEN ") + file_name);
 }
