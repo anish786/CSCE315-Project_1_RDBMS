@@ -90,20 +90,20 @@ void Dealership::add_customer(string relation_name){
 	string last_name;
 	cout << "Last name: ";
 	cin >> last_name;
+	string customer_id;
+	cout << "Customer ID: ";
+	cin >> customer_id;
 	char gender;
 	cout << "Gender: ";
 	cin >> gender;
 	int age;
 	cout << "Age: ";
 	cin >> age;
-	string customer_id;
-	cout << "Customer ID: ";
-	cin >> customer_id;
 	stringstream ss;
 	ss << age;
 	string agee = ss.str();
 
-	string input = "INSERT INTO " + relation_name + " VALUES FROM (" + first_name + ", " + last_name + ", " + gender + ", " + agee + ", " + customer_id + ");";
+	string input = "INSERT INTO " + relation_name + " VALUES FROM (" + first_name + ", " + last_name + ", " + customer_id + ", " + gender + ", " + agee + ");";
 	parser.parse_command(input);
 }
 void Dealership::delete_relation(string relation_name){
@@ -138,6 +138,25 @@ void Dealership::add_salesperson(string relation_name){
 	string number_years_employeed = ss.str();
 
 	string input = "INSERT INTO " + relation_name + " VALUES FROM (" + first_name + ", " + last_name + ", " + sales_id + ", " + number_years_employeed + ");";
+	parser.parse_command(input);
+}
+
+void Dealership::add_car(string relation_name){
+	string make, model, car_id;
+	int year;
+	cout << "Make: ";
+	cin >> make;
+	cout << "Model: ";
+	cin >> model;
+	cout << "Year: ";
+	cin >> year;
+	cout << "Car ID: ";
+	cin >> car_id;
+	stringstream ss;
+	ss << year;
+	string yearr = ss.str();
+
+	string input = "INSERT INTO " + relation_name + " VALUES FROM (" + make + ", " + model + ", " + car_id + ", " + yearr + ");";
 	parser.parse_command(input);
 }
 void Dealership::close_file(string file_name){

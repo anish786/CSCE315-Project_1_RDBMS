@@ -31,6 +31,6 @@ public:
 
 	//SALESPERSON
 	void add_salesperson(string);
-	void delete_salesperson(string);
+	void add_car(string);
 
 };
