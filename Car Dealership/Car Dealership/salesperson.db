@@ -1,0 +1,1 @@
+CREATE TABLE salesperson(first_name VARCHAR(20), last_name VARCHAR(20), sales_id VARCHAR(8), years_employed INTEGER) PRIMARY KEY (sales_id);
