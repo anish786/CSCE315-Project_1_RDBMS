@@ -8,8 +8,10 @@ int main(){
 	open_file.push_back("cars");
 	open_file.push_back("salesperson");
 	open_file.push_back("transactions");
+	ifstream db_file;
 	for(size_t i = 0; i < open_file.size(); i++){
 		dl.open_relation(open_file[i]);
+		//dl.write_to_file(open_file[0]);
 	}
 
 	cout << "\n\n********************************************************************************"
@@ -24,37 +26,84 @@ int main(){
 	while(choice  != 4){
 		if(choice == 1){
 			dl.print_cars();
+			cin >> select;
+			if(select == 1){
+				dl.show_relations("cars");
+				dl.print_salesperson();
+				cin >> select;
+			}
+			if(select == 2){
+				dl.add_car("cars");
+				dl.print_salesperson();
+				cin >> select;
+			}
+			if(select == 3){
+				dl.update_relation("cars");
+				dl.print_customers();
+				cin >> select;
+			}
+			if(select == 4){
+				dl.delete_relation("cars");
+				dl.print_customers();
+				cin >> select;
+			}
+			if(select == 5){
+				dl.main_menu();
+				dl.write_to_file("cars");
+			}
 		}
 		else if(choice == 2){
 			dl.print_salesperson();
+			cin >> select;
+			if(select == 1){
+				dl.show_relations("salesperson");
+				dl.print_salesperson();
+				cin >> select;
+			}
+			if(select == 2){
+				dl.add_salesperson("salesperson");
+				dl.print_salesperson();
+				cin >> select;
+			}
+			if(select == 3){
+				dl.update_relation("salesperson");
+				dl.print_customers();
+				cin >> select;
+			}
+			if(select == 4){
+				dl.delete_relation("salesperson");
+				dl.print_customers();
+				cin >> select;
+			}
+			if(select == 5){
+				dl.main_menu();
+				dl.write_to_file("salesperson");
+			}
 		}
 		else if(choice == 3){
 			dl.print_customers();
 			cin >> select;
 			if(select == 1){
-				dl.show_customer();
+				dl.show_relations("customers");
 				dl.print_customers();
 				cin >> select;
 			}
 			if(select == 2){
-				dl.update("customers");
+				dl.add_customer("customers");
 				dl.print_customers();
 				cin >> select;
 			}
 			if(select == 3){
-				dl.add_customer();
+				dl.update_relation("customers");
 				dl.print_customers();
 				cin >> select;
 			}
 			if(select == 4){
-				
-			}
-			if(select == 5){
-				dl.delete_customer("customers");
+				dl.delete_relation("customers");
 				dl.print_customers();
 				cin >> select;
 			}
-			if(select == 6){
+			if(select == 5){
 				dl.main_menu();
 				dl.write_to_file("customers");
 			}

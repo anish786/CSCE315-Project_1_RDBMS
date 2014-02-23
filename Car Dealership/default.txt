@@ -1,0 +1,11 @@
+CREATE TABLE customers (first_name VARCHAR(20), last_name VARCHAR(20), customer_id INTEGER, gender VARCHAR(1), age INTEGER) PRIMARY KEY (customer_id);
+WRITE customers;
+CLOSE customers;
+
+CREATE TABLE cars (stock_number INTEGER, make VARCHAR(20), model VARCHAR(20), year INTEGER, color VARCHAR(20), mileage INTEGER, value INTEGER) PRIMARY KEY (stock_number);
+WRITE inventory;
+CLOSE inventory;
+
+CREATE TABLE salesperson (acct_number INTEGER, stock_number INTEGER, sell_price INTEGER, amount_owed INTEGER, payments_amount INTEGER, overdue VARCHAR(5)) PRIMARY KEY (acct_number, stock_number);
+WRITE payments;
+CLOSE payments;

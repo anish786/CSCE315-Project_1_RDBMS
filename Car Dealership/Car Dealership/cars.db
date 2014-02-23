@@ -1,0 +1,5 @@
+CREATE TABLE cars(make VARCHAR(20), model VARCHAR(20), car_id VARCHAR(8), year INTEGER) PRIMARY KEY (car_id);
+INSERT INTO cars VALUES FROM ("Toyota", "Corolla", "1", 2014);
+INSERT INTO cars VALUES FROM ("Honda", "Accord", "2", 2002);
+INSERT INTO cars VALUES FROM ("Nissan", "Rogue", "3", 2008);
+INSERT INTO cars VALUES FROM ("Honda", "Pilot", "4", 2010);
