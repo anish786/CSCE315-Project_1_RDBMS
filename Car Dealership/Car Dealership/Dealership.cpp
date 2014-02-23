@@ -66,7 +66,8 @@ void Dealership::show_relations(string relation_name){
 	string input = "SHOW " + relation_name;
 	parser.parse_command(input);
 }
-void Dealership::update_customer(string relation_name){
+//---------------------------------------------------------------------------
+void Dealership::update_relation(string relation_name){
 	string att_name;
 	cout << "Attribute name: ";
 	cin >> att_name;
@@ -82,7 +83,7 @@ void Dealership::update_customer(string relation_name){
 	string input = "UPDATE " + relation_name + " SET " + att_name + " = " + literall + " WHERE " + att_name + operator1 + operand + ";";
 	parser.parse_command(input);
 }
-void Dealership::add_customer(){
+void Dealership::add_customer(string relation_name){
 	string first_name;
 	cout << "First name: ";
 	cin >> first_name;
@@ -102,10 +103,10 @@ void Dealership::add_customer(){
 	ss << age;
 	string agee = ss.str();
 
-	string input = "INSERT INTO customers VALUES FROM (" + first_name + ", " + last_name + ", " + gender + ", " + agee + ", " + customer_id + ");";
+	string input = "INSERT INTO " + relation_name + " VALUES FROM (" + first_name + ", " + last_name + ", " + gender + ", " + agee + ", " + customer_id + ");";
 	parser.parse_command(input);
 }
-void Dealership::delete_customer(string relation_name){
+void Dealership::delete_relation(string relation_name){
 	string operand1, operatorr, operand2;
 	cout << "Operand 1: ";
 	cin >> operand1;
@@ -114,6 +115,29 @@ void Dealership::delete_customer(string relation_name){
 	cout << "Operator 2: ";
 	cin >> operand2;
 	string input = "DELETE FROM " + relation_name + " WHERE (" + operand1 + operatorr + operand2 + ");";
+	parser.parse_command(input);
+}
+//---------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
+
+void Dealership::add_salesperson(string relation_name){
+	string first_name;
+	cout << "First name: ";
+	cin >> first_name;
+	string last_name;
+	cout << "Last name: ";
+	cin >> last_name;
+	string sales_id;
+	cout << "Sales ID: ";
+	cin >> sales_id;
+	int num_years_employed;
+	cout << "Years employeed: ";
+	cin >> num_years_employed;
+	stringstream ss;
+	ss << num_years_employed;
+	string number_years_employeed = ss.str();
+
+	string input = "INSERT INTO " + relation_name + " VALUES FROM (" + first_name + ", " + last_name + ", " + sales_id + ", " + number_years_employeed + ");";
 	parser.parse_command(input);
 }
 void Dealership::close_file(string file_name){

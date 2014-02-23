@@ -36,18 +36,17 @@ int main(){
 				cin >> select;
 			}
 			if(select == 2){
-				//dl.add_salesperson();
+				dl.add_salesperson("salesperson");
 				dl.print_salesperson();
 				cin >> select;
-				
 			}
 			if(select == 3){
-				//dl.update_salesperson("salesperson");
+				dl.update_relation("salesperson");
 				dl.print_customers();
 				cin >> select;
 			}
 			if(select == 4){
-				//dl.delete_salesperson("salesperson");
+				dl.delete_relation("salesperson");
 				dl.print_customers();
 				cin >> select;
 			}
@@ -65,17 +64,17 @@ int main(){
 				cin >> select;
 			}
 			if(select == 2){
-				dl.add_customer();
+				dl.add_customer("customers");
 				dl.print_customers();
 				cin >> select;
 			}
 			if(select == 3){
-				dl.update_customer("customers");
+				dl.update_relation("customers");
 				dl.print_customers();
 				cin >> select;
 			}
 			if(select == 4){
-				dl.delete_customer("customers");
+				dl.delete_relation("customers");
 				dl.print_customers();
 				cin >> select;
 			}

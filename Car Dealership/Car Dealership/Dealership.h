@@ -23,15 +23,14 @@ public:
 	//shows the customer relation
 	void show_relations(string);
 	// updates the relation
-	void update_customer(string);
+	void update_relation(string);
 	// add customer into the relation
-	void add_customer();
+	void add_customer(string);
 	//remove customer from relation
-	void delete_customer(string);
+	void delete_relation(string);
 
 	//SALESPERSON
-	void update_salesperson(string);
-	void add_salesperson();
+	void add_salesperson(string);
 	void delete_salesperson(string);
 
 };
