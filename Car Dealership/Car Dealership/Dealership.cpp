@@ -6,28 +6,29 @@ Dealership::Dealership(){
 		open_relation("customers");
 	}
 	catch (RuntimeException r){
-		parser.parse_command("CREATE TABLE customers (first_name VARCHAR(20), last_name VARCHAR(20), "
-			"customer_id VARCHAR(8), gender VARCHAR(1), age INTEGER) PRIMARY KEY (customer_id);");
+		parser.parse_command("CREATE TABLE customers (customer_id VARCHAR(8), first_name VARCHAR(20), "
+			"last_name VARCHAR(20), gender VARCHAR(1), age INTEGER) PRIMARY KEY (customer_id);");
 	}
 	try{
 		open_relation("cars");
 	}
 	catch (RuntimeException r){
-		parser.parse_command("CREATE TABLE cars (make VARCHAR(20), model VARCHAR(20), car_id VARCHAR(8), "
-			"year INTEGER, stock INTEGER) PRIMARY KEY (car_id);");
+		parser.parse_command("CREATE TABLE cars (car_id VARCHAR(8), make VARCHAR(20), model VARCHAR(20), "
+			"year INTEGER, msrp INTEGER, stock INTEGER) PRIMARY KEY (car_id);");
 	}
 	try{
 		open_relation("salesperson");
 	}
 	catch (RuntimeException r){
-		parser.parse_command("CREATE TABLE salesperson (first_name VARCHAR(20), last_name VARCHAR(20), "
-			"sales_id VARCHAR(8), years_employed INTEGER) PRIMARY KEY (sales_id);");
+		parser.parse_command("CREATE TABLE salesperson (sales_id VARCHAR(8), first_name VARCHAR(20), "
+			"last_name VARCHAR(20), years_employed INTEGER) PRIMARY KEY (sales_id);");
 	}
 	try{
 		open_relation("transactions");
 	}
 	catch (RuntimeException r){
-		parser.parse_command("CREATE TABLE transactions (transaction_id VARCHAR(10)) PRIMARY KEY (transaction_id);");
+		parser.parse_command("CREATE TABLE transactions (transaction_id VARCHAR(8), cust_id VARCHAR(8), "
+			"sales_id VARCHAR(8), car_id VARCHAR(8), sale_price INTEGER) PRIMARY KEY (transaction_id);");
 	}
 }
 
@@ -154,6 +155,7 @@ void Dealership::add_customer(){
 
 	cout << "\n\t***** Adding a New Customer *****\n\t_____________________________________" << endl;
 	cout << "\tCustomer ID: ";
+	read_strin
 	cin >> customer_id;
 	cout << "\tFirst name: ";
 	cin >> first_name;
@@ -170,7 +172,7 @@ void Dealership::add_customer(){
 	ss << age;
 	string agee = ss.str();
 
-	string input = "INSERT INTO customers VALUES FROM (" + first_name + ", " + last_name + ", " + customer_id + ", " + gender_char + ", " + agee + ");";
+	string input = "INSERT INTO customers VALUES FROM (" + customer_id + ", " + first_name + ", " + last_name + ", " + gender_char + ", " + agee + ");";
 	try{
 		parser.parse_command_self_check(input);
 	}
