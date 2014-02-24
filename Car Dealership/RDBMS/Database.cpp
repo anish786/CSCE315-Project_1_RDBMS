@@ -199,9 +199,10 @@ void Database::write_relation(string rname){
 			break;
 		}
 	}
+	/*
 	if (r_pos >= (int)relations.size()){
 		throw RuntimeException("Relation not in database");
-	}
+	}*/
 
 	ofstream db_file;
 	string db_filename = rname + ".db";

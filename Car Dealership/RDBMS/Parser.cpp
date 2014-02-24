@@ -737,7 +737,7 @@ void Parser::parse_open(vector<string> tokens){
 			}
 		}
 		else{
-			throw RuntimeException("Could not open .db file.");
+			throw RuntimeException("Could not open " + db_filename +  " file.");
 		}
 	}
 	else{

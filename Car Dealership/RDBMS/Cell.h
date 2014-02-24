@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Attribute.h"
+#include <iomanip>      // std::setw
 
+#define MAX_LENGTH 15
 /* Declaration of the Cell Class */
 
 class Cell{
