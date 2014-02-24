@@ -35,22 +35,19 @@ int main(){
 					cin >> select;
 				}
 				if(select == 1){
-					dl.show_relation("cars");
+					dl.show("cars");
 				}
 				if(select == 2){
-					string car_id;
-					cout << "\tCar ID: ";
-					cin >> car_id;
-					dl.show_tuple("cars", "car_id", car_id);
+					dl.get_car();
 				}
 				if(select == 3){
 					dl.add_car();
 				}
 				if(select == 4){
-					dl.update_relation("cars");
+					dl.update_car();
 				}
 				if(select == 5){
-					dl.delete_from_relation("cars");
+					dl.remove_car();
 				}
 				if(select == 6){
 					dl.write_to_file("cars");
@@ -71,22 +68,19 @@ int main(){
 						cin >> select;
 				}
 				if(select == 1){
-					dl.show_relation("customers");
+					dl.show("customers");
 				}
 				if(select == 2){
-					string cust_id;
-					cout << "\tCustomer ID: ";
-					cin >> cust_id;
-					dl.show_tuple("customers", "customer_id", cust_id);
+					dl.get_customer();
 				}
 				if(select == 3){
 					dl.add_customer();
 				}
 				if(select == 4){
-					dl.update_relation("customers");
+					dl.update_customer();
 				}
 				if(select == 5){
-					dl.delete_from_relation("customers");
+					dl.remove_customer();
 				}
 				if(select == 6){
 					dl.write_to_file("customers");
@@ -107,22 +101,19 @@ int main(){
 					cin >> select;
 				}
 				if(select == 1){
-					dl.show_relation("salesperson");
+					dl.show("salesperson");
 				}
 				else if(select == 2){
-					string sales_id;
-					cout << "\tSales ID: ";
-					cin >> sales_id;
-					dl.show_tuple("salesperson", "sales_id", sales_id);
+					dl.get_salesperson();
 				}
 				else if(select == 3){
 					dl.add_salesperson();
 				}
 				else if(select == 4){
-					dl.update_relation("salesperson");
+					dl.update_salesperson();
 				}
 				else if(select == 5){
-					dl.delete_from_relation("salesperson");
+					dl.remove_salesperson();
 				}
 				else if(select == 6){
 					dl.write_to_file("salesperson");

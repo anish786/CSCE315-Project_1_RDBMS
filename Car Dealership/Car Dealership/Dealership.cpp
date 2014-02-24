@@ -52,6 +52,8 @@ void Dealership::main_menu(){
 		<< "\t_________________________________________________\n" << endl
 		<< "\tPlease choose option: ";
 }
+
+// Prints car menu
 void Dealership::car_menu(){
 		cout << "\t_________________________________________________\n" << endl
 		<< "\t                  MAIN MENU -> Cars" << endl
@@ -66,6 +68,8 @@ void Dealership::car_menu(){
 		<< "\t_________________________________________________\n" << endl
 		<< "\tPlease choose option: ";
 }
+
+// Prints customer menu
 void Dealership::customer_menu(){
 		cout << "\t_________________________________________________\n" << endl
 		<< "\t                  MAIN MENU -> Customers" << endl
@@ -80,6 +84,8 @@ void Dealership::customer_menu(){
 		<< "\t_________________________________________________\n" << endl
 		<< "\tPlease choose option: ";
 }
+
+// Prints sales people menu
 void Dealership::salespeople_menu(){
 		cout << "\t_________________________________________________\n" << endl
 		<< "\t                  MAIN MENU -> Sales People" << endl
@@ -95,35 +101,35 @@ void Dealership::salespeople_menu(){
 		<< "\tPlease choose option: ";
 }
 
+// Prints Transaction menu
+void Dealership::transaction_menu(){
+
+}
+
+// Prints statistics menu
+void Dealership::statistics_menu(){
+
+}
+
+// open a relation
+// input the name of the relation to open
 void Dealership::open_relation(string file_name){
 	parser.parse_command_self_check(string("OPEN ") + file_name);
 }
 
+// writes a relation to a file
+// input the name of the relation to write
 void Dealership::write_to_file(string relation_name){
 	parser.parse_command(string("WRITE ") + relation_name);
 }
 
-void Dealership::show_relation(string relation_name){
+// shows the one of the relations
+// input the name of the relation to show
+void Dealership::show(string relation_name){
 	parser.parse_command(string("SHOW ") + relation_name);
 }
 
-//---------------------------------------------------------------------------
-void Dealership::update_relation(string relation_name){
-	string att_name;
-	cout << "Attribute name: ";
-	cin >> att_name;
-	string literall;
-	cout << "Literal: ";
-	cin >> literall;
-	string operator1;
-	cout << "Operator: ";
-	cin >> operator1;
-	string operand;
-	cout << "Operand: ";
-	cin >> operand;
-	string input = "UPDATE " + relation_name + " SET " + att_name + " = " + literall + " WHERE " + att_name + operator1 + operand + ";";
-	parser.parse_command(input);
-}
+// add a customer to the database
 void Dealership::add_customer(){
 	string first_name;
 	string last_name;
@@ -159,20 +165,8 @@ void Dealership::add_customer(){
 		cerr << "\n\t***** ERROR: ID already in use, please try again. *****\n\n";
 	}
 }
-void Dealership::delete_from_relation(string relation_name){
-	string operand1, operatorr, operand2;
-	cout << "Operand 1: ";
-	cin >> operand1;
-	cout << "Operator: ";
-	cin >> operatorr;
-	cout << "Operator 2: ";
-	cin >> operand2;
-	string input = "DELETE FROM " + relation_name + " WHERE (" + operand1 + operatorr + operand2 + ");";
-	parser.parse_command(input);
-}
-//---------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------
 
+// add a salesperson to the database
 void Dealership::add_salesperson(){
 	string first_name;
 	string last_name;
@@ -202,6 +196,7 @@ void Dealership::add_salesperson(){
 	}
 }
 
+// add a car to the database
 void Dealership::add_car(){
 	string make, model, car_id;
 	stringstream ss;
@@ -234,14 +229,68 @@ void Dealership::add_car(){
 		cerr << "\n\t***** ERROR: ID already in use, please try again. *****\n\n";
 	}
 }
-void Dealership::show_tuple(string relation, string attribute, string id){
-	string input = "Query <- select(" + attribute + " == \"" + id + "\") " + relation;
-	parser.parse_command(input);
-	
-	if(parser.get_database().get_relation("Query").get_num_tuples() == 0){
-		cout << "\n\t***** ERROR: Could not find a tuple by that ID *****\n" << endl;
-	}
-	else{
-		parser.parse_command("SHOW Query");
-	}
+
+// add a transaction to the database
+void Dealership::add_transaction(){
+
+}
+
+// update a customers info
+void Dealership::update_customer(){
+
+}
+
+// update a salesperson info
+void Dealership::update_salesperson(){
+
+}
+
+// update a cars info
+void Dealership::update_car(){
+
+}
+
+// update a transaction
+void Dealership::update_transaction(){
+
+}
+
+// Remove a customer
+void Dealership::remove_customer(){
+
+}
+
+// remove a salesperson
+void Dealership::remove_salesperson(){
+
+}
+
+// remove a car
+void Dealership::remove_car(){
+
+}
+
+// remove a transaction
+void Dealership::remove_transaction(){
+
+}
+
+// Prompts for and displays a customer by id
+void Dealership::get_customer(){
+
+}
+
+// Prompts for and displays a sales person by id
+void Dealership::get_salesperson(){
+
+}
+
+// Prompts for and displays a car by id
+void Dealership::get_car(){
+
+}
+
+// Prompts for and displays a transaction by id
+void Dealership::get_transaction(){
+
 }
