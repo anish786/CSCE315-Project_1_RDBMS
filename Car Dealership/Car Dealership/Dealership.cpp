@@ -62,7 +62,9 @@ void Dealership::main_menu(){
 		<< "\t      1. Cars " << endl
 		<< "\t      2. Customers " << endl
 		<< "\t      3. Sales People" << endl
-		<< "\t      4. Quit" << endl
+		<< "\t      4. Transactions" << endl
+		<< "\t      5. Statistics" << endl
+		<< "\t      6. Quit" << endl
 		<< "\t_________________________________________________\n" << endl
 		<< "\tPlease choose option: ";
 }
@@ -117,7 +119,18 @@ void Dealership::salespeople_menu(){
 
 // Prints Transaction menu
 void Dealership::transaction_menu(){
-
+	cout << "\t_________________________________________________\n" << endl
+		<< "\t                  MAIN MENU -> Transaction" << endl
+		<< "\t_________________________________________________\n" << endl
+		<< "\t   Options:" << endl
+		<< "\t      1. Show All Transactions " << endl
+		<< "\t      2. Show Transaction " << endl
+		<< "\t      3. Add Transaction " << endl
+		<< "\t      4. Modify Transaction" << endl
+		<< "\t      5. Delete Transaction" << endl
+		<< "\t      6. Back to MAIN MENU" << endl
+		<< "\t_________________________________________________\n" << endl
+		<< "\tPlease choose option: ";
 }
 
 // Prints statistics menu
@@ -246,22 +259,88 @@ void Dealership::add_car(){
 
 // add a transaction to the database
 void Dealership::add_transaction(){
-
+	string sales_id;
+	string existing_customer;
+	string customer_id;
+	string car_id;
+	bool y_or_n = false;
+	cout << "Please enter an existing salesperson ID:";
+	cin >> sales_id;
+	cout << "Is this transaction with an exiting customer? (y/n) ";
+	while(!y_or_n){
+		cin >> existing_customer;
+		if(existing_customer == "n"){
+			y_or_n = true;
+			add_customer();
+		}
+		else if(existing_customer == "y"){
+			y_or_n = true;
+			cout << "Please enter an existing customer ID: ";
+			cin >> customer_id;
+		}
+		else{
+			cout << "Invalid entry. Please enter either a 'y' or 'n' character: ";
+		}
+	}
+	cout << "Please enter a car ID in the inventory: ";
+	cin >> car_id;
+	string sales_select = "(select (sales_id == \"" + sales_id + "\") salesperson )";
+	string customer_select = "(select (customer_id == \"" + customer_id + "\") customers )";
+	string car_select = "(select (car_id == \"" + car_id + "\") cars )";
+	string sales_project = "(project (last_name, sales_id) " + sales_select + ")";
+	string customer_project = "(project (last_name, customer_id) " + customer_select + ")";
+	string car_project = "(project (make, model) " + car_select + ")";
+	string transaction_union = sales_project + " + " + customer_project + " + "  + car_project;
+	string input = "transactions <- " + transaction_union;
+	parser.parse_command(input);
 }
 
 // update a customers info
 void Dealership::update_customer(){
+	string att_name, literaal, operatorr, operand;
+	cout << "\tAttribute Name: ";
+	cin >> att_name;
+	cout << "Literal: ";
+	cin >> literaal;
+	cout << "Operator: ";
+	cin >> operatorr;
+	cout << "Operand: ";
+	cin >> operand;
 
+	string input = "UPDATE customers SET " + att_name + " = " + literaal + " WHERE " + att_name + operatorr + operand + ";";
+	parser.parse_command(input);
 }
 
 // update a salesperson info
 void Dealership::update_salesperson(){
+	string att_name, literaal, operatorr, operand;
+	cout << "\tAttribute Name: ";
+	cin >> att_name;
+	cout << "Literal: ";
+	cin >> literaal;
+	cout << "Operator: ";
+	cin >> operatorr;
+	cout << "Operand: ";
+	cin >> operand;
 
+	string input = "UPDATE salesperson SET " + att_name + " = " + literaal + " WHERE " + att_name + operatorr + operand + ";";
+	parser.parse_command(input);
 }
 
 // update a cars info
 void Dealership::update_car(){
+	string att_name, literaal, operatorr, operand;
+	cout << "\tAttribute Name: ";
+	cin >> att_name;
+	cout << "Literal: ";
+	cin >> literaal;
+	cout << "Operator: ";
+	cin >> operatorr;
+	cout << "Operand: ";
+	cin >> operand;
 
+	string input = "UPDATE cars SET " + att_name + " = " + literaal + " WHERE " + att_name + operatorr + operand + ";";
+	parser.parse_command(input);
 }
 
 // update a transaction
@@ -271,17 +350,29 @@ void Dealership::update_transaction(){
 
 // Remove a customer
 void Dealership::remove_customer(){
-
+	string cust_id;
+	cout << "Customer ID: ";
+	cin >> cust_id;
+	string input = "DELETE FROM customers WHERE (" + cust_id + " == cust_id);";
+	parser.parse_command(input);
 }
 
 // remove a salesperson
 void Dealership::remove_salesperson(){
-
+	string sales_id;
+	cout << "Salesperson ID: ";
+	cin >> sales_id;
+	string input = "DELETE FROM salesperson WHERE (" + sales_id + " == sales_id);";
+	parser.parse_command(input);
 }
 
 // remove a car
 void Dealership::remove_car(){
-
+	string car_id;
+	cout << "Car ID: ";
+	cin >> car_id;
+	string input = "DELETE FROM cars WHERE (" + car_id + " == car_id);";
+	parser.parse_command(input);
 }
 
 // remove a transaction
@@ -291,20 +382,35 @@ void Dealership::remove_transaction(){
 
 // Prompts for and displays a customer by id
 void Dealership::get_customer(){
+	string cust_id;
+	cout << "Customer ID: ";
+	cin >> cust_id;
 
+
+	parser.parse_command("SHOW select (cust_id == " + cust_id + ") customers");
 }
 
 // Prompts for and displays a sales person by id
 void Dealership::get_salesperson(){
+	string sales_id;
+	cout << "Salesperson ID: ";
+	cin >> sales_id;
 
+
+	parser.parse_command("SHOW select (sales_id == " + sales_id + ") salesperson");
 }
 
 // Prompts for and displays a car by id
 void Dealership::get_car(){
+	string car_id;
+	cout << "Car ID: ";
+	cin >> car_id;
 
+	parser.parse_command("SHOW select (car_id == " + car_id + ") cars");
 }
 
 // Prompts for and displays a transaction by id
 void Dealership::get_transaction(){
 
 }
+

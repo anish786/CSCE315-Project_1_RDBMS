@@ -69,5 +69,4 @@ public:
 	void get_car();
 	// Prompts for and displays a transaction by id
 	void get_transaction();
-
 };
