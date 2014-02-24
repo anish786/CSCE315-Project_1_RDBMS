@@ -164,6 +164,42 @@ void Dealership::add_car(string relation_name){
 	string input = "INSERT INTO " + relation_name + " VALUES FROM (" + make + ", " + model + ", " + car_id + ", " + yearr + ");";
 	parser.parse_command(input);
 }
+void Dealership::make_transaction(string salesperson_relation, string customer_relation, string car_relation, string transaction_relation){
+	string sales_id;
+	string existing_customer;
+	string customer_id;
+	string car_id;
+	bool y_or_n = false;
+	cout << "Please enter an existing salesperson ID:";
+	cin >> sales_id;
+	cout << "Is this transaction with an exiting customer? (y/n) ";
+	while(!y_or_n){
+		cin >> existing_customer;
+		if(existing_customer == "n"){
+			y_or_n = true;
+			add_customer(customer_relation);
+		}
+		else if(existing_customer == "y"){
+			y_or_n = true;
+			cout << "Please enter an existing customer ID: ";
+			cin >> customer_id;
+		}
+		else{
+			cout << "Invalid entry. Please enter either a 'y' or 'n' character: ";
+		}
+	}
+	cout << "Please enter a car ID in the inventory: ";
+	cin >> car_id;
+	string sales_select = "(select (sales_id == \"" + sales_id + "\") " + salesperson_relation + ")";
+	string customer_select = "(select (customer_id == \"" + customer_id + "\") " + customer_relation + ")";
+	string car_select = "(select (car_id == \"" + car_id + "\") " + car_relation + ")";
+	string sales_project = "(project (last_name, sales_id) " + sales_select + ")";
+	string customer_project = "(project (last_name, customer_id) " + customer_select + ")";
+	string car_project = "(project (make, model) " + car_select + ")";
+	string transaction_union = sales_project + " + " + customer_project + " + "  + car_project;
+	string input = transaction_relation + " <- " + transaction_union;
+	parser.parse_command(input);
+}
 void Dealership::close_file(string file_name){
 	string input = "CLOSE " + file_name;
 	parser.parse_command(input);

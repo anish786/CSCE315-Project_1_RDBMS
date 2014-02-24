@@ -33,4 +33,6 @@ public:
 	void add_salesperson(string);
 	void add_car(string);
 
+	void make_transaction(string, string, string, string);
+
 };
