@@ -97,6 +97,7 @@ void Dealership::add_customer(string relation_name){
 	char gender_char;
 	int age;
 
+	cout << "\n\t***** Adding a New Customer *****\n\t_____________________________________" << endl;
 	cout << "\tFirst name: ";
 	cin >> first_name;
 	cout << "\tLast name: ";
@@ -152,13 +153,28 @@ void Dealership::add_salesperson(string relation_name){
 	int num_years_employed;
 	stringstream ss;
 
-	cout << "First name: ";
+	cout << "\n\t***** Adding a New Sales Person *****\n\t_____________________________________" << endl;
+	cout << "\tFirst name: ";
 	cin >> first_name;
-	cout << "Last name: ";
+	cout << "\tLast name: ";
 	cin >> last_name;
-	cout << "Sales ID: ";
-	cin >> sales_id;
-	cout << "Years employeed: ";
+
+	while(true){
+		cout << "\tSales ID: ";
+		cin >> sales_id;
+		//check if ID is already used
+		string query = string("") + "match <- select (sales_id == \"" + sales_id + "\") salesperson;";
+		parser.parse_command(query);
+		Database database = parser.get_database();
+
+		//if no matches, continue
+		if(database.get_relation("match").get_num_tuples() == 0){
+			break;
+		}
+		else
+			cerr << "\n\t***** ERROR: ID already in use, please try again. *****\n\n";
+	}
+	cout << "\tYears employeed: ";
 	cin >> num_years_employed;
 	ss << num_years_employed;
 	string number_years_employeed = ss.str();
@@ -171,14 +187,30 @@ void Dealership::add_car(string relation_name){
 	string make, model, car_id;
 	stringstream ss;
 	int year;
-	cout << "Make: ";
+
+	cout << "\n\t***** Adding a New Car *****\n\t_____________________________________" << endl;
+	cout << "\tMake: ";
 	cin >> make;
-	cout << "Model: ";
+	cout << "\tModel: ";
 	cin >> model;
-	cout << "Year: ";
+	cout << "\tYear: ";
 	cin >> year;
-	cout << "Car ID: ";
-	cin >> car_id;
+
+	while(true){
+		cout << "\tCar ID: ";
+		cin >> car_id;
+		//check if ID is already used
+		string query = string("") + "match <- select (car_id == \"" + car_id + "\") cars;";
+		parser.parse_command(query);
+		Database database = parser.get_database();
+
+		//if no matches, continue
+		if(database.get_relation("match").get_num_tuples() == 0){
+			break;
+		}
+		else
+			cerr << "\n\t***** ERROR: ID already in use, please try again. *****\n\n";
+	}
 	ss << year;
 	string yearr = ss.str();
 

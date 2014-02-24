@@ -24,13 +24,13 @@ public:
 	void show_relations(string);
 	// updates the relation
 	void update_relation(string);
-	// add customer into the relation
+	// add customer to the relation
 	void add_customer(string);
+	// add salesperson to the relation
+	void add_salesperson(string);
+	// add car to the relation
+	void add_car(string);
 	//remove customer from relation
 	void delete_relation(string);
-
-	//SALESPERSON
-	void add_salesperson(string);
-	void add_car(string);
 
 };

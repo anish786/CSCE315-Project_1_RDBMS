@@ -1,0 +1,1 @@
+CREATE TABLE match(first_name VARCHAR(20), last_name VARCHAR(20), customer_id VARCHAR(8), gender VARCHAR(1), age INTEGER) PRIMARY KEY (customer_id);
