@@ -1,5 +1,59 @@
 #include "Dealership.h"
 
+void read_string(string &s){
+	getline(cin, s);
+}
+
+void read_int(int &i){
+	cin >> i;
+	while (!cin.good()){
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cout << "\tTry again: ";
+		cin >> i;
+	}
+}
+
+//Constructor
+Dealership::Dealership(){
+	try{
+		open_relation("customers");
+	}
+	catch (RuntimeException r){
+		parser.parse_command("CREATE TABLE customers (customer_id VARCHAR(8), first_name VARCHAR(20), "
+			"last_name VARCHAR(20), gender VARCHAR(1), age INTEGER) PRIMARY KEY (customer_id);");
+	}
+	try{
+		open_relation("cars");
+	}
+	catch (RuntimeException r){
+		parser.parse_command("CREATE TABLE cars (car_id VARCHAR(8), make VARCHAR(20), model VARCHAR(20), "
+			"year INTEGER, msrp INTEGER, stock INTEGER) PRIMARY KEY (car_id);");
+	}
+	try{
+		open_relation("salesperson");
+	}
+	catch (RuntimeException r){
+		parser.parse_command("CREATE TABLE salesperson (sales_id VARCHAR(8), first_name VARCHAR(20), "
+			"last_name VARCHAR(20), years_employed INTEGER) PRIMARY KEY (sales_id);");
+	}
+	try{
+		open_relation("transactions");
+	}
+	catch (RuntimeException r){
+		parser.parse_command("CREATE TABLE transactions (transaction_id VARCHAR(8), cust_id VARCHAR(8), "
+			"sales_id VARCHAR(8), car_id VARCHAR(8), sale_price INTEGER) PRIMARY KEY (transaction_id);");
+	}
+}
+
+//Destructor
+Dealership::~Dealership(){
+	write_to_file("customers");
+	write_to_file("cars");
+	write_to_file("salesperson");
+	write_to_file("transactions");
+}
+
 // prints main menu
 void Dealership::main_menu(){
 	cout << "\t_________________________________________________\n" << endl
@@ -9,10 +63,14 @@ void Dealership::main_menu(){
 		<< "\t      1. Cars " << endl
 		<< "\t      2. Customers " << endl
 		<< "\t      3. Sales People" << endl
-		<< "\t      4. Quit" << endl
+		<< "\t      4. Transactions" << endl
+		<< "\t      5. Statistics" << endl
+		<< "\t      6. Quit" << endl
 		<< "\t_________________________________________________\n" << endl
 		<< "\tPlease choose option: ";
 }
+
+// Prints car menu
 void Dealership::car_menu(){
 		cout << "\t_________________________________________________\n" << endl
 		<< "\t                  MAIN MENU -> Cars" << endl
@@ -27,6 +85,8 @@ void Dealership::car_menu(){
 		<< "\t_________________________________________________\n" << endl
 		<< "\tPlease choose option: ";
 }
+
+// Prints customer menu
 void Dealership::customer_menu(){
 		cout << "\t_________________________________________________\n" << endl
 		<< "\t                  MAIN MENU -> Customers" << endl
@@ -41,6 +101,8 @@ void Dealership::customer_menu(){
 		<< "\t_________________________________________________\n" << endl
 		<< "\tPlease choose option: ";
 }
+
+// Prints sales people menu
 void Dealership::salespeople_menu(){
 		cout << "\t_________________________________________________\n" << endl
 		<< "\t                  MAIN MENU -> Sales People" << endl
@@ -56,115 +118,149 @@ void Dealership::salespeople_menu(){
 		<< "\tPlease choose option: ";
 }
 
+// Prints Transaction menu
+void Dealership::transaction_menu(){
+	cout << "\t_________________________________________________\n" << endl
+		<< "\t                  MAIN MENU -> Transaction" << endl
+		<< "\t_________________________________________________\n" << endl
+		<< "\t   Options:" << endl
+		<< "\t      1. Show All Transactions " << endl
+		<< "\t      2. Show Transaction " << endl
+		<< "\t      3. Add Transaction " << endl
+		<< "\t      4. Modify Transaction" << endl
+		<< "\t      5. Delete Transaction" << endl
+		<< "\t      6. Back to MAIN MENU" << endl
+		<< "\t_________________________________________________\n" << endl
+		<< "\tPlease choose option: ";
+}
+
+// Prints statistics menu
+void Dealership::statistics_menu(){
+
+}
+
+// open a relation
+// input the name of the relation to open
 void Dealership::open_relation(string file_name){
-	parser.parse_command(string("OPEN ") + file_name);
+	parser.parse_command_self_check(string("OPEN ") + file_name);
 }
-//void Dealership::create_relation(string relation_name){
-//	db.add_relation(relation_name);
-//	parser.parse_command(string("WRITE ") + relation_name);
-//}
+
+// writes a relation to a file
+// input the name of the relation to write
 void Dealership::write_to_file(string relation_name){
-	string input =  "WRITE " + relation_name;
-	parser.parse_command(input);
+	parser.parse_command(string("WRITE ") + relation_name);
 }
-void Dealership::show_relations(string relation_name){
-	string input = "SHOW " + relation_name;
-	parser.parse_command(input);
+
+// shows the one of the relations
+// input the name of the relation to show
+void Dealership::show(string relation_name){
+	parser.parse_command(string("SHOW ") + relation_name);
 }
-//---------------------------------------------------------------------------
-void Dealership::update_relation(string relation_name){
-	string att_name;
-	cout << "Attribute name: ";
-	cin >> att_name;
-	string literall;
-	cout << "Literal: ";
-	cin >> literall;
-	string operator1;
-	cout << "Operator: ";
-	cin >> operator1;
-	string operand;
-	cout << "Operand: ";
-	cin >> operand;
-	string input = "UPDATE " + relation_name + " SET " + att_name + " = " + literall + " WHERE " + att_name + operator1 + operand + ";";
-	parser.parse_command(input);
-}
-void Dealership::add_customer(string relation_name){
+
+// add a customer to the database
+void Dealership::add_customer(){
 	string first_name;
-	cout << "First name: ";
-	cin >> first_name;
 	string last_name;
-	cout << "Last name: ";
-	cin >> last_name;
 	string customer_id;
-	cout << "Customer ID: ";
-	cin >> customer_id;
-	char gender;
-	cout << "Gender: ";
-	cin >> gender;
-	int age;
-	cout << "Age: ";
-	cin >> age;
+	string gender;
 	stringstream ss;
+	char gender_char;
+	int age;
+
+	cout << "\n\t***** Adding a New Customer *****\n\t_____________________________________" << endl;
+	cout << "\tCustomer ID: ";
+	read_strin
+	cin >> customer_id;
+	cout << "\tFirst name: ";
+	cin >> first_name;
+	cout << "\tLast name: ";
+	cin >> last_name;
+	cout << "\tGender: ";
+	cin >> gender;
+	cout << "\tAge: ";
+	cin >> age;
+
+	ss << gender;
+	ss >> gender_char;
+	ss.str("");
 	ss << age;
 	string agee = ss.str();
 
-	string input = "INSERT INTO " + relation_name + " VALUES FROM (" + first_name + ", " + last_name + ", " + customer_id + ", " + gender + ", " + agee + ");";
-	parser.parse_command(input);
+	string input = "INSERT INTO customers VALUES FROM (" + customer_id + ", " + first_name + ", " + last_name + ", " + gender_char + ", " + agee + ");";
+	try{
+		parser.parse_command_self_check(input);
+	}
+	catch (RuntimeException r){
+		cerr << "\n\t***** ERROR: ID already in use, please try again. *****\n\n";
+	}
 }
-void Dealership::delete_relation(string relation_name){
-	string operand1, operatorr, operand2;
-	cout << "Operand 1: ";
-	cin >> operand1;
-	cout << "Operator: ";
-	cin >> operatorr;
-	cout << "Operator 2: ";
-	cin >> operand2;
-	string input = "DELETE FROM " + relation_name + " WHERE (" + operand1 + operatorr + operand2 + ");";
-	parser.parse_command(input);
-}
-//---------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------
 
-void Dealership::add_salesperson(string relation_name){
+// add a salesperson to the database
+void Dealership::add_salesperson(){
 	string first_name;
-	cout << "First name: ";
-	cin >> first_name;
 	string last_name;
-	cout << "Last name: ";
-	cin >> last_name;
 	string sales_id;
-	cout << "Sales ID: ";
-	cin >> sales_id;
 	int num_years_employed;
-	cout << "Years employeed: ";
-	cin >> num_years_employed;
 	stringstream ss;
+
+	cout << "\n\t***** Adding a New Sales Person *****\n\t_____________________________________" << endl;
+	cout << "\tSales ID: ";
+	cin >> sales_id;
+	cout << "\tFirst name: ";
+	cin >> first_name;
+	cout << "\tLast name: ";
+	cin >> last_name;
+	cout << "\tYears employeed: ";
+	cin >> num_years_employed;
+
 	ss << num_years_employed;
 	string number_years_employeed = ss.str();
 
-	string input = "INSERT INTO " + relation_name + " VALUES FROM (" + first_name + ", " + last_name + ", " + sales_id + ", " + number_years_employeed + ");";
-	parser.parse_command(input);
+	string input = "INSERT INTO salesperson VALUES FROM (" + first_name + ", " + last_name + ", " + sales_id + ", " + number_years_employeed + ");";
+	try{
+		parser.parse_command_self_check(input);
+	}
+	catch (RuntimeException r){
+		cerr << "\n\t***** ERROR: ID already in use, please try again. *****\n\n";
+	}
 }
 
-void Dealership::add_car(string relation_name){
+// add a car to the database
+void Dealership::add_car(){
 	string make, model, car_id;
-	int year;
-	cout << "Make: ";
-	cin >> make;
-	cout << "Model: ";
-	cin >> model;
-	cout << "Year: ";
-	cin >> year;
-	cout << "Car ID: ";
-	cin >> car_id;
 	stringstream ss;
-	ss << year;
-	string yearr = ss.str();
+	int year;
+	int stock;
 
-	string input = "INSERT INTO " + relation_name + " VALUES FROM (" + make + ", " + model + ", " + car_id + ", " + yearr + ");";
-	parser.parse_command(input);
+	cout << "\n\t***** Adding a New Car *****\n\t_____________________________________" << endl;
+	cout << "\tCar ID: ";
+	cin >> car_id;
+	cout << "\tMake: ";
+	cin >> make;
+	cout << "\tModel: ";
+	cin >> model;
+	cout << "\tYear: ";
+	cin >> year;
+	cout << "\tStock: ";
+	cin >> stock;
+
+	ss << year;
+	string year_s = ss.str();
+	ss.str("");
+	ss << stock;
+	string stock_s = ss.str();
+
+	string input = "INSERT INTO cars VALUES FROM (" + make + ", " + model + ", " + car_id + ", " + year_s + ", " + stock_s + ");";
+	try{
+		parser.parse_command_self_check(input);
+	}
+	catch (RuntimeException r){
+		cerr << "\n\t***** ERROR: ID already in use, please try again. *****\n\n";
+	}
 }
-void Dealership::make_transaction(string salesperson_relation, string customer_relation, string car_relation, string transaction_relation){
+
+// add a transaction to the database
+void Dealership::add_transaction(){
 	string sales_id;
 	string existing_customer;
 	string customer_id;
@@ -177,7 +273,7 @@ void Dealership::make_transaction(string salesperson_relation, string customer_r
 		cin >> existing_customer;
 		if(existing_customer == "n"){
 			y_or_n = true;
-			add_customer(customer_relation);
+			add_customer();
 		}
 		else if(existing_customer == "y"){
 			y_or_n = true;
@@ -190,21 +286,133 @@ void Dealership::make_transaction(string salesperson_relation, string customer_r
 	}
 	cout << "Please enter a car ID in the inventory: ";
 	cin >> car_id;
-	string sales_select = "(select (sales_id == \"" + sales_id + "\") " + salesperson_relation + ")";
-	string customer_select = "(select (customer_id == \"" + customer_id + "\") " + customer_relation + ")";
-	string car_select = "(select (car_id == \"" + car_id + "\") " + car_relation + ")";
+	string sales_select = "(select (sales_id == \"" + sales_id + "\") salesperson )";
+	string customer_select = "(select (customer_id == \"" + customer_id + "\") customers )";
+	string car_select = "(select (car_id == \"" + car_id + "\") cars )";
 	string sales_project = "(project (last_name, sales_id) " + sales_select + ")";
 	string customer_project = "(project (last_name, customer_id) " + customer_select + ")";
 	string car_project = "(project (make, model) " + car_select + ")";
 	string transaction_union = sales_project + " + " + customer_project + " + "  + car_project;
-	string input = transaction_relation + " <- " + transaction_union;
+	string input = "transactions <- " + transaction_union;
 	parser.parse_command(input);
 }
-void Dealership::close_file(string file_name){
-	string input = "CLOSE " + file_name;
+
+// update a customers info
+void Dealership::update_customer(){
+	string att_name, literaal, operatorr, operand;
+	cout << "\tAttribute Name: ";
+	cin >> att_name;
+	cout << "Literal: ";
+	cin >> literaal;
+	cout << "Operator: ";
+	cin >> operatorr;
+	cout << "Operand: ";
+	cin >> operand;
+
+	string input = "UPDATE customers SET " + att_name + " = " + literaal + " WHERE " + att_name + operatorr + operand + ";";
 	parser.parse_command(input);
 }
-void Dealership::exit(){
-	string input = "EXIT;";
+
+// update a salesperson info
+void Dealership::update_salesperson(){
+	string att_name, literaal, operatorr, operand;
+	cout << "\tAttribute Name: ";
+	cin >> att_name;
+	cout << "Literal: ";
+	cin >> literaal;
+	cout << "Operator: ";
+	cin >> operatorr;
+	cout << "Operand: ";
+	cin >> operand;
+
+	string input = "UPDATE salesperson SET " + att_name + " = " + literaal + " WHERE " + att_name + operatorr + operand + ";";
 	parser.parse_command(input);
 }
+
+// update a cars info
+void Dealership::update_car(){
+	string att_name, literaal, operatorr, operand;
+	cout << "\tAttribute Name: ";
+	cin >> att_name;
+	cout << "Literal: ";
+	cin >> literaal;
+	cout << "Operator: ";
+	cin >> operatorr;
+	cout << "Operand: ";
+	cin >> operand;
+
+	string input = "UPDATE cars SET " + att_name + " = " + literaal + " WHERE " + att_name + operatorr + operand + ";";
+	parser.parse_command(input);
+}
+
+// update a transaction
+void Dealership::update_transaction(){
+
+}
+
+// Remove a customer
+void Dealership::remove_customer(){
+	string cust_id;
+	cout << "Customer ID: ";
+	cin >> cust_id;
+	string input = "DELETE FROM customers WHERE (" + cust_id + " == cust_id);";
+	parser.parse_command(input);
+}
+
+// remove a salesperson
+void Dealership::remove_salesperson(){
+	string sales_id;
+	cout << "Salesperson ID: ";
+	cin >> sales_id;
+	string input = "DELETE FROM salesperson WHERE (" + sales_id + " == sales_id);";
+	parser.parse_command(input);
+}
+
+// remove a car
+void Dealership::remove_car(){
+	string car_id;
+	cout << "Car ID: ";
+	cin >> car_id;
+	string input = "DELETE FROM cars WHERE (" + car_id + " == car_id);";
+	parser.parse_command(input);
+}
+
+// remove a transaction
+void Dealership::remove_transaction(){
+
+}
+
+// Prompts for and displays a customer by id
+void Dealership::get_customer(){
+	string cust_id;
+	cout << "Customer ID: ";
+	cin >> cust_id;
+
+
+	parser.parse_command("SHOW select (cust_id == " + cust_id + ") customers");
+}
+
+// Prompts for and displays a sales person by id
+void Dealership::get_salesperson(){
+	string sales_id;
+	cout << "Salesperson ID: ";
+	cin >> sales_id;
+
+
+	parser.parse_command("SHOW select (sales_id == " + sales_id + ") salesperson");
+}
+
+// Prompts for and displays a car by id
+void Dealership::get_car(){
+	string car_id;
+	cout << "Car ID: ";
+	cin >> car_id;
+
+	parser.parse_command("SHOW select (car_id == " + car_id + ") cars");
+}
+
+// Prompts for and displays a transaction by id
+void Dealership::get_transaction(){
+
+}
+
