@@ -30,7 +30,9 @@ public:
 	void add_salesperson(string);
 	// add car to the relation
 	void add_car(string);
-	//remove customer from relation
+	//remove a customer from relation
 	void delete_relation(string);
+	//shows a tuple in 'relation' that the 'attribute' equals 'id'
+	void show_tuple(string relation, string attribute, string id);
 
 };

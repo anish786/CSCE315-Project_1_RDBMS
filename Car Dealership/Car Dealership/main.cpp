@@ -39,7 +39,10 @@ int main(){
 					dl.show_relations("cars");
 				}
 				if(select == 2){
-					
+					string car_id;
+					cout << "\tCar ID: ";
+					cin >> car_id;
+					dl.show_tuple("cars", "car_id", car_id);
 				}
 				if(select == 3){
 					dl.add_car("cars");
@@ -70,7 +73,10 @@ int main(){
 					dl.show_relations("customers");
 				}
 				if(select == 2){
-
+					string cust_id;
+					cout << "\tCustomer ID: ";
+					cin >> cust_id;
+					dl.show_tuple("customers", "customer_id", cust_id);
 				}
 				if(select == 3){
 					dl.add_customer("customers");
@@ -101,7 +107,10 @@ int main(){
 					dl.show_relations("salesperson");
 				}
 				else if(select == 2){
-
+					string sales_id;
+					cout << "\tSales ID: ";
+					cin >> sales_id;
+					dl.show_tuple("salesperson", "sales_id", sales_id);
 				}
 				else if(select == 3){
 					dl.add_salesperson("salesperson");

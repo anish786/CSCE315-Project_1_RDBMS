@@ -106,13 +106,13 @@ void Dealership::add_customer(string relation_name){
 		cout << "\tCustomer ID: ";
 		cin >> customer_id;
 		//check if ID is already used
-		string query = string("") + "match <- select (customer_id == \"" + customer_id + "\") customers;";
+		string query = string("") + "Query <- select (customer_id == \"" + customer_id + "\") customers;";
 		parser.parse_command(query);
 		Database database = parser.get_database();
 
 		//if no matches continue
-		if(database.get_relation("match").get_num_tuples() == 0){
-			parser.parse_command("CLOSE match");
+		if(database.get_relation("Query").get_num_tuples() == 0){
+			parser.parse_command("CLOSE Query");
 			break;
 		}
 		else
@@ -163,12 +163,12 @@ void Dealership::add_salesperson(string relation_name){
 		cout << "\tSales ID: ";
 		cin >> sales_id;
 		//check if ID is already used
-		string query = string("") + "match <- select (sales_id == \"" + sales_id + "\") salesperson;";
+		string query = string("") + "Qatch <- select (sales_id == \"" + sales_id + "\") salesperson;";
 		parser.parse_command(query);
 		Database database = parser.get_database();
 
 		//if no matches, continue
-		if(database.get_relation("match").get_num_tuples() == 0){
+		if(database.get_relation("Query").get_num_tuples() == 0){
 			break;
 		}
 		else
@@ -200,12 +200,12 @@ void Dealership::add_car(string relation_name){
 		cout << "\tCar ID: ";
 		cin >> car_id;
 		//check if ID is already used
-		string query = string("") + "match <- select (car_id == \"" + car_id + "\") cars;";
+		string query = string("") + "Query <- select (car_id == \"" + car_id + "\") cars;";
 		parser.parse_command(query);
 		Database database = parser.get_database();
 
 		//if no matches, continue
-		if(database.get_relation("match").get_num_tuples() == 0){
+		if(database.get_relation("Query").get_num_tuples() == 0){
 			break;
 		}
 		else
@@ -224,4 +224,15 @@ void Dealership::close_file(string file_name){
 void Dealership::exit(){
 	string input = "EXIT;";
 	parser.parse_command(input);
+}
+void Dealership::show_tuple(string relation, string attribute, string id){
+	string input = "Query <- select(" + attribute + " == \"" + id + "\") " + relation;
+	parser.parse_command(input);
+	
+	if(parser.get_database().get_relation("Query").get_num_tuples() == 0){
+		cout << "\n\t***** ERROR: Could not find a tuple by that ID *****\n" << endl;
+	}
+	else{
+		parser.parse_command("SHOW Query");
+	}
 }
