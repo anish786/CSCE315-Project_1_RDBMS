@@ -199,16 +199,16 @@ void Database::write_relation(string rname){
 			break;
 		}
 	}
-	/*
+	
 	if (r_pos >= (int)relations.size()){
 		throw RuntimeException("Relation not in database");
-	}*/
+	}
 
 	ofstream db_file;
 	string db_filename = rname + ".db";
 	db_file.open(db_filename);
 
-	db_file << "CREATE TABLE " + rname + "(";
+	db_file << "CREATE TABLE " + rname + " (";
 
 	vector<Attribute> atts = relations[r_pos].get_attributes_list();
 	size_t i;

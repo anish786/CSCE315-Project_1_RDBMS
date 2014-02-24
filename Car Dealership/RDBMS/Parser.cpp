@@ -30,6 +30,14 @@ void Parser::parse_command(string command){
 	}
 }
 
+// Input a command and it will parse the command and perform the correct action
+// This version does not catch exceptions
+void Parser::parse_command_self_check(string command){
+	vector<string> tokens;
+	tokenize(command, &tokens);
+	parse(tokens);
+}
+
 // Takes a tokenized command and actually does the parsing
 void Parser::parse(vector<string> tokens){
 	if(tokens.size() >= 2){

@@ -32,6 +32,9 @@ public:
 	void parser_commandline();
 	// Input a command and it will parse the command and perform the correct action
 	void parse_command(string command);
+	// Input a command and it will parse the command and perform the correct action
+	// This version does not catch exceptions, you should check for them yourself
+	void parse_command_self_check(string command);
 	// Takes a tokenized command and actually does the parsing
 	void parse(vector<string> tokens);
 	// Tokenizes a command into tokens. Pass a reference to the vector that you want the tokens to be stored in.
