@@ -119,6 +119,7 @@ int main(){
 			}
 		}
 		else if(choice == 4){
+			
 			dl.write_to_file("customers");
 			dl.write_to_file("cars");
 			dl.write_to_file("salesperson");
@@ -126,8 +127,9 @@ int main(){
 			dl.close_file("customers");
 			dl.close_file("cars");
 			dl.close_file("salesperson");
-			dl.close_file("transaction");
+			dl.close_file("transactions");
 			dl.exit();
+			break;
 		}
 	}
 	return 0;

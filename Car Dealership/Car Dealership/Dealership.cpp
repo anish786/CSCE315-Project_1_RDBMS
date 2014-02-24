@@ -90,25 +90,45 @@ void Dealership::update_relation(string relation_name){
 }
 void Dealership::add_customer(string relation_name){
 	string first_name;
-	cout << "First name: ";
-	cin >> first_name;
 	string last_name;
-	cout << "Last name: ";
-	cin >> last_name;
 	string customer_id;
-	cout << "Customer ID: ";
-	cin >> customer_id;
-	char gender;
-	cout << "Gender: ";
-	cin >> gender;
-	int age;
-	cout << "Age: ";
-	cin >> age;
+	string gender;
 	stringstream ss;
+	char gender_char;
+	int age;
+
+	cout << "\tFirst name: ";
+	cin >> first_name;
+	cout << "\tLast name: ";
+	cin >> last_name;
+	while(true){
+		cout << "\tCustomer ID: ";
+		cin >> customer_id;
+		//check if ID is already used
+		string query = string("") + "match <- select (customer_id == \"" + customer_id + "\") customers;";
+		parser.parse_command(query);
+		Database database = parser.get_database();
+
+		//if no matches continue
+		if(database.get_relation("match").get_num_tuples() == 0){
+			parser.parse_command("CLOSE match");
+			break;
+		}
+		else
+			cerr << "\n\t***** ERROR: ID already in use, please try again. *****\n\n";
+	}
+
+	cout << "\tGender: ";
+	cin >> gender;
+	ss << gender;
+	ss >> gender_char;
+	cout << "\tAge: ";
+	cin >> age;
+	ss.str("");
 	ss << age;
 	string agee = ss.str();
 
-	string input = "INSERT INTO " + relation_name + " VALUES FROM (" + first_name + ", " + last_name + ", " + customer_id + ", " + gender + ", " + agee + ");";
+	string input = "INSERT INTO " + relation_name + " VALUES FROM (" + first_name + ", " + last_name + ", " + customer_id + ", " + gender_char + ", " + agee + ");";
 	parser.parse_command(input);
 }
 void Dealership::delete_relation(string relation_name){
@@ -127,18 +147,19 @@ void Dealership::delete_relation(string relation_name){
 
 void Dealership::add_salesperson(string relation_name){
 	string first_name;
+	string last_name;
+	string sales_id;
+	int num_years_employed;
+	stringstream ss;
+
 	cout << "First name: ";
 	cin >> first_name;
-	string last_name;
 	cout << "Last name: ";
 	cin >> last_name;
-	string sales_id;
 	cout << "Sales ID: ";
 	cin >> sales_id;
-	int num_years_employed;
 	cout << "Years employeed: ";
 	cin >> num_years_employed;
-	stringstream ss;
 	ss << num_years_employed;
 	string number_years_employeed = ss.str();
 
@@ -148,6 +169,7 @@ void Dealership::add_salesperson(string relation_name){
 
 void Dealership::add_car(string relation_name){
 	string make, model, car_id;
+	stringstream ss;
 	int year;
 	cout << "Make: ";
 	cin >> make;
@@ -157,7 +179,6 @@ void Dealership::add_car(string relation_name){
 	cin >> year;
 	cout << "Car ID: ";
 	cin >> car_id;
-	stringstream ss;
 	ss << year;
 	string yearr = ss.str();
 
