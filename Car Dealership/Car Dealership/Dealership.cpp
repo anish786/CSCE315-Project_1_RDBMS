@@ -1,5 +1,19 @@
 #include "Dealership.h"
 
+void read_string(string &s){
+	getline(cin, s);
+}
+
+void read_int(int &i){
+	cin >> i;
+	while (!cin.good()){
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cout << "\tTry again: ";
+		cin >> i;
+	}
+}
+
 //Constructor
 Dealership::Dealership(){
 	try{
