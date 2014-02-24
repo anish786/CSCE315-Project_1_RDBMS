@@ -1,4 +1,1 @@
-CREATE TABLE customers(first_name VARCHAR(20), last_name VARCHAR(20), customer_id VARCHAR(8), gender VARCHAR(1), age INTEGER) PRIMARY KEY (customer_id);
-INSERT INTO customers VALUES FROM ("Anish", "Ali", "1", "M", 20);
-INSERT INTO customers VALUES FROM ("Anish", "Momin", "2", "M", 22);
-INSERT INTO customers VALUES FROM ("Anne", "Smith", "3", "F", 18);
+CREATE TABLE customers (first_name VARCHAR(20), last_name VARCHAR(20), customer_id VARCHAR(8), gender VARCHAR(1), age INTEGER) PRIMARY KEY (customer_id);

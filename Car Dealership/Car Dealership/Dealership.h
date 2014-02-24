@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Parser.h"
 
 class Dealership{
@@ -5,13 +7,15 @@ class Dealership{
 	Parser parser;
 	Database db;
 public:
+	//Constructor
+	Dealership();
+	//Destructor
+	~Dealership();
 	// open the files
 	void open_relation(string);
 	// writes to file
 	void write_to_file(string);
 
-	void close_file(string);
-	void exit();
 	//Prints main menu
 	void main_menu();
 	//Prints car menu
@@ -21,17 +25,17 @@ public:
 	//Prints sales people menu
 	void salespeople_menu();
 	//shows the customer relation
-	void show_relations(string);
+	void show_relation(string);
 	// updates the relation
 	void update_relation(string);
 	// add customer to the relation
-	void add_customer(string);
+	void add_customer();
 	// add salesperson to the relation
-	void add_salesperson(string);
+	void add_salesperson();
 	// add car to the relation
-	void add_car(string);
-	//remove a customer from relation
-	void delete_relation(string);
+	void add_car();
+	//remove from relation
+	void delete_from_relation(string);
 	//shows a tuple in 'relation' that the 'attribute' equals 'id'
 	void show_tuple(string relation, string attribute, string id);
 
