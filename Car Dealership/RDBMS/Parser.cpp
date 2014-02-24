@@ -167,6 +167,27 @@ bool Parser::is_double_token(char c)
 
 // Uses the Db to evaluate an atomic expressions tokens
 Relation Parser::evalutate_atomic_expression(vector<string> atomic_expr){
+	if (atomic_expr.size() >= 3 && atomic_expr[0].compare("(") == 0) {
+		int pos = 1;
+		int open_count = 0;
+		bool in_parentheses = false;
+		while (pos < (int)atomic_expr.size() && atomic_expr[pos].compare(")") != 0 || open_count != 0 ){
+			if (atomic_expr[pos].compare("(") == 0){
+				open_count++;
+			}
+			if (atomic_expr[pos].compare(")") == 0){
+				open_count--;
+			}
+			pos++;
+		}
+		if (pos == (int)atomic_expr.size() - 1){
+			in_parentheses = true;
+		}
+		if (in_parentheses){
+			atomic_expr = vector<string>(atomic_expr.begin()+1, atomic_expr.end()-1);
+		}
+	}
+
 	if (atomic_expr.size() == 1){
 		return db.get_relation(atomic_expr[0]);
 	}
@@ -595,9 +616,9 @@ void Parser::parse_insert(vector<string> tokens){
 // Parse the show command
 void Parser::parse_show(vector<string> tokens){
 	// checks if the token size is 2
-	if (tokens.size() == 2)
+	if (tokens.size() >= 2)
 		// prints the relation on console
-		cout << db.get_relation(tokens[1]);
+		cout << evalutate_atomic_expression(vector<string>(tokens.begin()+1, tokens.end()));
 	else
 		throw RuntimeException("Invalid Query.");
 }

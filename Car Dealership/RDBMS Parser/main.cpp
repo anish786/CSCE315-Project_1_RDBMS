@@ -10,4 +10,8 @@ int main(){
 	catch(RuntimeException r){
 		cerr << r.getMessage() << endl;
 	}
+	catch (...) {
+		return 1;
+	}
+	return 0;
 }

@@ -3,17 +3,7 @@
 int main(){
 
 	Dealership dl;
-	vector<string> open_file;
-	open_file.push_back("customers");
-	open_file.push_back("cars");
-	open_file.push_back("salesperson");
-	open_file.push_back("transactions");
-	ifstream db_file;
-	for(size_t i = 0; i < open_file.size(); i++){
-		dl.open_relation(open_file[i]);
-		//dl.write_to_file(open_file[0]);
-	}
-
+	
 	cout << "\n\n********************************************************************************"
 	 << "\n\t\t WELCOME TO CARS2GO AUTO DEALERSHIP!\n"
 	 << "\n********************************************************************************";
@@ -25,6 +15,13 @@ int main(){
 	while(done == false){
 		dl.main_menu();
 		cin >> choice;
+		while (choice < 1 || choice > 4){
+			cerr << "\n\t***** ERROR: Please input a valid option *****"
+				<< "\n\tPlease try again: ";
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cin >> choice;
+		}
 		// Cars Menu
 		if(choice == 1){
 			while(true){
@@ -33,25 +30,24 @@ int main(){
 				while(select < 1 || select > 6){
 					cerr << "\n\t***** ERROR: Please input a valid option *****"
 						<< "\n\tPlease try again: ";
+					cin.clear();
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
 					cin >> select;
 				}
 				if(select == 1){
-					dl.show_relations("cars");
+					dl.show("cars");
 				}
 				if(select == 2){
-					string car_id;
-					cout << "\tCar ID: ";
-					cin >> car_id;
-					dl.show_tuple("cars", "car_id", car_id);
+					dl.get_car();
 				}
 				if(select == 3){
-					dl.add_car("cars");
+					dl.add_car();
 				}
 				if(select == 4){
-					dl.update_relation("cars");
+					dl.update_car();
 				}
 				if(select == 5){
-					dl.delete_relation("cars");
+					dl.remove_car();
 				}
 				if(select == 6){
 					dl.write_to_file("cars");
@@ -67,25 +63,24 @@ int main(){
 				while(select < 1 || select > 6){
 						cerr << "\n\t***** ERROR: Please input a valid option *****"
 							<< "\n\tPlease try again: ";
+						cin.clear();
+						cin.ignore(numeric_limits<streamsize>::max(), '\n');
 						cin >> select;
 				}
 				if(select == 1){
-					dl.show_relations("customers");
+					dl.show("customers");
 				}
 				if(select == 2){
-					string cust_id;
-					cout << "\tCustomer ID: ";
-					cin >> cust_id;
-					dl.show_tuple("customers", "customer_id", cust_id);
+					dl.get_customer();
 				}
 				if(select == 3){
-					dl.add_customer("customers");
+					dl.add_customer();
 				}
 				if(select == 4){
-					dl.update_relation("customers");
+					dl.update_customer();
 				}
 				if(select == 5){
-					dl.delete_relation("customers");
+					dl.remove_customer();
 				}
 				if(select == 6){
 					dl.write_to_file("customers");
@@ -101,25 +96,24 @@ int main(){
 				while(select < 1 || select > 6){
 					cerr << "\n\t***** ERROR: Please input a valid option *****"
 						<< "\n\tPlease try again: ";
+					cin.clear();
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
 					cin >> select;
 				}
 				if(select == 1){
-					dl.show_relations("salesperson");
+					dl.show("salesperson");
 				}
 				else if(select == 2){
-					string sales_id;
-					cout << "\tSales ID: ";
-					cin >> sales_id;
-					dl.show_tuple("salesperson", "sales_id", sales_id);
+					dl.get_salesperson();
 				}
 				else if(select == 3){
-					dl.add_salesperson("salesperson");
+					dl.add_salesperson();
 				}
 				else if(select == 4){
-					dl.update_relation("salesperson");
+					dl.update_salesperson();
 				}
 				else if(select == 5){
-					dl.delete_relation("salesperson");
+					dl.remove_salesperson();
 				}
 				else if(select == 6){
 					dl.write_to_file("salesperson");
@@ -128,16 +122,6 @@ int main(){
 			}
 		}
 		else if(choice == 4){
-			
-			dl.write_to_file("customers");
-			dl.write_to_file("cars");
-			dl.write_to_file("salesperson");
-			dl.write_to_file("transactions");
-			dl.close_file("customers");
-			dl.close_file("cars");
-			dl.close_file("salesperson");
-			dl.close_file("transactions");
-			dl.exit();
 			break;
 		}
 	}
