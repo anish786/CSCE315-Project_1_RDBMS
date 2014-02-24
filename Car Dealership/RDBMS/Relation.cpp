@@ -143,6 +143,19 @@ void Relation::insert_tuple(vector<string>values){
 				found = true;
 				break;
 			}
+			//Check for matching keys
+			if (keys.size() > 0){
+				int key_match = 0;
+				for (size_t j = 0; j < keys.size(); j++){
+					if (tuple_list[i].get_cell_data(keys[j]).compare(temp.get_cell_data(keys[j])) == 0){
+						key_match++;
+					}
+				}
+				if (key_match == (int)keys.size()){
+					found = true;
+					break;
+				}
+			}
 		}
 		if (!found){
 			tuple_list.push_back(temp);
@@ -160,7 +173,12 @@ void Relation::insert_tuple(vector<string>values){
 // Input a relation to get tuples from
 void Relation::insert_from_relation(Relation r){
 	for(size_t i = 0; i < r.tuple_list.size(); i++){
-		insert_tuple(r.tuple_list[i].get_values());
+		try{
+			insert_tuple(r.tuple_list[i].get_values());
+		}
+		catch (RuntimeException r){
+			//Dont add the tuple
+		}
 	}
 }
 
@@ -182,16 +200,11 @@ void Relation::project(vector<string> att_list, Relation r){
 		for(size_t j = 0; j < a_list.size(); j++){
 			new_t.push_back(r.tuple_list[i].get_cell_data(r.find_attribute_column(a_list[j].get_attribute_name())));
 		}
-		bool found = false;
-		Tuple temp(attribute_list, new_t);
-		for (size_t i = 0; i < tuple_list.size(); i++){
-			if (tuple_list[i] == temp){
-				found = true;
-				break;
-			}
+		try{
+			insert_tuple(new_t);
 		}
-		if (!found){
-			tuple_list.push_back(temp);
+		catch (RuntimeException r){
+			//Dont add the tuple
 		}
 	}
 }
@@ -233,7 +246,12 @@ void Relation::select(Condition con, Relation r){
 	tuple_list.clear();
 	for(size_t i = 0; i < r.tuple_list.size(); i++){
 		if(con.evaluate(r.get_attributes() , r.tuple_list[i].get_values())){
-			insert_tuple(r.tuple_list[i].get_values());
+			try{
+				insert_tuple(r.tuple_list[i].get_values());
+			}
+			catch (RuntimeException r){
+				//Dont add the tuple
+			}
 		}
 	}
 }
@@ -321,7 +339,12 @@ void Relation::natural_join(Relation r1, Relation r2){\
 					}
 				}
 				// Create and push back a tuple based on that cell data
-				tuple_list.push_back(Tuple(attribute_list, data));
+				try{
+					insert_tuple(data);
+				}
+				catch (RuntimeException r){
+					//Don't add the tuple
+				}
 			}
 		}
 	}
@@ -356,15 +379,11 @@ Relation Relation::operator+(const Relation &r) const{
 	set_union.tuple_list = tuple_list;
 	//add non-duplicate tuples in the second relation
 	for(size_t i=0; i< r.tuple_list.size(); ++i){
-		bool found = false;
-		for(size_t j=0; j<tuple_list.size(); ++j){
-			if(r.tuple_list[i] == tuple_list[j]){	//if tuples match
-				found = true;
-				break;
-			}
+		try{
+			set_union.insert_tuple(r.tuple_list[i].get_values());
 		}
-		if(!found){								//tuple was not found
-			set_union.tuple_list.push_back(r.tuple_list[i]);
+		catch (RuntimeException r){
+			//Don't add the tuple
 		}
 	}
 	return set_union;
@@ -400,7 +419,12 @@ Relation Relation::operator-(const Relation &r) const{
 			}
 		}
 		if(!found){								//tuple was not found
-			set_diff.tuple_list.push_back(tuple_list[i]);
+			try{
+				set_diff.insert_tuple(tuple_list[i].get_values());
+			}
+			catch (RuntimeException r){
+				//Don't add the tuple if duplicate
+			}
 		}
 	}	
 	return set_diff;
@@ -420,7 +444,6 @@ Relation Relation::operator*(const Relation &r) const{
 
 	//Add attributes from first relation
 	cross_product.attribute_list = attribute_list;
-	cross_product.keys = keys;
 
 	//Add attributes from the second relation
 	cross_product.attribute_list.insert(cross_product.attribute_list.end(), r.attribute_list.begin(), r.attribute_list.end());
@@ -435,7 +458,12 @@ Relation Relation::operator*(const Relation &r) const{
 			for (size_t k = 0; k < r.attribute_list.size(); k++){
 				values.push_back(r.tuple_list[i].get_cells()[k].get_value());
 			}
-			cross_product.insert_tuple(values);
+			try{
+				cross_product.insert_tuple(values);
+			}
+			catch (RuntimeException r){
+				//Dont add the tuple
+			}
 		}
 	}
 	return cross_product;
