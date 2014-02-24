@@ -515,6 +515,11 @@ ostream& operator<<(ostream& os, Relation r){
 		}
 		os << endl << divider << endl;
 	}
+	//if relation is empty
+	if(r.tuple_list.size() == 0){
+		os << "\t\t***** Relation is empty *****\n\n" << endl;
+	}
+
 	return os;
 }
 /* End of definitions */
