@@ -619,6 +619,11 @@ void Dealership::get_transaction(){
 // List all people (union, projection)
 void Dealership::list_people(){
 
+	string salesperson = "sales <- project (first_name, last_name, gender, age) salesperson;";
+	string customer = "cust <- project (first_name, last_name, gender, age) customers;";
+	string query = "list_of_people <- sales + cust;";
+	parser.parse_command(query);
+	show("list_of_people");
 }
 
 // Show old and new cars in different tables (difference)
