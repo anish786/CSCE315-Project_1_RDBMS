@@ -2,6 +2,8 @@
 
 #include "Parser.h"
 
+using namespace std;
+
 class Dealership{
 	//parser object
 	Parser parser;
@@ -69,4 +71,17 @@ public:
 	void get_car();
 	// Prompts for and displays a transaction by id
 	void get_transaction();
+
+	// List all people (union, projection)
+	void list_people();
+	// Show old and new cars in different tables (difference)
+	void show_old_and_new_cars();
+	// Shows Cars in a customers price range (cross product)
+	void show_customer_options();
+	// Salespersons dealt with Customers 
+	void show_dealings();
+	// Cars bought by Customers 
+	void show_cars_bought();
+	// Cars sold by Salespersons
+	void show_cars_sold();
 };
