@@ -1,0 +1,300 @@
+-----------------------------------------------------------------
+| transactions                                                  |
+-----------------------------------------------------------------
+| transaction_id | customer_id | sales_id | car_id | sale_price |
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+|              1 |           1 |        1 |      1 |      15500 |
+-----------------------------------------------------------------
+        _________________________________________________
+
+                          MAIN MENU -> Transaction
+        _________________________________________________
+
+           Options:
+              1. Show All Transactions
+              2. Show Transaction
+              3. Add Transaction
+              4. Modify Transaction
+              5. Delete Transaction
+              6. Back to MAIN MENU
+        _________________________________________________
+
+        Please choose option: 3
+
+        ***** Adding a Transaction *****
+        _____________________________________
+        Transaction ID: 2
+        Customer ID: 2
+        Sales ID: 1
+        Car ID: 3
+        Sale Price: 11999
+        _________________________________________________
+
+                          MAIN MENU -> Transaction
+        _________________________________________________
+
+           Options:
+              1. Show All Transactions
+              2. Show Transaction
+              3. Add Transaction
+              4. Modify Transaction
+              5. Delete Transaction
+              6. Back to MAIN MENU
+        _________________________________________________
+
+        Please choose option: 1
+-----------------------------------------------------------------
+| transactions                                                  |
+-----------------------------------------------------------------
+| transaction_id | customer_id | sales_id | car_id | sale_price |
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+|              1 |           1 |        1 |      1 |      15500 |
+-----------------------------------------------------------------
+|              2 |           2 |        1 |      3 |      11999 |
+-----------------------------------------------------------------
+        _________________________________________________
+
+                          MAIN MENU -> Transaction
+        _________________________________________________
+
+           Options:
+              1. Show All Transactions
+              2. Show Transaction
+              3. Add Transaction
+              4. Modify Transaction
+              5. Delete Transaction
+              6. Back to MAIN MENU
+        _________________________________________________
+
+        Please choose option: 6
+        _________________________________________________
+
+                          MAIN MENU
+        _________________________________________________
+
+           Options:
+              1. Cars
+              2. Customers
+              3. Sales People
+              4. Transactions
+              5. Statistics
+              6. Quit
+        _________________________________________________
+
+        Please choose option: 5
+        _________________________________________________
+
+                          MAIN MENU -> Statistics
+        _________________________________________________
+
+           Options:
+              1. List all People
+              2. Show Old and New Cars
+              3. Cars in Customer Price Range
+              4. Salespersons dealt with Customers
+              5. Cars bought by Customers
+              6. Cars sold by Salespersons
+              7. Back to MAIN MENU
+        _________________________________________________
+
+        Please choose option: 1
+-----------------------------------------
+| list_of_people                        |
+-----------------------------------------
+| first_name | last_name | gender | age |
+-----------------------------------------
+-----------------------------------------
+|        Bob |       Doe |      M |  32 |
+-----------------------------------------
+|       John |     Smith |      M |  21 |
+-----------------------------------------
+|      Jimmy |   Jinkins |      M |  52 |
+-----------------------------------------
+        _________________________________________________
+
+                          MAIN MENU -> Statistics
+        _________________________________________________
+
+           Options:
+              1. List all People
+              2. Show Old and New Cars
+              3. Cars in Customer Price Range
+              4. Salespersons dealt with Customers
+              5. Cars bought by Customers
+              6. Cars sold by Salespersons
+              7. Back to MAIN MENU
+        _________________________________________________
+
+        Please choose option: 2
+        Starting year for new cars: 2001
+--------------------------------------------------
+| old_cars                                       |
+--------------------------------------------------
+| car_id |  make |  model | year |  msrp | stock |
+--------------------------------------------------
+--------------------------------------------------
+|      3 |   GSM | Sierra | 1998 | 12000 |     5 |
+--------------------------------------------------
+|      4 | Honda |  S2000 | 2000 | 32000 |     1 |
+--------------------------------------------------
+|      5 | Honda |  Civic | 2000 |  8000 |     1 |
+--------------------------------------------------
+--------------------------------------------------
+| new_cars                                       |
+--------------------------------------------------
+| car_id |   make | model | year |  msrp | stock |
+--------------------------------------------------
+--------------------------------------------------
+|      1 |   Ford |  F150 | 2014 | 24745 |     3 |
+--------------------------------------------------
+|      2 | Subaru |   BRZ | 2013 | 25495 |     2 |
+--------------------------------------------------
+|      6 |  Mazda |     6 | 2012 | 16000 |     9 |
+--------------------------------------------------
+        _________________________________________________
+
+                          MAIN MENU -> Statistics
+        _________________________________________________
+
+           Options:
+              1. List all People
+              2. Show Old and New Cars
+              3. Cars in Customer Price Range
+              4. Salespersons dealt with Customers
+              5. Cars bought by Customers
+              6. Cars sold by Salespersons
+              7. Back to MAIN MENU
+        _________________________________________________
+
+        Please choose option: 3
+        Maximum Price: 20000
+----------------------------------------------------------
+| options                                                |
+----------------------------------------------------------
+| first_name | last_name |  make |  model | year |  msrp |
+----------------------------------------------------------
+----------------------------------------------------------
+|       John |     Smith |   GSM | Sierra | 1998 | 12000 |
+----------------------------------------------------------
+|       John |     Smith | Honda |  Civic | 2000 |  8000 |
+----------------------------------------------------------
+|       John |     Smith | Mazda |      6 | 2012 | 16000 |
+----------------------------------------------------------
+|      Jimmy |   Jinkins |   GSM | Sierra | 1998 | 12000 |
+----------------------------------------------------------
+|      Jimmy |   Jinkins | Honda |  Civic | 2000 |  8000 |
+----------------------------------------------------------
+|      Jimmy |   Jinkins | Mazda |      6 | 2012 | 16000 |
+----------------------------------------------------------
+        _________________________________________________
+
+                          MAIN MENU -> Statistics
+        _________________________________________________
+
+           Options:
+              1. List all People
+              2. Show Old and New Cars
+              3. Cars in Customer Price Range
+              4. Salespersons dealt with Customers
+              5. Cars bought by Customers
+              6. Cars sold by Salespersons
+              7. Back to MAIN MENU
+        _________________________________________________
+
+        Please choose option: 4
+-----------------------------------------------------
+| dealings                                          |
+-----------------------------------------------------
+| sales_first | sales_last | cust_first | cust_last |
+-----------------------------------------------------
+-----------------------------------------------------
+|         Bob |        Doe |       John |     Smith |
+-----------------------------------------------------
+|         Bob |        Doe |      Jimmy |   Jinkins |
+-----------------------------------------------------
+        _________________________________________________
+
+                          MAIN MENU -> Statistics
+        _________________________________________________
+
+           Options:
+              1. List all People
+              2. Show Old and New Cars
+              3. Cars in Customer Price Range
+              4. Salespersons dealt with Customers
+              5. Cars bought by Customers
+              6. Cars sold by Salespersons
+              7. Back to MAIN MENU
+        _________________________________________________
+
+        Please choose option: 5
+--------------------------------------------------------------
+| cars_bought                                                |
+--------------------------------------------------------------
+| first_name | last_name | sale_price | make |  model | year |
+--------------------------------------------------------------
+--------------------------------------------------------------
+|       John |     Smith |      15500 | Ford |   F150 | 2014 |
+--------------------------------------------------------------
+|      Jimmy |   Jinkins |      11999 |  GSM | Sierra | 1998 |
+--------------------------------------------------------------
+        _________________________________________________
+
+                          MAIN MENU -> Statistics
+        _________________________________________________
+
+           Options:
+              1. List all People
+              2. Show Old and New Cars
+              3. Cars in Customer Price Range
+              4. Salespersons dealt with Customers
+              5. Cars bought by Customers
+              6. Cars sold by Salespersons
+              7. Back to MAIN MENU
+        _________________________________________________
+
+        Please choose option: 6
+--------------------------------------------------------------
+| cars_sold                                                  |
+--------------------------------------------------------------
+| first_name | last_name | sale_price | make |  model | year |
+--------------------------------------------------------------
+--------------------------------------------------------------
+|        Bob |       Doe |      15500 | Ford |   F150 | 2014 |
+--------------------------------------------------------------
+|        Bob |       Doe |      11999 |  GSM | Sierra | 1998 |
+--------------------------------------------------------------
+        _________________________________________________
+
+                          MAIN MENU -> Statistics
+        _________________________________________________
+
+           Options:
+              1. List all People
+              2. Show Old and New Cars
+              3. Cars in Customer Price Range
+              4. Salespersons dealt with Customers
+              5. Cars bought by Customers
+              6. Cars sold by Salespersons
+              7. Back to MAIN MENU
+        _________________________________________________
+
+        Please choose option: 7
+        _________________________________________________
+
+                          MAIN MENU
+        _________________________________________________
+
+           Options:
+              1. Cars
+              2. Customers
+              3. Sales People
+              4. Transactions
+              5. Statistics
+              6. Quit
+        _________________________________________________
+
+        Please choose option: 6
+Press any key to continue . . .

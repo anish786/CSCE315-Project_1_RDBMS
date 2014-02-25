@@ -4,4 +4,4 @@ INSERT INTO cars VALUES FROM ("2", "Subaru", "BRZ", 2013, 25495, 2);
 INSERT INTO cars VALUES FROM ("3", "GSM", "Sierra", 1998, 12000, 5);
 INSERT INTO cars VALUES FROM ("4", "Honda", "S2000", 2000, 32000, 1);
 INSERT INTO cars VALUES FROM ("5", "Honda", "Civic", 2000, 8000, 1);
-INSERT INTO cars VALUES FROM ("6", "Mazda", "6", 2012, 16000, 10);
+INSERT INTO cars VALUES FROM ("6", "Mazda", "6", 2012, 16000, 8);

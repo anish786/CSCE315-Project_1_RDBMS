@@ -324,11 +324,12 @@ void Dealership::update_customer(){
 	
 	int choice;
 	string att_name, literaal;
-	cout << "\t   What Attribue do you want to change?"
+	cout << "\t   What Attribue do you want to change?\n"
 		<< "\t      1. First name" << endl
 		<< "\t      2. Last name" << endl
 		<< "\t      3. Gender" << endl
-		<< "\t      4. Age" << endl;
+		<< "\t      4. Age" << endl
+		<< "\tPlease choose option: ";
 	read_int(choice);
 	while (choice < 1 || choice > 4){
 			cerr << "\n\t***** ERROR: Please input a valid option *****"
@@ -375,12 +376,13 @@ void Dealership::update_salesperson(){
 	
 	int choice;
 	string att_name, literaal;
-	cout << "\t   What Attribue do you want to change?"
+	cout << "\t   What Attribue do you want to change?\n"
 		<< "\t      1. First name" << endl
 		<< "\t      2. Last name" << endl
 		<< "\t      3. Gender" << endl
 		<< "\t      4. Age" << endl
-		<< "\t      5. Years Employeed" << endl;
+		<< "\t      5. Years Employeed" << endl
+		<< "\tPlease choose option: ";
 	read_int(choice);
 	while (choice < 1 || choice > 5){
 			cerr << "\n\t***** ERROR: Please input a valid option *****"
@@ -436,12 +438,13 @@ void Dealership::update_car(){
 	
 	int choice;
 	string att_name, literaal;
-	cout << "\t   What Attribue do you want to change?"
+	cout << "\t   What Attribue do you want to change?\n"
 		<< "\t      1. Make" << endl
 		<< "\t      2. Model" << endl
 		<< "\t      3. Year" << endl
 		<< "\t      4. MSPR" << endl
-		<< "\t      5. Stock" << endl;
+		<< "\t      5. Stock" << endl
+		<< "\tPlease choose option: ";
 	read_int(choice);
 	while (choice < 1 || choice > 5){
 			cerr << "\n\t***** ERROR: Please input a valid option *****"
@@ -501,11 +504,12 @@ void Dealership::update_transaction(){
 	
 	int choice;
 	string att_name, literaal;
-	cout << "\t   What Attribue do you want to change?"
+	cout << "\t   What Attribue do you want to change?\n"
 		<< "\t      1. Customer ID" << endl
 		<< "\t      2. Sales ID" << endl
 		<< "\t      3. Car ID" << endl
-		<< "\t      4. Sale Price" << endl;
+		<< "\t      4. Sale Price" << endl
+		<< "\tPlease choose option: ";
 	read_int(choice);
 	while (choice < 1 || choice > 4){
 			cerr << "\n\t***** ERROR: Please input a valid option *****"

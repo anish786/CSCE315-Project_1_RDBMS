@@ -1,2 +1,4 @@
 CREATE TABLE customers (customer_id VARCHAR(8), first_name VARCHAR(20), last_name VARCHAR(20), gender VARCHAR(1), age INTEGER) PRIMARY KEY (customer_id);
 INSERT INTO customers VALUES FROM ("1", "John", "Smith", "M", 21);
+INSERT INTO customers VALUES FROM ("2", "Jimmy", "Jinkins", "M", 52);
+INSERT INTO customers VALUES FROM ("3", "Jill", "Jinkins", "F", 45);

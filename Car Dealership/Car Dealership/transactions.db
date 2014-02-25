@@ -1,2 +1,4 @@
 CREATE TABLE transactions (transaction_id VARCHAR(8), customer_id VARCHAR(8), sales_id VARCHAR(8), car_id VARCHAR(8), sale_price INTEGER) PRIMARY KEY (transaction_id);
 INSERT INTO transactions VALUES FROM ("1", "1", "1", "1", 15500);
+INSERT INTO transactions VALUES FROM ("2", "2", "1", "3", 11999);
+INSERT INTO transactions VALUES FROM ("3", "3", "2", "4", 30000);
