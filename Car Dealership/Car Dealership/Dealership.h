@@ -7,7 +7,6 @@ using namespace std;
 class Dealership{
 	//parser object
 	Parser parser;
-	Database db;
 public:
 	// Constructor
 	Dealership();

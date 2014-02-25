@@ -157,7 +157,7 @@ int main(){
 			while(true){
 				dl.statistics_menu();
 				cin >> select;
-				while(select < 1 || select > 6){
+				while(select < 1 || select > 7){
 					cerr << "\n\t***** ERROR: Please input a valid option *****"
 						<< "\n\tPlease try again: ";
 					cin.clear();
@@ -181,6 +181,9 @@ int main(){
 				}
 				else if(select == 6){
 					dl.show_cars_sold();
+				}
+				else if (select == 7){
+					break;
 				}
 			}
 		}

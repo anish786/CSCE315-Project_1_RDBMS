@@ -43,7 +43,7 @@ Dealership::Dealership(){
 		open_relation("transactions");
 	}
 	catch (RuntimeException r){
-		parser.parse_command("CREATE TABLE transactions (transaction_id VARCHAR(8), cust_id VARCHAR(8), "
+		parser.parse_command("CREATE TABLE transactions (transaction_id VARCHAR(8), customer_id VARCHAR(8), "
 			"sales_id VARCHAR(8), car_id VARCHAR(8), sale_price INTEGER) PRIMARY KEY (transaction_id);");
 	}
 }
@@ -148,6 +148,7 @@ void Dealership::statistics_menu(){
 		<< "\t      4. Salespersons dealt with Customers " << endl
 		<< "\t      5. Cars bought by Customers " << endl
 		<< "\t      6. Cars sold by Salespersons " << endl
+		<< "\t      7. Back to MAIN MENU" << endl
 		<< "\t_________________________________________________\n" << endl
 		<< "\tPlease choose option: ";
 }
@@ -233,7 +234,7 @@ void Dealership::add_salesperson(){
 	ss << age;
 	string age_s = ss.str();
 
-	string input = "INSERT INTO customers VALUES FROM (\"" + sales_id + "\", \"" + first_name + "\", \"" + last_name + "\", \"" + gender + "\", " + age_s + ", " + number_years_employed_s + ");";
+	string input = "INSERT INTO salesperson VALUES FROM (\"" + sales_id + "\", \"" + first_name + "\", \"" + last_name + "\", \"" + gender + "\", " + age_s + ", " + number_years_employed_s + ");";
 	try{
 		parser.parse_command_self_check(input);
 	}
@@ -306,8 +307,7 @@ void Dealership::add_transaction(){
 	ss << price;
 	string price_s = ss.str();
 	
-	cin >> car_id;
-	string input = "INSERT INTO cars VALUES FROM (\"" + trans_id + "\", \"" + customer_id + "\", \"" + sales_id + "\", \"" + car_id + "\", " + price_s + ");"; 
+	string input = "INSERT INTO transactions VALUES FROM (\"" + trans_id + "\", \"" + customer_id + "\", \"" + sales_id + "\", \"" + car_id + "\", " + price_s + ");"; 
 	try{
 		parser.parse_command_self_check(input);
 	}
@@ -505,7 +505,7 @@ void Dealership::update_transaction(){
 		<< "\t      1. Customer ID" << endl
 		<< "\t      2. Sales ID" << endl
 		<< "\t      3. Car ID" << endl
-		<< "\t      4. Sale PRice" << endl;
+		<< "\t      4. Sale Price" << endl;
 	read_int(choice);
 	while (choice < 1 || choice > 4){
 			cerr << "\n\t***** ERROR: Please input a valid option *****"
@@ -518,7 +518,7 @@ void Dealership::update_transaction(){
 	if(choice == 1){
 		cout << "\tCustomer ID: ";
 		read_string(literaal);
-		att_name = "cust_id";
+		att_name = "customer_id";
 	}
 	else if(choice == 2){
 		cout << "\tSales ID: ";
@@ -633,15 +633,24 @@ void Dealership::show_customer_options(){
 
 // Salespersons dealt with Customers 
 void Dealership::show_dealings(){
-
+	parser.parse_command("rename_cust <- project (customer_id, cust_first, cust_last) rename (customer_id, cust_first, cust_last, age, gender) customers");
+	parser.parse_command("rename_sales <- project (sales_id, sales_first, sales_last) rename (sales_id, sales_first, sales_last, age, gender, num_years_employed) salesperson");
+	parser.parse_command("join_sales_cust <- (rename_sales JOIN transactions) JOIN rename_cust");
+	parser.parse_command("dealings <- project (sales_first, sales_last, cust_first, cust_last) join_sales_cust");
+	show("dealings");
 }
 
 // Cars bought by Customers 
 void Dealership::show_cars_bought(){
+	parser.parse_command("join_cust_cars <- (customers JOIN transactions) JOIN cars");
+	parser.parse_command("cars_bought <- project (first_name, last_name, sale_price, make, model, year) join_cust_cars");
+	show("cars_bought");
 
 }
 
 // Cars sold by Salespersons
 void Dealership::show_cars_sold(){
-
+	parser.parse_command("join_sales_cars <- (salesperson JOIN transactions) JOIN cars");
+	parser.parse_command("cars_sold <- project (first_name, last_name, sale_price, make, model, year) join_sales_cars");
+	show("cars_sold");
 }

@@ -1,1 +1,2 @@
 CREATE TABLE cars (car_id VARCHAR(8), make VARCHAR(20), model VARCHAR(20), year INTEGER,msrp INTEGER,stock INTEGER) PRIMARY KEY (car_id);
+INSERT INTO cars VALUES FROM ("1", "Mazda", "6", 2012, 16000, 10);
