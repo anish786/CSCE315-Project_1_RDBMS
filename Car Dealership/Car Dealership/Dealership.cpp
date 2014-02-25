@@ -623,7 +623,16 @@ void Dealership::list_people(){
 
 // Show old and new cars in different tables (difference)
 void Dealership::show_old_and_new_cars(){
+	string year;
 
+	cout << "\n\tStarting year for new cars: ";
+	read_string(year);
+	string input1 = "old_cars <- select(year < " + year + ") cars;";
+	string input2 = "new_cars <- cars - old_cars;";
+	parser.parse_command(input1);
+	parser.parse_command(input2);
+	show("old_cars");
+	show("new_cars");
 }
 
 // Shows Cars in a customers price range (cross product)

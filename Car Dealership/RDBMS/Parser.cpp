@@ -308,6 +308,7 @@ Relation Parser::evalutate_atomic_expression(vector<string> atomic_expr){
 	
 	int operation_loc = 0;
 	if ((int)atomic_expr.size() > 1 && atomic_expr[0].compare("(") == 0){
+		operation_loc++;
 		int open_par = 0;
 		while (operation_loc < (int)atomic_expr.size() - 1 && (atomic_expr[operation_loc].compare(")") != 0 || open_par != 0)){
 			if (atomic_expr[operation_loc].compare("(") == 0){

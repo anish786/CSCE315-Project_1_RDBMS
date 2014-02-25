@@ -300,7 +300,7 @@ void Relation::natural_join(Relation r1, Relation r2){\
 	for (int i = 0; i < r2.get_num_attributes(); i++){
 		bool found = false;
 		for (int j = 0; j < r1.get_num_attributes(); j++){
-			if (r2.attribute_list[i] == r1.attribute_list[i]){
+			if (r2.attribute_list[i] == r1.attribute_list[j]){
 				found = true;
 				break;
 			}
@@ -335,7 +335,7 @@ void Relation::natural_join(Relation r1, Relation r2){\
 						}
 					}
 					if (!common_attribute){
-						data.push_back(r2.tuple_list[k].get_values()[k]);
+						data.push_back(r2.tuple_list[j].get_values()[k]);
 					}
 				}
 				// Create and push back a tuple based on that cell data
