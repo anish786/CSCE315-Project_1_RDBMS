@@ -1,1 +1,1 @@
-CREATE TABLE transactions ("transaction_id" VARCHAR(10)) PRIMARY KEY (transaction_id);
+CREATE TABLE transactions (transaction_id VARCHAR(8), cust_id VARCHAR(8), sales_id VARCHAR(8), car_id VARCHAR(8), sale_price INTEGER) PRIMARY KEY (transaction_id);
