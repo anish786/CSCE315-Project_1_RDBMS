@@ -1,5 +1,5 @@
 CREATE TABLE cars (car_id VARCHAR(8), make VARCHAR(20), model VARCHAR(20), year INTEGER,msrp INTEGER,stock INTEGER) PRIMARY KEY (car_id);
-INSERT INTO cars VALUES FROM ("1", "Ford", "F-150", 2014, 24745, 3);
+INSERT INTO cars VALUES FROM ("1", "Ford", "F150", 2014, 24745, 3);
 INSERT INTO cars VALUES FROM ("2", "Subaru", "BRZ", 2013, 25495, 2);
 INSERT INTO cars VALUES FROM ("3", "GSM", "Sierra", 1998, 12000, 5);
 INSERT INTO cars VALUES FROM ("4", "Honda", "S2000", 2000, 32000, 1);

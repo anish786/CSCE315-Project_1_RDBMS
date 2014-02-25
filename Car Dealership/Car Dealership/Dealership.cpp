@@ -622,6 +622,8 @@ void Dealership::list_people(){
 	string salesperson = "sales <- project (first_name, last_name, gender, age) salesperson;";
 	string customer = "cust <- project (first_name, last_name, gender, age) customers;";
 	string query = "list_of_people <- sales + cust;";
+	parser.parse_command(salesperson);
+	parser.parse_command(customer);
 	parser.parse_command(query);
 	show("list_of_people");
 }
@@ -630,7 +632,7 @@ void Dealership::list_people(){
 void Dealership::show_old_and_new_cars(){
 	string year;
 
-	cout << "\n\tStarting year for new cars: ";
+	cout << "\tStarting year for new cars: ";
 	read_string(year);
 	string input1 = "old_cars <- select(year < " + year + ") cars;";
 	string input2 = "new_cars <- cars - old_cars;";
@@ -642,7 +644,17 @@ void Dealership::show_old_and_new_cars(){
 
 // Shows Cars in a customers price range (cross product)
 void Dealership::show_customer_options(){
+	int max_price;
+	cout << "\tMaximum Price: ";
+	read_int(max_price);
 
+	stringstream ss;
+	ss << max_price;
+	string max_price_s = ss.str();
+
+	parser.parse_command("availabe_cars <- select (msrp <= "+ max_price_s +" && stock > 0) cars");
+	parser.parse_command("options <- project (first_name, last_name, make, model, year, msrp) customers * availabe_cars");
+	show("options");
 }
 
 // Salespersons dealt with Customers 
